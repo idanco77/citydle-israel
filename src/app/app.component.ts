@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {City} from 'src/app/shared/models/city.model';
 import {CITIES} from 'src/app/shared/consts/cities.const';
 import {map, Observable, startWith} from 'rxjs';
@@ -7,6 +7,9 @@ import {Guess} from 'src/app/shared/models/guess.model';
 import {haversineFormula} from 'src/app/shared/consts/haversineFormula.const';
 import {ARROWS} from 'src/app/shared/consts/arrows.const';
 import {toCamelCase} from 'src/app/shared/consts/to-camel-case.const';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {GoogleMap} from '@angular/google-maps';
+import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +17,12 @@ import {toCamelCase} from 'src/app/shared/consts/to-camel-case.const';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent): void {
+    this.autoSelectionOnEnterKey(event.key);
+  }
+  @ViewChild('googleMap') googleMap: GoogleMap;
+  @ViewChild(MatAutocompleteTrigger) autocomplete: MatAutocompleteTrigger | undefined;
   cities: City[];
   arrows: any = ARROWS;
   filteredCities: Observable<City[]>;
@@ -21,13 +30,49 @@ export class AppComponent implements OnInit {
   guesses: Guess[];
   currentGuess = 0;
   mysteryCity: City;
+  options: google.maps.MapOptions;
+  markers: any = [];
+  private isWin: boolean = false;
+
+
+  constructor(private snackBar: MatSnackBar) {
+  }
 
   ngOnInit() {
-    this.cities = CITIES.filter(city => city.population > 0);
+    const stylesArray = [
+      {
+        'elementType': 'labels',
+        'stylers': [
+          {
+            'visibility': 'off'
+          }
+        ]
+      },
+      {
+        'featureType': 'administrative.neighborhood',
+        'stylers': [
+          {
+            'visibility': 'off'
+          }
+        ]
+      }
+    ];
+    this.options = {
+      center: {lat: 31.496931, lng: 34.994928},
+      zoom: 7.5,
+      streetViewControl: false,
+      disableDefaultUI: true,
+      scrollwheel: true,
+      fullscreenControl: false,
+      mapTypeControl: false,
+      zoomControl: false,
+      styles: stylesArray
+    }
+
+    this.cities = CITIES;
     this.setGuesses();
     this.setMysteryCity();
     this.initAutocomplete();
-    console.log(this.mysteryCity.name);
   }
 
   private initAutocomplete(): void {
@@ -39,29 +84,58 @@ export class AppComponent implements OnInit {
     );
   }
 
-  displayFn(city: City): string {
-    return city && city .name ? city.name : '';
-  }
-
   calculatePercentages(distance: number): number {
+    if (this.isWin) return 100;
     const israelNorthSouthDistanceKm = 435;
 
-    return 100 - (distance / israelNorthSouthDistanceKm * 100);
+    let percentage = Math.floor(100 - (distance / israelNorthSouthDistanceKm * 100));
+    if (percentage === 100) {
+      percentage = 99;
+    }
+    return percentage;
   }
 
 
-  handleSelection(city: any) {
+  handleSelection() {
+    if (this.isWin || this.currentGuess > 5) {
+      return;
+    }
+    if (this.isWin || this.currentGuess === 5) {
+        this.showMysteryCityMarker();
+        if (this.isWin) {
+          // do something
+        }
+        this.isWin = false;
+    }
+    const selectedCity: any = this.autocompleteControl.value;
+    const city = this.cities.find(city => city.name === selectedCity) as City;
+    if (!city) {
+      this.snackBar.open('יישוב לא ידוע', 'X', {
+        duration: 1500,
+        verticalPosition: 'top'
+      });
+      return;
+    }
+    this.isWin = city.name === this.mysteryCity.name;
+
+    this.markers.push({
+      position: {lat: +city.lat, lng: +city.lng},
+      options: {animation: this.isWin ? google.maps.Animation.BOUNCE : null, draggable: false},
+      label: {
+        text: city.name,
+      },
+    });
     this.guesses[this.currentGuess].name = city.name;
     const distance = haversineFormula(
-      +this.mysteryCity.lat, +this.mysteryCity.lng, city.lat, city.lng
+      +this.mysteryCity.lat, +this.mysteryCity.lng, +city.lat, +city.lng
     );
-    console.log(distance);
     this.guesses[this.currentGuess].distance = distance;
     this.guesses[this.currentGuess].percentage = this.calculatePercentages(distance);
     this.guesses[this.currentGuess].direction = this.getDirection(
-      +this.mysteryCity.lat, +this.mysteryCity.lng, +city.lat, +city.lng
+      +this.mysteryCity.lat, +this.mysteryCity.lng, +city.lat, +city.lng, distance
     );
     this.currentGuess++;
+    this.autocompleteControl.reset();
   }
 
   private setGuesses() {
@@ -74,30 +148,59 @@ export class AppComponent implements OnInit {
   }
 
   private setMysteryCity() {
-    this.mysteryCity = this.cities[
-      Math.floor(Math.random() * this.cities.length)
+    const citiesOver10k = this.cities.filter(city => city.population >= 10000);
+    this.mysteryCity = citiesOver10k[
+      Math.floor(Math.random() * citiesOver10k.length)
       ];
   }
 
-  private getDirection(mysteryLat: number, mysteryLng: number, guessLat: number, guessLng: number) {
-    let direction = '';
+  private getDirection(mysteryLat: number, mysteryLng: number, guessLat: number, guessLng: number, distance: number) {
+    const fractionDigit = this.getFractionDigits(distance);
 
-    if (guessLat.toFixed(1) !==
-      mysteryLat.toFixed(1)) {
-      direction += guessLat.toFixed(1) >
-      mysteryLat.toFixed(1) ?
+    let direction = '';
+    if (guessLat.toFixed(fractionDigit) !==
+      mysteryLat.toFixed(fractionDigit)) {
+      direction += guessLat.toFixed(fractionDigit) >
+      mysteryLat.toFixed(fractionDigit) ?
         'south ' : 'north ';
     }
 
-    if (guessLng.toFixed(1) !==
-      mysteryLng.toFixed(1)) {
-      direction += (guessLng.toFixed(1) >
-      mysteryLng.toFixed(1) ?
+    if (guessLng.toFixed(fractionDigit) !==
+      mysteryLng.toFixed(fractionDigit)) {
+      direction += (guessLng.toFixed(fractionDigit) >
+      mysteryLng.toFixed(fractionDigit) ?
         'west' : 'east')
     }
 
-    console.log(this.arrows[toCamelCase(direction)]);
     return this.arrows[toCamelCase(direction)];
+  }
+
+  private getFractionDigits(distance: number): number {
+    if (distance < 150) return 1;
+    return 0;
+  }
+
+  private autoSelectionOnEnterKey(eventKey: string): void {
+    if (eventKey === 'Enter' && this.autocomplete?.panelOpen) {
+      const filteredList = this.cities?.filter(option => option.name.includes(this.autocompleteControl.value || ''));
+      if (filteredList.length) {
+        this.autocompleteControl.setValue(filteredList[0].name);
+        this.handleSelection();
+        this.autocomplete?.closePanel();
+        this.autocompleteControl.reset();
+      }
+    }
+  }
+
+  private showMysteryCityMarker() {
+    this.markers.push({
+      position: {lat: +this.mysteryCity.lat, lng: +this.mysteryCity.lng},
+      options: {animation: google.maps.Animation.BOUNCE, draggable: false},
+      label: {
+        color: 'green',
+        text: 'העיר המסתורית היא: ' + this.mysteryCity.name,
+      },
+    });
   }
 }
 

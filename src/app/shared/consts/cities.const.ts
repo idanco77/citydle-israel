@@ -2222,8 +2222,8 @@ export const CITIES: City[] = [
     population: 25823
   },
   {
-    lat: "32.40517",
-    lng: "35.20189",
+    lat: "32.851622",
+    lng: "35.338082",
     name: "עראבה",
     population: 26641
   },

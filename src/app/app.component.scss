@@ -1,9 +1,99 @@
-.main {
-  display: flex;
-  justify-content: center;
-}
+@import '../scss/main';
 
 .guess {
-  border: 1px solid red;
-  width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0.1rem solid #e5e7eb;
+  margin: 0.4rem;
+  font-size: 1.8rem;
+  height: 3.3rem;
+
+  @include respond(phone) {
+    font-size: 1.2rem;
+  }
+}
+
+.guess-name {
+  width: 18rem;
+}
+
+.guess-distance {
+  width: 12rem;
+}
+
+.guess-direction {
+  width: 6rem;
+}
+
+.guess-button {
+  height: 5.4rem;
+  margin-right: 1.1rem;
+  @include respond(phone) {
+    align-self: center;
+    margin: -1rem 0 0.5rem 0;
+    height: 2.5rem;
+    width: 50%;
+  }
+}
+
+.autocomplete {
+  width: 50%;
+  @include respond(phone) {
+    width: 100%;
+  }
+}
+
+.game-wrapper {
+  display: flex;
+  height: 100vh;
+
+  @include respond(phone) {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.guesses {
+  @include respond(phone) {
+    width: 100%;
+    padding: 0 10px;
+  }
+}
+
+.map-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-right: 1rem;
+  @include respond(phone) {
+    margin: 0;
+  }
+}
+
+.guesses-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include respond(phone) {
+    flex-direction: column;
+  }
+}
+
+.autocomplete-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.autocomplete-form {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  @include respond(phone) {
+    flex-direction: column;
+  }
 }

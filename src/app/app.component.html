@@ -1,23 +1,33 @@
-<div class="main">
-  <div class="main">
-    <form (keydown.enter)="$event.preventDefault()" class="mt-1 d-flex justify-content-center">
-      <mat-form-field class="example-full-width">
+<h1 class="text-center">וורדעל יישובים בישראל</h1>
+  <div class="autocomplete-wrapper">
+    <form (keydown.enter)="$event.preventDefault()" class="autocomplete-form">
+      <mat-form-field class="autocomplete">
         <input matInput placeholder="שם העיר, יישוב..." [matAutocomplete]="auto" [formControl]="autocompleteControl">
       </mat-form-field>
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredCities | async" [value]="option.name">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+      <button class="guess-button" mat-raised-button type="button" (click)="handleSelection()">לנחש</button>
     </form>
-
-    <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete" (optionSelected)="handleSelection($event.option.value)">
-      <mat-option *ngFor="let option of filteredCities | async" [value]="option">
-        {{option.name}}
-      </mat-option>
-    </mat-autocomplete>
   </div>
-</div>
-<div>
-  <div *ngFor="let guess of guesses" class="d-flex">
-    <div class="guess">{{ guess.name }}</div>
-    <div class="guess">{{ guess.distance !== null ? guess.distance + ' ק"מ' : '' }}</div>
-    <div class="guess">{{guess.percentage ? (guess.percentage | number: '1.0-0') + '%' : ''}}</div>
-    <div class="guess"><span [innerHTML]="guess.direction"></span></div>
+<div class="guesses-wrapper">
+  <div class="guesses">
+    <div *ngFor="let guess of guesses" class="d-flex justify-content-center">
+      <div class="guess guess-name">{{ guess.name }}</div>
+      <div class="guess guess-distance">{{ guess.distance !== null ? guess.distance + ' ק"מ' : '' }}</div>
+      <div class="guess guess-direction"><span [innerHTML]="guess.direction"></span></div>
+      <div class="guess guess-direction">{{guess.percentage ? (guess.percentage) + '%' : ''}}</div>
+    </div>
+  </div>
+
+  <div class="map-wrapper">
+    <google-map #googleMap width="30rem" height="90vh" [options]="options">
+      <map-marker *ngFor="let marker of markers"
+                  [position]="marker.position"
+                  [label]="marker.label"
+                  [options]="marker.options"></map-marker>
+    </google-map>
   </div>
 </div>
