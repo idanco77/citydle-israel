@@ -1,7 +1,7 @@
 import {Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {City} from 'src/app/shared/models/city.model';
 import {CITIES} from 'src/app/shared/consts/cities.const';
-import {map, Observable, startWith} from 'rxjs';
+import {catchError, map, Observable, of, startWith} from 'rxjs';
 import {FormControl} from '@angular/forms';
 import {Guess} from 'src/app/shared/models/guess.model';
 import {haversineFormula} from 'src/app/shared/consts/haversineFormula.const';
@@ -10,6 +10,8 @@ import {toCamelCase} from 'src/app/shared/consts/to-camel-case.const';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {GoogleMap} from '@angular/google-maps';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
+import {HttpClient} from '@angular/common/http';
+import {environment} from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -33,9 +35,14 @@ export class AppComponent implements OnInit {
   options: google.maps.MapOptions;
   markers: any = [];
   private isWin: boolean = false;
+  apiLoaded: Observable<boolean>;
 
-
-  constructor(private snackBar: MatSnackBar) {
+  constructor(private snackBar: MatSnackBar, httpClient: HttpClient) {
+    this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=' + environment.apiKey, 'callback')
+      .pipe(
+        map(() => true),
+        catchError(() => of(false)),
+      );
   }
 
   ngOnInit() {

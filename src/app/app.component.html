@@ -23,7 +23,7 @@
   </div>
 
   <div class="map-wrapper">
-    <google-map #googleMap width="30rem" height="90vh" [options]="options">
+    <google-map *ngIf="apiLoaded | async" #googleMap width="30rem" height="90vh" [options]="options">
       <map-marker *ngFor="let marker of markers"
                   [position]="marker.position"
                   [label]="marker.label"
