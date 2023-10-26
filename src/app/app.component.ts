@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {City} from 'src/app/shared/models/city.model';
 import {CITIES} from 'src/app/shared/consts/cities.const';
 import {catchError, map, Observable, of, startWith} from 'rxjs';
@@ -80,6 +80,7 @@ export class AppComponent implements OnInit {
     this.setGuesses();
     this.setMysteryCity();
     this.initAutocomplete();
+    this.manageLocalStorage();
   }
 
   private initAutocomplete(): void {
@@ -103,7 +104,10 @@ export class AppComponent implements OnInit {
   }
 
 
-  handleSelection() {
+  handleSelection(selectedCity: null | string) {
+    if (! selectedCity) {
+      return;
+    }
     if (this.isWin || this.currentGuess > 5) {
       return;
     }
@@ -114,7 +118,6 @@ export class AppComponent implements OnInit {
         }
         this.isWin = false;
     }
-    const selectedCity: any = this.autocompleteControl.value;
     const city = this.cities.find(city => city.name === selectedCity) as City;
     if (!city) {
       this.snackBar.open('יישוב לא ידוע', 'X', {
@@ -143,6 +146,11 @@ export class AppComponent implements OnInit {
     );
     this.currentGuess++;
     this.autocompleteControl.reset();
+
+    localStorage.setItem('date', this.getCurrentDateInUTC());
+    localStorage.setItem('guesses', JSON.stringify(this.guesses));
+    localStorage.setItem('markers', JSON.stringify(this.markers));
+    localStorage.setItem('currentGuess', JSON.stringify(this.currentGuess));
   }
 
   private setGuesses() {
@@ -155,10 +163,14 @@ export class AppComponent implements OnInit {
   }
 
   private setMysteryCity() {
-    const citiesOver10k = this.cities.filter(city => city.population >= 10000);
-    this.mysteryCity = citiesOver10k[
-      Math.floor(Math.random() * citiesOver10k.length)
-      ];
+    let citiesOver10k = this.cities.filter(city => city.population >= 10000);
+    citiesOver10k = [...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k];
+    this.mysteryCity = citiesOver10k[this.getDifferenceInDays((new Date('2023-10-25')), new Date(new Date()))];
+  }
+
+  getDifferenceInDays(firstDate: Date, today: Date) {
+    const num  = new Date(today).setHours(0, 0, 0, 0) - firstDate.setHours(0, 0, 0, 0);
+    return Math.round(num / 864e5);
   }
 
   private getDirection(mysteryLat: number, mysteryLng: number, guessLat: number, guessLng: number, distance: number) {
@@ -192,7 +204,7 @@ export class AppComponent implements OnInit {
       const filteredList = this.cities?.filter(option => option.name.includes(this.autocompleteControl.value || ''));
       if (filteredList.length) {
         this.autocompleteControl.setValue(filteredList[0].name);
-        this.handleSelection();
+        this.handleSelection(this.autocompleteControl.value);
         this.autocomplete?.closePanel();
         this.autocompleteControl.reset();
       }
@@ -208,6 +220,31 @@ export class AppComponent implements OnInit {
         text: 'העיר המסתורית היא: ' + this.mysteryCity.name,
       },
     });
+  }
+
+  private getCurrentDateInUTC(): string {
+    const currentDate = new Date();
+    const offsetInMinutes = currentDate.getTimezoneOffset();
+    const utcDate = new Date(currentDate.getTime() - offsetInMinutes * 60 * 1000);
+
+    return utcDate.toISOString().split('T')[0];
+  }
+
+  private manageLocalStorage() {
+    const date = localStorage.getItem('date');
+    if (date && date !== this.getCurrentDateInUTC()) {
+      localStorage.clear();
+    }
+    const currentGuess = localStorage.getItem('currentGuess');
+    const markers = JSON.parse(localStorage.getItem('markers') || '[]');
+    const guesses = JSON.parse(localStorage.getItem('guesses') || '[]');
+    if (currentGuess && markers && guesses) {
+      this.guesses = guesses;
+      this.markers = markers;
+      this.currentGuess = +currentGuess;
+    } else {
+      localStorage.clear();
+    }
   }
 }
 
