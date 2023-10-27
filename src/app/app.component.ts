@@ -16,6 +16,7 @@ import {Dialog} from '@angular/cdk/dialog';
 import {ResultDialogComponent} from 'src/app/result-dialog/result-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {IntroDialogComponent} from 'src/app/intro-dialog/intro-dialog.component';
+import {AngularFireAnalytics} from '@angular/fire/compat/analytics';
 
 @Component({
   selector: 'app-root',
@@ -42,7 +43,8 @@ export class AppComponent implements OnInit {
   apiLoaded: Observable<boolean>;
 
   constructor(private snackBar: MatSnackBar, httpClient: HttpClient,
-              private dialog: MatDialog) {
+              private dialog: MatDialog, analytics: AngularFireAnalytics) {
+    analytics.logEvent('app_open', {"component": "AppComponent"});
     this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=' + environment.apiKey, 'callback')
       .pipe(
         map(() => true),
