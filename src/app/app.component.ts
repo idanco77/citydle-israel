@@ -12,6 +12,10 @@ import {GoogleMap} from '@angular/google-maps';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {HttpClient} from '@angular/common/http';
 import {environment} from 'src/environments/environment';
+import {Dialog} from '@angular/cdk/dialog';
+import {ResultDialogComponent} from 'src/app/result-dialog/result-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {IntroDialogComponent} from 'src/app/intro-dialog/intro-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -37,7 +41,8 @@ export class AppComponent implements OnInit {
   private isWin: boolean = false;
   apiLoaded: Observable<boolean>;
 
-  constructor(private snackBar: MatSnackBar, httpClient: HttpClient) {
+  constructor(private snackBar: MatSnackBar, httpClient: HttpClient,
+              private dialog: MatDialog) {
     this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=' + environment.apiKey, 'callback')
       .pipe(
         map(() => true),
@@ -46,6 +51,11 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (! localStorage.getItem('date')) {
+      this.dialog.open(IntroDialogComponent, {
+        width: '500px'
+      });
+    }
     const stylesArray = [
       {
         'elementType': 'labels',
@@ -67,6 +77,7 @@ export class AppComponent implements OnInit {
     this.options = {
       center: {lat: 31.496931, lng: 34.994928},
       zoom: 7.5,
+      minZoom: 7.5,
       streetViewControl: false,
       disableDefaultUI: true,
       scrollwheel: true,
@@ -106,27 +117,26 @@ export class AppComponent implements OnInit {
 
   handleSelection(selectedCity: null | string) {
     if (! selectedCity) {
+      this.showErrorMessage();
       return;
     }
     if (this.isWin || this.currentGuess > 5) {
       return;
     }
     if (this.isWin || this.currentGuess === 5) {
-        this.showMysteryCityMarker();
-        if (this.isWin) {
-          // do something
-        }
-        this.isWin = false;
+      this.showMysteryCityMarker();
+      if (this.isWin) {
+        this.openResultsDialog();
+      }
+      this.isWin = false;
+      this.openResultsDialog();
     }
     const city = this.cities.find(city => city.name === selectedCity) as City;
     if (!city) {
-      this.snackBar.open('יישוב לא ידוע', 'X', {
-        duration: 1500,
-        verticalPosition: 'top'
-      });
+      this.showErrorMessage();
       return;
     }
-    this.isWin = city.name === this.mysteryCity.name;
+    this.isWin = this.checkIsWin(city.name);
 
     this.markers.push({
       position: {lat: +city.lat, lng: +city.lng},
@@ -146,7 +156,9 @@ export class AppComponent implements OnInit {
     );
     this.currentGuess++;
     this.autocompleteControl.reset();
-
+    if (this.isWin) {
+      this.openResultsDialog();
+    }
     localStorage.setItem('date', this.getCurrentDateInUTC());
     localStorage.setItem('guesses', JSON.stringify(this.guesses));
     localStorage.setItem('markers', JSON.stringify(this.markers));
@@ -242,9 +254,32 @@ export class AppComponent implements OnInit {
       this.guesses = guesses;
       this.markers = markers;
       this.currentGuess = +currentGuess;
+      this.isWin = this.checkIsWin(this.guesses[this.currentGuess - 1].name as string);
+      if (this.isWin || this.currentGuess === 6) {
+        setTimeout(() => {this.openResultsDialog();}, 1500);
+      }
     } else {
       localStorage.clear();
     }
+  }
+
+  private showErrorMessage() {
+    this.snackBar.open('יישוב לא ידוע', 'X', {
+      duration: 1500,
+      verticalPosition: 'top'
+    });
+  }
+
+  private openResultsDialog() {
+    this.dialog.open(ResultDialogComponent, {
+      width: '400px',
+      data: {city: this.mysteryCity, isWin: this.isWin}
+    });
+  }
+
+  private checkIsWin(cityName: string) {
+    console.log(cityName);
+    return cityName === this.mysteryCity.name
   }
 }
 
