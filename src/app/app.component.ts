@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
 import {City} from 'src/app/shared/models/city.model';
 import {CITIES} from 'src/app/shared/consts/cities.const';
 import {catchError, map, Observable, of, startWith} from 'rxjs';
@@ -12,11 +12,11 @@ import {GoogleMap} from '@angular/google-maps';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {HttpClient} from '@angular/common/http';
 import {environment} from 'src/environments/environment';
-import {Dialog} from '@angular/cdk/dialog';
 import {ResultDialogComponent} from 'src/app/result-dialog/result-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {IntroDialogComponent} from 'src/app/intro-dialog/intro-dialog.component';
-import {AngularFireAnalytics} from '@angular/fire/compat/analytics';
+import {DOCUMENT} from '@angular/common';
+import {NavigationEnd, Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -43,13 +43,26 @@ export class AppComponent implements OnInit {
   apiLoaded: Observable<boolean>;
 
   constructor(private snackBar: MatSnackBar, httpClient: HttpClient,
-              private dialog: MatDialog, analytics: AngularFireAnalytics) {
-    analytics.logEvent('app_open', {"component": "AppComponent"});
+              private router: Router,
+              private dialog: MatDialog, @Inject(DOCUMENT) private document: Document) {
+    this.handleRouteEvents();
     this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=' + environment.apiKey, 'callback')
       .pipe(
         map(() => true),
         catchError(() => of(false)),
       );
+  }
+
+  handleRouteEvents() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        gtag('event', 'page_view', {
+          page_title: 'home',
+          page_path: event.urlAfterRedirects,
+          page_location: this.document.location.href
+        })
+      }
+    });
   }
 
   ngOnInit() {
@@ -58,24 +71,6 @@ export class AppComponent implements OnInit {
         width: '500px'
       });
     }
-    const stylesArray = [
-      {
-        'elementType': 'labels',
-        'stylers': [
-          {
-            'visibility': 'off'
-          }
-        ]
-      },
-      {
-        'featureType': 'administrative.neighborhood',
-        'stylers': [
-          {
-            'visibility': 'off'
-          }
-        ]
-      }
-    ];
     this.options = {
       center: {lat: 31.496931, lng: 34.994928},
       zoom: 7.5,
@@ -86,7 +81,10 @@ export class AppComponent implements OnInit {
       fullscreenControl: false,
       mapTypeControl: false,
       zoomControl: false,
-      styles: stylesArray
+      styles: [
+        { elementType: 'labels', stylers: [{visibility: 'off'}] },
+        { featureType: 'administrative.neighborhood', stylers: [{visibility: 'off'}] }
+      ]
     }
 
     this.cities = CITIES;
@@ -187,30 +185,20 @@ export class AppComponent implements OnInit {
     return Math.round(num / 864e5);
   }
 
-  private getDirection(mysteryLat: number, mysteryLng: number, guessLat: number, guessLng: number, distance: number) {
-    const fractionDigit = this.getFractionDigits(distance);
-
+  private getDirection(mysteryLat: number, mysteryLng: number, guessLat: number, guessLng: number, distance: any) {
     let direction = '';
-    if (guessLat.toFixed(fractionDigit) !==
-      mysteryLat.toFixed(fractionDigit)) {
-      direction += guessLat.toFixed(fractionDigit) >
-      mysteryLat.toFixed(fractionDigit) ?
+    if (guessLat !== mysteryLat) {
+      direction += guessLat > mysteryLat ?
         'south ' : 'north ';
     }
 
-    if (guessLng.toFixed(fractionDigit) !==
-      mysteryLng.toFixed(fractionDigit)) {
-      direction += (guessLng.toFixed(fractionDigit) >
-      mysteryLng.toFixed(fractionDigit) ?
+    if (guessLng !== mysteryLng) {
+      direction += (guessLng >
+      mysteryLng ?
         'west' : 'east')
     }
 
     return this.arrows[toCamelCase(direction)];
-  }
-
-  private getFractionDigits(distance: number): number {
-    if (distance < 150) return 1;
-    return 0;
   }
 
   private autoSelectionOnEnterKey(eventKey: string): void {
@@ -280,7 +268,6 @@ export class AppComponent implements OnInit {
   }
 
   private checkIsWin(cityName: string) {
-    console.log(cityName);
     return cityName === this.mysteryCity.name
   }
 }

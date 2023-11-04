@@ -14,16 +14,7 @@ import {ResultDialogComponent} from 'src/app/result-dialog/result-dialog.compone
 import {MatDialogModule} from '@angular/material/dialog';
 import {IntroDialogComponent} from 'src/app/intro-dialog/intro-dialog.component';
 import {environment} from '../environments/environment';
-import {ScreenTrackingService, UserTrackingService}
-  from '@angular/fire/analytics';
-import {AngularFireAnalyticsModule} from "@angular/fire/compat/analytics";
-import {AngularFireModule} from "@angular/fire/compat";
-import {ExtraOptions, PreloadAllModules, RouterOutlet} from '@angular/router';
-
-const routerConfig: ExtraOptions = {
-  preloadingStrategy: PreloadAllModules,
-  scrollPositionRestoration: 'enabled'
-};
+import { RouterOutlet} from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -43,13 +34,9 @@ const routerConfig: ExtraOptions = {
     HttpClientModule,
     HttpClientJsonpModule,
     MatDialogModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAnalyticsModule,
     RouterOutlet,
   ],
   providers: [
-    ScreenTrackingService,
-    UserTrackingService
   ],
   bootstrap: [AppComponent]
 })
