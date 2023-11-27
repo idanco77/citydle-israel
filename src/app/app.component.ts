@@ -97,7 +97,7 @@ export class AppComponent implements OnInit {
   private initAutocomplete(): void {
     this.filteredCities = this.autocompleteControl.valueChanges.pipe(
       startWith(''),
-      map(value => this.cities.filter(
+      map(value => this.cities.sort((a, b) => 0.5 - Math.random()).filter(
         option => option.name.includes(value || '')
       )),
     );

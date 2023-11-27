@@ -125,7 +125,8 @@ export const CITIES: City[] = [
     lat: "31.86145",
     lng: "35.16861",
     name: "גבעת זאב",
-    population: 20034
+    population: 20034,
+    foundedAt: '1983'
   },
   {
     lat: "31.3565",
@@ -161,13 +162,15 @@ export const CITIES: City[] = [
     lat: "32.71836",
     lng: "35.06509",
     name: "עספיא",
-    population: 12746
+    population: 12746,
+    foundedAt: 'ותיק'
   },
   {
     lat: "32.16627",
     lng: "34.82536",
     name: "הרצליה",
-    population: 103320
+    population: 103320,
+    foundedAt: '1924'
   },
   {
     lat: "32.13136",
@@ -179,13 +182,15 @@ export const CITIES: City[] = [
     lat: "32.7466",
     lng: "35.34242",
     name: "כפר כנא",
-    population: 23706
+    population: 23706,
+    foundedAt: 'ותיק'
   },
   {
     lat: "32.50666",
     lng: "35.05392",
     name: "כפר קרע",
-    population: 19691
+    population: 19691,
+    foundedAt: 'ותיק'
   },
   {
     lat: "32.64521",
@@ -251,7 +256,8 @@ export const CITIES: City[] = [
     lat: "32.55382",
     lng: "35.18412",
     name: "מעלה עירון",
-    population: 15642
+    population: 15642,
+    foundedAt: 'ותיק'
   },
   {
     lat: "32.79067",
@@ -341,7 +347,8 @@ export const CITIES: City[] = [
     lat: "31.93221",
     lng: "35.04416",
     name: "מודיעין עילית",
-    population: 80997
+    population: 80997,
+    foundedAt: '1996'
   },
   {
     lat: "32.004",
@@ -383,7 +390,8 @@ export const CITIES: City[] = [
     lat: "32.27782",
     lng: "34.9194",
     name: "קדימה-צורן",
-    population: 22919
+    population: 22919,
+    foundedAt: '1933'
   },
   {
     lat: "29.9702",
@@ -461,13 +469,15 @@ export const CITIES: City[] = [
     lat: "31.97102",
     lng: "34.78939",
     name: "ראשון לציון",
-    population: 257129
+    population: 257129,
+    foundedAt: '1882'
   },
   {
     lat: "32.09556",
     lng: "34.95664",
     name: "ראש העין",
-    population: 71651
+    population: 71651,
+    foundedAt: '1949'
   },
   {
     lat: "32.5011",
@@ -527,7 +537,8 @@ export const CITIES: City[] = [
     lat: "32.86422",
     lng: "35.29707",
     name: "סח'נין",
-    population: 32744
+    population: 32744,
+    foundedAt: 'ותיק'
   },
   {
     lat: "32.89443",
@@ -671,7 +682,8 @@ export const CITIES: City[] = [
     lat: "31.525",
     lng: "34.59693",
     name: "שדרות",
-    population: 30553
+    population: 30553,
+    foundedAt: '1951'
   },
   {
     lat: "31.7213",
@@ -689,7 +701,8 @@ export const CITIES: City[] = [
     lat: "31.19918",
     lng: "34.83956",
     name: "שגב-שלום",
-    population: 11865
+    population: 11865,
+    foundedAt: '1979'
   },
   {
     lat: "31.6709",
@@ -839,7 +852,8 @@ export const CITIES: City[] = [
     lat: "32.80583",
     lng: "35.16895",
     name: "שפרעם",
-    population: 43023
+    population: 43023,
+    foundedAt: 'ותיק'
   },
   {
     lat: "32.21743",
@@ -971,7 +985,8 @@ export const CITIES: City[] = [
     lat: "31.99866",
     lng: "34.94559",
     name: "שוהם",
-    population: 21441
+    population: 21441,
+    foundedAt: '1993'
   },
   {
     lat: "31.42218",
@@ -1115,7 +1130,8 @@ export const CITIES: City[] = [
     lat: "32.60415",
     lng: "35.44483",
     name: "טייבה",
-    population: 45387
+    population: 45387,
+    foundedAt: 'ותיק'
   },
   {
     lat: "32.60415",
@@ -1145,13 +1161,15 @@ export const CITIES: City[] = [
     lat: "32.24995",
     lng: "34.91737",
     name: "תל מונד",
-    population: 14179
+    population: 14179,
+    foundedAt: '1929'
   },
   {
     lat: "32.08088",
     lng: "34.78057",
     name: "תל אביב - יפו",
-    population: 467875
+    population: 467875,
+    foundedAt: '1909'
   },
   {
     lat: "32.70545",
@@ -1163,7 +1181,8 @@ export const CITIES: City[] = [
     lat: "31.24864",
     lng: "34.86007",
     name: "תל שבע",
-    population: 22187
+    population: 22187,
+    foundedAt: '1968'
   },
   {
     lat: "32.44207",
@@ -1223,7 +1242,8 @@ export const CITIES: City[] = [
     lat: "32.79221",
     lng: "35.53124",
     name: "טבריה",
-    population: 46698
+    population: 46698,
+    foundedAt: 'ותיק'
   },
   {
     lat: "31.37899",
@@ -1259,7 +1279,8 @@ export const CITIES: City[] = [
     lat: "32.76021",
     lng: "34.97183",
     name: "טירת כרמל",
-    population: 26806
+    population: 26806,
+    foundedAt: '1949'
   },
   {
     lat: "32.01392",
@@ -1271,7 +1292,8 @@ export const CITIES: City[] = [
     lat: "32.033047",
     lng: "34.88632",
     name: "יהוד-מונוסון",
-    population: 30618
+    population: 30618,
+    foundedAt: '1948'
   },
   {
     lat: "32.42124",
@@ -1301,7 +1323,8 @@ export const CITIES: City[] = [
     lat: "32.77694",
     lng: "35.37244",
     name: "טורעאן",
-    population: 14655
+    population: 14655,
+    foundedAt: 'ותיק'
   },
   {
     lat: "31.43327",
@@ -1313,7 +1336,8 @@ export const CITIES: City[] = [
     lat: "32.2341",
     lng: "34.95023",
     name: "טירה",
-    population: 27392
+    population: 27392,
+    foundedAt: ''
   },
   {
     lat: "32.26496",
@@ -1343,7 +1367,8 @@ export const CITIES: City[] = [
     lat: "32.51913",
     lng: "35.151653",
     name: "אום אל-פחם",
-    population: 57676
+    population: 57676,
+    foundedAt: 'ותיק'
   },
   {
     lat: "31.30433",
@@ -1421,7 +1446,8 @@ export const CITIES: City[] = [
     lat: "32.68923",
     lng: "35.27832",
     name: "יפיע",
-    population: 19537
+    population: 19537,
+    foundedAt: 'ותיק'
   },
   {
     lat: "31.80993",

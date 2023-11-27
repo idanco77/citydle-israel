@@ -3,4 +3,5 @@ export interface City {
   lat: string;
   lng: string;
   population: number;
+  foundedAt?: string;
 }
