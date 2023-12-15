@@ -154,6 +154,7 @@ export class AppComponent implements OnInit {
     this.autocomplete?.closePanel();
     if (this.isWin) {
       this.openResultsDialog();
+      this.autocompleteControl.disable();
     }
     localStorage.setItem('date', this.getCurrentDateInUTC());
     localStorage.setItem('guesses', JSON.stringify(this.guesses));
@@ -239,6 +240,7 @@ export class AppComponent implements OnInit {
       this.currentGuess = +currentGuess;
       this.isWin = this.checkIsWin(this.guesses[this.currentGuess - 1].name as string);
       if (this.isWin || this.currentGuess === 6) {
+        this.autocompleteControl.disable();
         setTimeout(() => {this.openResultsDialog();}, 1500);
       }
     } else {

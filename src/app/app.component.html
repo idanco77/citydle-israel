@@ -12,7 +12,7 @@
               {{ option.name }}
             </mat-option>
           </mat-autocomplete>
-          <button class="guess-button" mat-raised-button type="button"
+          <button [disabled]="isWin" class="guess-button" mat-raised-button type="button"
                   (click)="handleSelection(autocompleteControl.value)">לנחש
           </button>
         </form>
@@ -28,6 +28,9 @@
           </div>
           <div class="guess guess-direction">{{ guess.percentage ? (guess.percentage) + '%' : '' }}</div>
         </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <a class="donate-link" href="https://ko-fi.com/idanc" target="_blank">אפשר לקנות לי &#9749;!</a>
       </div>
     </div>
 
