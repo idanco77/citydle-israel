@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
   mysteryCity: City;
   options: google.maps.MapOptions;
   markers: any = [];
-  private isWin: boolean = false;
+  isWin: boolean = false;
   apiLoaded: Observable<boolean>;
 
   constructor(private snackBar: MatSnackBar, httpClient: HttpClient,
@@ -66,11 +66,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (! localStorage.getItem('date')) {
-      this.dialog.open(IntroDialogComponent, {
-        width: '500px'
-      });
-    }
     this.options = {
       center: {lat: 31.496931, lng: 34.994928},
       zoom: 7.5,
@@ -156,6 +151,7 @@ export class AppComponent implements OnInit {
     );
     this.currentGuess++;
     this.autocompleteControl.reset();
+    this.autocomplete?.closePanel();
     if (this.isWin) {
       this.openResultsDialog();
     }
@@ -206,9 +202,6 @@ export class AppComponent implements OnInit {
       const filteredList = this.cities?.filter(option => option.name.includes(this.autocompleteControl.value || ''));
       if (filteredList.length) {
         this.autocompleteControl.setValue(filteredList[0].name);
-        this.handleSelection(this.autocompleteControl.value);
-        this.autocomplete?.closePanel();
-        this.autocompleteControl.reset();
       }
     }
   }
@@ -269,6 +262,23 @@ export class AppComponent implements OnInit {
 
   private checkIsWin(cityName: string) {
     return cityName === this.mysteryCity.name
+  }
+
+  enterKeyHandleSelection(value: string | null) {
+    if (! value) {
+      return;
+    }
+    const cityNames = this.cities.map(city => city.name);
+    if (cityNames.includes(value)) {
+      this.handleSelection(value);
+    }
+
+  }
+
+  openIntroDialog() {
+    this.dialog.open(IntroDialogComponent, {
+      width: '500px'
+    });
   }
 }
 

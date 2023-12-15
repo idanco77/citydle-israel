@@ -15,6 +15,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {IntroDialogComponent} from 'src/app/intro-dialog/intro-dialog.component';
 import {environment} from '../environments/environment';
 import { RouterOutlet} from '@angular/router';
+import {NgOptimizedImage} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -22,20 +23,21 @@ import { RouterOutlet} from '@angular/router';
     ResultDialogComponent,
     IntroDialogComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    MatAutocompleteModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatSnackBarModule,
-    GoogleMapsModule,
-    HttpClientModule,
-    HttpClientJsonpModule,
-    MatDialogModule,
-    RouterOutlet,
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatAutocompleteModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatSnackBarModule,
+        GoogleMapsModule,
+        HttpClientModule,
+        HttpClientJsonpModule,
+        MatDialogModule,
+        RouterOutlet,
+        NgOptimizedImage,
+    ],
   providers: [
   ],
   bootstrap: [AppComponent]
