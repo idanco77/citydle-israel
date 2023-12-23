@@ -41,6 +41,7 @@ export class AppComponent implements OnInit {
   markers: any = [];
   isWin: boolean = false;
   apiLoaded: Observable<boolean>;
+  isShowClue = false;
 
   constructor(private snackBar: MatSnackBar, httpClient: HttpClient,
               private router: Router,
@@ -241,9 +242,7 @@ export class AppComponent implements OnInit {
       this.markers = markers;
       this.currentGuess = +currentGuess;
       this.isWin = this.checkIsWin(this.guesses[this.currentGuess - 1].name as string);
-      console.log(11);
       if (this.isWin || this.currentGuess === 6) {
-        console.log(1);
         this.autocompleteControl.disable();
         setTimeout(() => {this.openResultsDialog();}, 1500);
       }
@@ -285,6 +284,10 @@ export class AppComponent implements OnInit {
     this.dialog.open(IntroDialogComponent, {
       width: '500px'
     });
+  }
+
+  showClue() {
+    this.isShowClue = !this.isShowClue;
   }
 }
 

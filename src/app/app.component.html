@@ -1,6 +1,12 @@
   <h1 class="title">וורדעל יישובים בישראל <img (click)="openIntroDialog()" class="help-img" alt="?" src="assets/help.png"></h1>
-  <div class="guesses-wrapper">
-    <div>
+  <div class="page-wrapper">
+    <div class="guesses-wrapper">
+      <div class="clue-button-wrapper">
+      <button *ngIf="currentGuess === 5 && ! isWin" mat-raised-button type="button"
+              (click)="showClue()">רמז חד פעמי
+      </button>
+        <span class="pt-3" *ngIf="isShowClue">{{ mysteryCity.foundedAt ? 'היישוב המסתורי נוסד בשנת ' + mysteryCity.foundedAt + ' והוא בעל רוב ' + mysteryCity.religion : 'זהו יישוב עתיק שנוסד לפני קום המדינה. היישוב הינו בעל רוב ' + mysteryCity.religion }}</span>
+      </div>
       <div class="autocomplete-wrapper">
         <form (keydown.enter)="$event.preventDefault()" class="autocomplete-form">
           <mat-form-field class="autocomplete">
