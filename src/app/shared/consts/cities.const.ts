@@ -128,6 +128,7 @@ export const CITIES: City[] = [
     population: 20034,
     foundedAt: '1983',
     religion: 'יהודי',
+    trivia: 'היישוב נקרא על שם זאב ז\'בוטינסקי לכבוד מאה שנה להולדתו',
   },
   {
     lat: '31.3565',
@@ -165,7 +166,8 @@ export const CITIES: City[] = [
     name: 'עספיא',
     population: 12746,
     foundedAt: '',
-    religion: 'דרוזי'
+    religion: 'דרוזי',
+    trivia: 'בשנת 1960 נמצא במקום מטמון מטבעות כסף גדול, הוא מטמון עספיא, שמתוארך למאה הראשונה לספירה'
   },
   {
     lat: '32.16627',
@@ -173,7 +175,8 @@ export const CITIES: City[] = [
     name: 'הרצליה',
     population: 103320,
     foundedAt: '1924',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'העיר הרצליה נקראת על שם בנימין זאב הרצל, חוזה מדינת ישראל'
   },
   {
     lat: '32.13136',
@@ -187,7 +190,8 @@ export const CITIES: City[] = [
     name: 'כפר כנא',
     population: 23706,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'כפר כנא הוא האתר העיקרי המזוהה, בקרב חוקרים וצליינים מאז ימי הביניים, עם קנה הנזכרת בברית החדשה, שבה עשה ישו את הנס הראשון שלו'
   },
   {
     lat: '32.50666',
@@ -195,7 +199,8 @@ export const CITIES: City[] = [
     name: 'כפר קרע',
     population: 19691,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'בכפר קרע קיים בית ספר ערבי-יהודי דו-לשוני, ראשון מסוגו באזור הנקרא "גשר על הוואדי".'
   },
   {
     lat: '32.64521',
@@ -263,7 +268,8 @@ export const CITIES: City[] = [
     name: 'מעלה עירון',
     population: 15642,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'מעלה עירון נוצרה כרשות מקומית משותפת עבור הכפרים מוּסמוּס, זלַפה, מוּשֵׁיירִפה, סאלם ובַיָאדָה, הנמצאים בנחל עירון'
   },
   {
     lat: '32.79067',
@@ -355,7 +361,8 @@ export const CITIES: City[] = [
     name: 'מודיעין עילית',
     population: 80997,
     foundedAt: '1996',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'לפי נתוני הלמ"ס שפורסמו בדצמבר 2019 עבור השנים 2013–2017, נמצא שתוחלת החיים במודיעין עילית היא הגבוהה בישראל ועומדת על 87.6 שנים.'
   },
   {
     lat: '32.004',
@@ -399,7 +406,8 @@ export const CITIES: City[] = [
     name: 'קדימה-צורן',
     population: 22919,
     foundedAt: '1933',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'מקור השם קדימה בדבריו של יהושע חנקין לאחר רכישת האדמה: "צעדנו צעד קדימה".'
   },
   {
     lat: '29.9702',
@@ -479,7 +487,8 @@ export const CITIES: City[] = [
     name: 'ראשון לציון',
     population: 257129,
     foundedAt: '1882',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'ראשון לציון היא המושבה הראשונה שהקימו אנשי העלייה הראשונה.'
   },
   {
     lat: '32.09556',
@@ -487,7 +496,8 @@ export const CITIES: City[] = [
     name: 'ראש העין',
     population: 71651,
     foundedAt: '1949',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'ראש העין נקראת על שם מיקומה במוצא נחל הירקון (בערבית: ראס-ראש, עין- מזרקה, מעיין)'
   },
   {
     lat: '32.5011',
@@ -549,7 +559,8 @@ export const CITIES: City[] = [
     name: 'סח\'נין',
     population: 32744,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'לאורך התקופה ההלניסטית, הרומית והביזנטית התקיימה במקום העיירה היהודית סכנין'
   },
   {
     lat: '32.89443',
@@ -695,7 +706,8 @@ export const CITIES: City[] = [
     name: 'שדרות',
     population: 30553,
     foundedAt: '1951',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'שדרות קיבלה את שמה לציון האקליפטוסים שנטעו על ידי הקרן הקיימת לאורך כבישי הנגב'
   },
   {
     lat: '31.7213',
@@ -715,7 +727,8 @@ export const CITIES: City[] = [
     name: 'שגב-שלום',
     population: 11865,
     foundedAt: '1979',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'שמו של היישוב מתייחס הן לקרבתו לנחל שגיב והן להסכם השלום בין ישראל למצרים שנחתם בשנת 1979, השנה שבה הוקם היישוב'
   },
   {
     lat: '31.6709',
@@ -867,7 +880,8 @@ export const CITIES: City[] = [
     name: 'שפרעם',
     population: 43023,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'שפרעם קיימת אלפי שנים, ושורשיה מעמיקים עד מאות שנים רבות לפני הספירה. בין חוקרים יש הסכמה שהיישוב הוקם בתקופה הכנענית'
   },
   {
     lat: '32.21743',
@@ -1001,7 +1015,8 @@ export const CITIES: City[] = [
     name: 'שוהם',
     population: 21441,
     foundedAt: '1993',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'שם היישוב מציין את שמה של אחת מאבני החושן – כמו היישובים הסמוכים ברקת ונופך'
   },
   {
     lat: '31.42218',
@@ -1147,7 +1162,8 @@ export const CITIES: City[] = [
     name: 'טייבה',
     population: 45387,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'עץ האלון העתיק בטייבה נחשב לעץ האלון הגדול ביותר בישראל. היקפו 690 ס"מ לפי הערכות נאמד גילו בכ-1,400 שנים'
   },
   {
     lat: '32.60415',
@@ -1179,7 +1195,8 @@ export const CITIES: City[] = [
     name: 'תל מונד',
     population: 14179,
     foundedAt: '1929',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'תל מונד הוקמה על ידי סר אלפרד מונד, הברון מלצ\'ט הראשון (המוכר גם בשם לורד מלצ\'ט) בשנת 1929, במטרה לספק מקום יישוב לעובדים בפרדסים'
   },
   {
     lat: '32.08088',
@@ -1187,7 +1204,8 @@ export const CITIES: City[] = [
     name: 'תל אביב - יפו',
     population: 467875,
     foundedAt: '1909',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'עד לשנת 2010 התחנה המרכזית החדשה בתל אביב הייתה הגדולה מסוגה בעולם'
   },
   {
     lat: '32.70545',
@@ -1201,7 +1219,8 @@ export const CITIES: City[] = [
     name: 'תל שבע',
     population: 22187,
     foundedAt: '1968',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'היישוב תל שבע הוקם בשנת 1968, כראשון היישובים הבדואים באזור הנגב'
   },
   {
     lat: '32.44207',
@@ -1263,7 +1282,8 @@ export const CITIES: City[] = [
     name: 'טבריה',
     population: 46698,
     foundedAt: '',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'העיר טבריה נוסדה בשנת 20 לספירה על ידי הורדוס אנטיפס ונקראה על שמו של הקיסר הרומי טיבריוס'
   },
   {
     lat: '31.37899',
@@ -1301,7 +1321,8 @@ export const CITIES: City[] = [
     name: 'טירת כרמל',
     population: 26806,
     foundedAt: '1949',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'עלילת הסדרה הקומית "שנות ה־80" בכיכובו של שלום אסייג שנולד בעיר, מתרחשת בטירת כרמל. עם זאת, הסדרה לא צולמה בעיר'
   },
   {
     lat: '32.01392',
@@ -1315,7 +1336,8 @@ export const CITIES: City[] = [
     name: 'יהוד-מונוסון',
     population: 30618,
     foundedAt: '1948',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'היישוב הקהילתי מונוסון נקרא על שם מייסדו, פרד (אפרים) מונוסון. באותה תקופה דוד בן-גוריון התנגד לכל שם לועזי ולכן נאלץ פרד לעברת את שם היישוב לאפרים'
   },
   {
     lat: '32.42124',
@@ -1347,7 +1369,8 @@ export const CITIES: City[] = [
     name: 'טורעאן',
     population: 14655,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'טורעאן שוכנת על מקומו של יישוב קדום מהתקופה הרומית-ביזנטית בשם תירען. תעודה צלבנית מהמאה ה-13 מספרת על יישוב בשם טורעאן'
   },
   {
     lat: '31.43327',
@@ -1361,7 +1384,8 @@ export const CITIES: City[] = [
     name: 'טירה',
     population: 27392,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'הכפר נוסד בידי תושבים מהכפר הפלסטיני באקה אל-חטב שבשומרון'
   },
   {
     lat: '32.26496',
@@ -1393,7 +1417,8 @@ export const CITIES: City[] = [
     name: 'אום אל-פחם',
     population: 57676,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'מקור שמה של אום אל פאחם בכמויות הרבות של הפחם שהופק בעיר במשך דורות ושימש, במקביל לחקלאות, כמקור ההכנסה העיקרי של התושבים'
   },
   {
     lat: '31.30433',
@@ -1473,7 +1498,8 @@ export const CITIES: City[] = [
     name: 'יפיע',
     population: 19537,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'מסורת נוצרית מימי הביניים מזהה את יפיע כמקום לידתם של השליחים יעקב ויוחנן בני זבדי, ולכבודם יש בעיר ארבע כנסיות'
   },
   {
     lat: '31.80993',
@@ -1577,7 +1603,8 @@ export const CITIES: City[] = [
     name: 'יבנה',
     population: 53595,
     foundedAt: '1949',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'בעיר יבנה נוסדה להקת שב"ק ס\'. אמנים נוספים שגדלו בעיר הם השחקן שלומי קוריאט, ענת מגן־שבו, שחקן הקולנוע דני גבע, והקוסם חזי דין'
   },
   {
     lat: '32.70619',
@@ -1615,7 +1642,8 @@ export const CITIES: City[] = [
     name: 'ירוחם',
     population: 11031,
     foundedAt: '1951',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'ליד ירוחם נמצאת באר רח\'מה, אותה זיהה פרופסור יוחנן אהרוני עם הבאר שמצאה הגר בשעה שתעתה עם בנה ישמעאל במדבר באר שבע'
   },
   {
     lat: '31.20648',
@@ -1677,7 +1705,8 @@ export const CITIES: City[] = [
     name: 'ירכא',
     population: 17574,
     foundedAt: '',
-    religion: 'דרוזי'
+    religion: 'דרוזי',
+    trivia: 'כבר במאה ה-11, עם התפצלות הדת הדרוזית מהאסלאם השיעי, הוזכר כפר בשם ירכא ככפר דרוזי'
   },
   {
     lat: '31.75064',
@@ -1715,7 +1744,8 @@ export const CITIES: City[] = [
     name: 'יקנעם עילית',
     population: 24158,
     foundedAt: '1935',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'שמה הרשמי של העיר הוא יקנעם עילית. עם זאת, העירייה מעדיפה את השם יקנעם, וכך הוא מופיע בסמל העיר ובפרסומי העירייה. זאת חרף התנגדותה של המושבה יקנעם, שיקנעם הוא שמה הרשמי'
   },
   {
     lat: '32.65497',
@@ -1795,7 +1825,8 @@ export const CITIES: City[] = [
     name: 'צפת',
     population: 37473,
     foundedAt: '',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'יש עדויות לקיומו של יישוב יהודי בצפת כבר במאה ה-11'
   },
   {
     lat: '31.68223',
@@ -1833,7 +1864,8 @@ export const CITIES: City[] = [
     name: 'זכרון יעקב',
     population: 23858,
     foundedAt: '1882',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'זכרון יעקב הייתה המושבה השנייה של אנשי העלייה הראשונה אחרי ראשון לציון'
   },
   {
     lat: '31.70927',
@@ -1913,7 +1945,8 @@ export const CITIES: City[] = [
     name: 'צור הדסה',
     population: 11929,
     foundedAt: '1960',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'במקור היישוב צור הדסה נקרא "הדסה" בשל קרבתו לבית החולים הדסה עין כרם'
   },
   {
     lat: '32.29819',
@@ -1969,7 +2002,8 @@ export const CITIES: City[] = [
     name: 'אבו סנאן',
     population: 14455,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'לפי המסורת הוקם היישוב במאה ה-13. משמעות שמו של היישוב הוא "בעל השיניים", והשם הוא כנראה על שם החרב בעלת שני החודים של השייח באז, מייסד הכפר'
   },
   {
     lat: '31.66071',
@@ -2031,7 +2065,8 @@ export const CITIES: City[] = [
     name: 'עפולה',
     population: 59076,
     foundedAt: '1925',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'עפולה מכונה "בירת העמק" משום שהיא שוכנת במרכז עמק יזרעאל'
   },
   {
     lat: '31.74328',
@@ -2111,7 +2146,8 @@ export const CITIES: City[] = [
     name: 'עכו',
     population: 49615,
     foundedAt: '',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'עכו היא אחת מערי הנמל העתיקות בעולם'
   },
   {
     lat: '31.285386',
@@ -2263,7 +2299,8 @@ export const CITIES: City[] = [
     name: 'ערערה-בנגב',
     population: 19681,
     foundedAt: '1981',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'היישוב ערערה בנגב הוקם בשנת 1981 בעקבות הסכם השלום עם מצרים והצורך לפנות את תל מלחתה מהבדואים שהתגוררו בסביבתו כדי להעתיק אליו אחד משדות התעופה של צה"ל בסיני'
   },
   {
     lat: '33.08781',
@@ -2289,7 +2326,8 @@ export const CITIES: City[] = [
     name: 'אריאל',
     population: 19647,
     foundedAt: '1978',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'אריאל הוא שם נרדף לירושלים ולבית המקדש, ומקורו מהתנ"ך'
   },
   {
     lat: '32.49553',
@@ -2297,7 +2335,8 @@ export const CITIES: City[] = [
     name: 'ערערה',
     population: 25823,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'התושבים מציינים ששם עירם קשור לעץ הערער שהיה נפוץ באזור בתקופות קודמות'
   },
   {
     lat: '32.851622',
@@ -2305,7 +2344,8 @@ export const CITIES: City[] = [
     name: 'עראבה',
     population: 26641,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'בתקופות הרומית והביזנטית היה במקום ישוב יהודי בשם ערב, הנזכר בכתבי יוסף בן מתתיהו, בתלמוד וכן אצל אוסביוס'
   },
   {
     lat: '31.258928',
@@ -2313,7 +2353,8 @@ export const CITIES: City[] = [
     name: 'ערד',
     population: 27582,
     foundedAt: '1962',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'בקרבת ערד נמצאת העיר העתיקה תל ערד, שבה נחשפו שרידי יישוב מהתקופה הכנענית מלפני כ-5,000 שנה'
   },
   {
     lat: '31.73503',
@@ -2351,7 +2392,8 @@ export const CITIES: City[] = [
     name: 'אשדוד',
     population: 225974,
     foundedAt: '1956',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'דרום-מזרחית לאשדוד מתנשאת הדיונה הגדולה, שמורת טבע חולית, ואחת הבודדות שנותרו בארץ בין חדרה לגדרה. גובה הדיונה 30 מטר, אורכה 350 מטר ואורך שיפועה 35 מטר'
   },
   {
     lat: '32.97245',
@@ -2365,7 +2407,8 @@ export const CITIES: City[] = [
     name: 'אשקלון',
     population: 149160,
     foundedAt: '1948',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'העיר אשקלון היא אחת הערים העתיקות בעולם. היא בעלת היסטוריה של יותר מחמשת אלפים שנה ונמנית עם הערים הקדומות ביותר בארץ ישראל העתיקה'
   },
   {
     lat: '32.00109',
@@ -2385,7 +2428,8 @@ export const CITIES: City[] = [
     name: 'עתלית',
     population: 10474,
     foundedAt: '1903',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'עתלית נוסדה בשנת 1903 כמושבה לאחר שהברון רוטשילד רכש את אדמות האזור בשנת 1899'
   },
   {
     lat: '32.53195',
@@ -2476,8 +2520,9 @@ export const CITIES: City[] = [
     lng: '34.80632',
     name: 'אזור',
     population: 13473,
-    foundedAt: '',
-    religion: 'יהודי'
+    foundedAt: '1948',
+    religion: 'יהודי',
+    trivia: 'ב-1870 הוקם בית הספר מקוה ישראל בצמוד לאזור (אז כפר ערבי בשם יאזור) ממערב'
   },
   {
     lat: '32.350828',
@@ -2491,7 +2536,8 @@ export const CITIES: City[] = [
     name: 'באקה אל-גרביה',
     population: 30973,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'ממזרח לבאקה אל-גרבייה (באקה המערבית) שוכן היישוב באקה א-שרקייה (באקה המזרחית)'
   },
   {
     lat: '31.72973',
@@ -2541,7 +2587,8 @@ export const CITIES: City[] = [
     name: 'בסמ"ה',
     population: 10497,
     foundedAt: '1995',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'בסמ"ה נוצרה מאיחודם של היישובים ערביים ברטעה, עין אל-סהלה ומועאוויה'
   },
   {
     lat: '32.73898',
@@ -2585,7 +2632,8 @@ export const CITIES: City[] = [
     name: 'בת ים',
     population: 126291,
     foundedAt: '1926',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'בת ים היא העיר שבה שיעור העולים מברית המועצות לשעבר הוא הגדול מבין ערי ישראל'
   },
   {
     lat: '32.21412',
@@ -2599,7 +2647,8 @@ export const CITIES: City[] = [
     name: 'באר שבע',
     population: 211249,
     foundedAt: '1900',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'על פי תוכנית החלוקה של האו"ם, שהתקבלה בהצבעה בכ"ט בנובמבר 1947, העיר הייתה אמורה להיכלל בשטח המדינה הערבית'
   },
   {
     lat: '29.71053',
@@ -2613,7 +2662,8 @@ export const CITIES: City[] = [
     name: 'באר יעקב',
     population: 29852,
     foundedAt: '1907',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'בתחילה לא היה למושבה מקור מים והמתיישבים הראשונים נאלצו לסחוב כדי מים מראשון לציון (מרחק הליכה של כשעה וחצי) ומנס ציונה'
   },
   {
     lat: '31.42426',
@@ -2651,7 +2701,8 @@ export const CITIES: City[] = [
     name: 'בית ג\'ן',
     population: 12307,
     foundedAt: '',
-    religion: 'דרוזי'
+    religion: 'דרוזי',
+    trivia: 'הכפר בית ג\'ן הוקם במאה ה-18 על ידי דרוזים שהגיעו מלבנון, וידוע כי במאה ה-19 ישבו בו גם יהודים. משפחה יהודית שייצרה גבינות בכפר ב-1936 היא העדות האחרונה על יהודים בכפר'
   },
   {
     lat: '31.95281',
@@ -2683,7 +2734,8 @@ export const CITIES: City[] = [
     name: 'בני ברק',
     population: 212395,
     foundedAt: '1924',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'העיר נוסדה ב-1924 על ידי קבוצת חסידים יוצאי ורשה שבפולין מחברת "בית ונחלה" בראשות יצחק גרשטנקורן, על אדמות שנרכשו מהכפר הערבי הסמוך אל-ח\'ירייה'
   },
   {
     lat: '31.82034',
@@ -2763,7 +2815,8 @@ export const CITIES: City[] = [
     name: 'כפר יאסיף',
     population: 10324,
     foundedAt: '',
-    religion: 'ערבי נוצרי'
+    religion: 'ערבי נוצרי',
+    trivia: 'כפר יאסיף התפרסם בין יישובי הערבים בארץ באחוז הגבוה ביותר של אקדמאים'
   },
   {
     lat: '32.03333',
@@ -2945,7 +2998,8 @@ export const CITIES: City[] = [
     name: 'בית שאן',
     population: 18900,
     foundedAt: '1949',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'זו העיר הקטנה ביותר בישראל מבחינת גודל האוכלוסייה'
   },
   {
     lat: '31.73072',
@@ -2953,7 +3007,8 @@ export const CITIES: City[] = [
     name: 'בית שמש',
     population: 141765,
     foundedAt: '1950',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'על פי נתוני הלשכה המרכזית לסטטיסטיקה, נכון לתחילת העשור השלישי של המאה ה-21, אוכלוסיית העיר גדלה בעשור האחרון בכ-63%, השיעור הגבוה ביותר מבין 15 הערים הגדולות בארץ'
   },
   {
     lat: '31.63589',
@@ -3015,7 +3070,8 @@ export const CITIES: City[] = [
     name: 'ביתר עילית',
     population: 63220,
     foundedAt: '1988',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'ברוח הסכם השלום בין ישראל לירדן, ראש המועצה הראשון, משה ליבוביץ, כרת ברית ערים תאומות עם העיירה ואדי מוסא הסמוכה לפטרה שבירדן'
   },
   {
     lat: '33.07144',
@@ -3029,7 +3085,8 @@ export const CITIES: City[] = [
     name: 'בנימינה-גבעת עדה',
     population: 16074,
     foundedAt: '1903',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'נוסדה כמושבה "בנימינה" על-שם תחנת הרכבת "בנימינה" שנקראה על-שם הברון אברהם בנימין אדמונד ג\'יימס דה רוטשילד (זהו המקרה היחיד בארץ שבו יישוב נקרא בשמה של תחנת רכבת)'
   },
   {
     lat: '32.77732',
@@ -3079,7 +3136,8 @@ export const CITIES: City[] = [
     name: 'בועיינה-נוג\'ידאת',
     population: 10137,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'נוג\'ידאת ידועה באחוז גבוה בגיוס הבנים לצה״ל, למרות שגיוסם אינו חובה ע״פ חוק'
   },
   {
     lat: '33.20111',
@@ -3105,7 +3163,8 @@ export const CITIES: City[] = [
     name: 'דבוריה',
     population: 10782,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'היישוב נמצא באזור העיר המקראית דָּבְרַת, הנזכרת מספר פעמים בתנ"ך, אשר התקיימה כיישוב יהודי גם בתקופת בית שני, וככל הנראה משמר את שמה'
   },
   {
     lat: '33.23013',
@@ -3119,7 +3178,8 @@ export const CITIES: City[] = [
     name: 'דאלית אל-כרמל',
     population: 18061,
     foundedAt: '',
-    religion: 'דרוזי'
+    religion: 'דרוזי',
+    trivia: 'היישוב נקרא על שם הכרמים המקיפים אותו ("דאליה" בערבית היא גפן)'
   },
   {
     lat: '32.62094',
@@ -3169,7 +3229,8 @@ export const CITIES: City[] = [
     name: 'דייר אל-אסד',
     population: 12934,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'דיר אל אסד - בתרגום לעברית "מנזר האריה"'
   },
   {
     lat: '32.86196',
@@ -3177,7 +3238,8 @@ export const CITIES: City[] = [
     name: 'דייר חנא',
     population: 10599,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'על פי זאב וילנאי פירוש השם הוא מנזר חנה, על שם חנה הקדושה, סבתו של ישו'
   },
   {
     lat: '31.77643',
@@ -3197,7 +3259,8 @@ export const CITIES: City[] = [
     name: 'ג\'דיידה-מכר',
     population: 21508,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'ג\'דיידה הוקם במאה ה-16 על ידי ערבים מסוריה. מַכּר הוקם גם הוא במאה ה-16 על ידי תושבים מלבנון'
   },
   {
     lat: '31.19572',
@@ -3217,7 +3280,8 @@ export const CITIES: City[] = [
     name: 'דימונה',
     population: 35893,
     foundedAt: '1955',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'בדימונה מתגוררים למעלה מ-2,500 בני קהילת העבריים, המכונה חבר משה. זוהי הקהילה הגדולה ביותר שלהם בישראל'
   },
   {
     lat: '33.08143',
@@ -3255,7 +3319,8 @@ export const CITIES: City[] = [
     name: 'אפרת',
     population: 11804,
     foundedAt: '1983',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'לפי החלטת ועדת השמות הממשלתית המקורית, שם היישוב היה אפרתה, אך במשך שנים השם שהיה נפוץ יותר הוא אפרת, והיישוב נקרא כך גם בפרסומי המועצה המקומית'
   },
   {
     lat: '32.83693',
@@ -3287,7 +3352,8 @@ export const CITIES: City[] = [
     name: 'עין מאהל',
     population: 13748,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: 'רוב האוכלוסייה בעין מאהל שייכת במקור למשפחות שהגיעו מצפון מזרח ירדן, הדיאלקט הנפוץ בכפר דומה לניב הנפוץ בצפון מזרח ירדן'
   },
   {
     lat: '31.79366',
@@ -3313,7 +3379,8 @@ export const CITIES: City[] = [
     name: 'אלעד',
     population: 49593,
     foundedAt: '1998',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'יער קולה הסמוך לעיר ניטע על חורבות הכפר הערבי הנטוש קולה'
   },
   {
     lat: '31.7902',
@@ -3327,7 +3394,8 @@ export const CITIES: City[] = [
     name: 'אילת',
     population: 52753,
     foundedAt: '1950',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: 'אילת ידועה באקלים המדברי שלה, ובכמות המשקעים הדלה: כ-22 מ"מ בשנה, מה שהופך אותה לאחת הערים הצחיחות בעולם'
   },
   {
     lat: '32.8057',
@@ -3653,7 +3721,8 @@ export const CITIES: City[] = [
     name: 'אבן יהודה',
     population: 14267,
     foundedAt: '1932',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.55716',
@@ -3697,7 +3766,8 @@ export const CITIES: City[] = [
     name: 'פוריידיס',
     population: 13571,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: ''
   },
   {
     lat: '32.229286',
@@ -3771,7 +3841,8 @@ export const CITIES: City[] = [
     name: 'גן יבנה',
     population: 24251,
     foundedAt: '1931',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.34928',
@@ -3809,7 +3880,8 @@ export const CITIES: City[] = [
     name: 'גני תקווה',
     population: 22694,
     foundedAt: '1949',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.32244',
@@ -3859,7 +3931,8 @@ export const CITIES: City[] = [
     name: 'גדרה',
     population: 30393,
     foundedAt: '1884',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.74058',
@@ -4083,7 +4156,8 @@ export const CITIES: City[] = [
     name: 'גבעת שמואל',
     population: 28162,
     foundedAt: '1944',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.78653',
@@ -4109,7 +4183,8 @@ export const CITIES: City[] = [
     name: 'גבעתיים',
     population: 61280,
     foundedAt: '1922',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.733',
@@ -4177,7 +4252,8 @@ export const CITIES: City[] = [
     name: 'חדרה',
     population: 100630,
     foundedAt: '1891',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.78832',
@@ -4209,7 +4285,8 @@ export const CITIES: City[] = [
     name: 'חיפה',
     population: 282831,
     foundedAt: '',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.75179',
@@ -4331,7 +4408,8 @@ export const CITIES: City[] = [
     name: 'חריש',
     population: 27007,
     foundedAt: '1982',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.22759',
@@ -4477,7 +4555,8 @@ export const CITIES: City[] = [
     name: 'הוד השרון',
     population: 65363,
     foundedAt: '1924',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.78857',
@@ -4515,7 +4594,8 @@ export const CITIES: City[] = [
     name: 'חולון',
     population: 197464,
     foundedAt: '1940',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.13817',
@@ -4559,7 +4639,8 @@ export const CITIES: City[] = [
     name: 'חורה',
     population: 23942,
     foundedAt: '1989',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: ''
   },
   {
     lat: '33.01711',
@@ -4573,7 +4654,8 @@ export const CITIES: City[] = [
     name: 'אעבלין',
     population: 13693,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: ''
   },
   {
     lat: '31.53279',
@@ -4599,7 +4681,8 @@ export const CITIES: City[] = [
     name: 'אכסאל',
     population: 15146,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: ''
   },
   {
     lat: '32.75467',
@@ -4637,7 +4720,8 @@ export const CITIES: City[] = [
     name: 'ג\'ת',
     population: 12473,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: ''
   },
   {
     lat: '32.17474',
@@ -4651,7 +4735,8 @@ export const CITIES: City[] = [
     name: 'ג\'לג\'וליה',
     population: 10480,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: ''
   },
   {
     lat: '32.942145',
@@ -4665,7 +4750,8 @@ export const CITIES: City[] = [
     name: 'ירושלים',
     population: 966209,
     foundedAt: '',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '33.02216',
@@ -4679,7 +4765,8 @@ export const CITIES: City[] = [
     name: 'ג\'סר א-זרקא',
     population: 15315,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: ''
   },
   {
     lat: '32.94267',
@@ -4705,7 +4792,8 @@ export const CITIES: City[] = [
     name: 'כאבול',
     population: 14474,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: ''
   },
   {
     lat: '32.72129',
@@ -4719,7 +4807,8 @@ export const CITIES: City[] = [
     name: 'כפר מנדא',
     population: 21073,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: ''
   },
   {
     lat: '32.11406',
@@ -4727,7 +4816,8 @@ export const CITIES: City[] = [
     name: 'כפר קאסם',
     population: 24756,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: ''
   },
   {
     lat: '32.890993',
@@ -4789,7 +4879,8 @@ export const CITIES: City[] = [
     name: 'כרמיאל',
     population: 46311,
     foundedAt: '1964',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.60439',
@@ -5043,7 +5134,8 @@ export const CITIES: City[] = [
     name: 'כפר סבא',
     population: 101801,
     foundedAt: '1903',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.18529',
@@ -5141,7 +5233,8 @@ export const CITIES: City[] = [
     name: 'כפר יונה',
     population: 27897,
     foundedAt: '1932',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.81137',
@@ -5263,7 +5356,8 @@ export const CITIES: City[] = [
     name: 'כסיפה',
     population: 23219,
     foundedAt: '1982',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: ''
   },
   {
     lat: '31.37953',
@@ -5301,7 +5395,8 @@ export const CITIES: City[] = [
     name: 'לקיה',
     population: 15294,
     foundedAt: '1990',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: ''
   },
   {
     lat: '32.94165',
@@ -5369,7 +5464,8 @@ export const CITIES: City[] = [
     name: 'לוד',
     population: 82629,
     foundedAt: '',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.70634',
@@ -5389,7 +5485,8 @@ export const CITIES: City[] = [
     name: 'מעלה אדומים',
     population: 37555,
     foundedAt: '1975',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.07142',
@@ -5409,7 +5506,8 @@ export const CITIES: City[] = [
     name: 'מעלות-תרשיחא',
     population: 22314,
     foundedAt: '1954',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.87972',
@@ -5519,7 +5617,8 @@ export const CITIES: City[] = [
     name: 'מג\'ד אל-כרום',
     population: 15630,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: ''
   },
   {
     lat: '33.27029',
@@ -5527,7 +5626,8 @@ export const CITIES: City[] = [
     name: 'מג\'דל שמס',
     population: 11404,
     foundedAt: '1595',
-    religion: 'דרוזי'
+    religion: 'דרוזי',
+    trivia: ''
   },
   {
     lat: '33.0983',
@@ -5643,7 +5743,8 @@ export const CITIES: City[] = [
     name: 'מזכרת בתיה',
     population: 15424,
     foundedAt: '1883',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.90669',
@@ -5825,7 +5926,8 @@ export const CITIES: City[] = [
     name: 'מיתר',
     population: 10566,
     foundedAt: '1984',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.80186',
@@ -5833,7 +5935,8 @@ export const CITIES: City[] = [
     name: 'מבשרת ציון',
     population: 24943,
     foundedAt: '1951',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.72177',
@@ -5919,7 +6022,8 @@ export const CITIES: City[] = [
     name: 'מגדל העמק',
     population: 26029,
     foundedAt: '1953',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.64043',
@@ -6071,7 +6175,8 @@ export const CITIES: City[] = [
     name: 'מודיעין-מכבים-רעות',
     population: 97097,
     foundedAt: '1985',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.58613',
@@ -6097,7 +6202,8 @@ export const CITIES: City[] = [
     name: 'מגאר',
     population: 23625,
     foundedAt: '',
-    religion: 'דרוזי'
+    religion: 'דרוזי',
+    trivia: ''
   },
   {
     lat: '32.91934',
@@ -6195,7 +6301,8 @@ export const CITIES: City[] = [
     name: 'נהריה',
     population: 60807,
     foundedAt: '1935',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.61347',
@@ -6209,7 +6316,8 @@ export const CITIES: City[] = [
     name: 'נחף',
     population: 13558,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: ''
   },
   {
     lat: '31.83117',
@@ -6247,7 +6355,8 @@ export const CITIES: City[] = [
     name: 'נצרת',
     population: 77925,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: ''
   },
   {
     lat: '32.78676',
@@ -6315,7 +6424,8 @@ export const CITIES: City[] = [
     name: 'נס ציונה',
     population: 50456,
     foundedAt: '1883',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.96578',
@@ -6329,7 +6439,8 @@ export const CITIES: City[] = [
     name: 'נשר',
     population: 23759,
     foundedAt: '1923',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.37121',
@@ -6343,7 +6454,8 @@ export const CITIES: City[] = [
     name: 'נתניה',
     population: 224066,
     foundedAt: '1929',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.57201',
@@ -6381,7 +6493,8 @@ export const CITIES: City[] = [
     name: 'נתיבות',
     population: 42039,
     foundedAt: '1956',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '33.06464',
@@ -6623,7 +6736,8 @@ export const CITIES: City[] = [
     name: 'נוף הגליל',
     population: 42659,
     foundedAt: '1957',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.04372',
@@ -6685,7 +6799,8 @@ export const CITIES: City[] = [
     name: 'אופקים',
     population: 33999,
     foundedAt: '1955',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.62257',
@@ -6729,7 +6844,8 @@ export const CITIES: City[] = [
     name: 'אור עקיבא',
     population: 19904,
     foundedAt: '1951',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.26489',
@@ -6755,7 +6871,8 @@ export const CITIES: City[] = [
     name: 'אור יהודה',
     population: 36814,
     foundedAt: '1949',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.71258',
@@ -6817,7 +6934,8 @@ export const CITIES: City[] = [
     name: 'פרדס חנה-כרכור',
     population: 44210,
     foundedAt: '1913',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.30577',
@@ -6885,7 +7003,8 @@ export const CITIES: City[] = [
     name: 'פתח תקווה',
     population: 252270,
     foundedAt: '1878',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.12314',
@@ -6947,7 +7066,8 @@ export const CITIES: City[] = [
     name: 'קלנסווה',
     population: 23877,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: ''
   },
   {
     lat: '31.74925',
@@ -7039,7 +7159,8 @@ export const CITIES: City[] = [
     name: 'קרית אתא',
     population: 60101,
     foundedAt: '1925',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.52838',
@@ -7053,7 +7174,8 @@ export const CITIES: City[] = [
     name: 'קרית ביאליק',
     population: 43268,
     foundedAt: '1934',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.86119',
@@ -7061,7 +7183,8 @@ export const CITIES: City[] = [
     name: 'קרית עקרון',
     population: 11051,
     foundedAt: '1948',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.60998',
@@ -7069,7 +7192,8 @@ export const CITIES: City[] = [
     name: 'קרית גת',
     population: 60581,
     foundedAt: '1954',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.72888',
@@ -7077,7 +7201,8 @@ export const CITIES: City[] = [
     name: 'קרית מלאכי',
     population: 25021,
     foundedAt: '1950',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.83706',
@@ -7085,7 +7210,8 @@ export const CITIES: City[] = [
     name: 'קרית מוצקין',
     population: 46565,
     foundedAt: '1934',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.02222',
@@ -7093,7 +7219,8 @@ export const CITIES: City[] = [
     name: 'קרית אונו',
     population: 41900,
     foundedAt: '1939',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '33.20733',
@@ -7101,7 +7228,8 @@ export const CITIES: City[] = [
     name: 'קרית שמונה',
     population: 22336,
     foundedAt: '1950',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.71618',
@@ -7109,7 +7237,8 @@ export const CITIES: City[] = [
     name: 'קרית טבעון',
     population: 18520,
     foundedAt: '',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.84966',
@@ -7117,7 +7246,8 @@ export const CITIES: City[] = [
     name: 'קרית ים',
     population: 39442,
     foundedAt: '1941',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.81144',
@@ -7143,7 +7273,8 @@ export const CITIES: City[] = [
     name: 'רעננה',
     population: 78561,
     foundedAt: '1922',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.39547',
@@ -7151,7 +7282,8 @@ export const CITIES: City[] = [
     name: 'רהט',
     population: 76238,
     foundedAt: '1972',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: ''
   },
   {
     lat: '32.67845',
@@ -7171,7 +7303,8 @@ export const CITIES: City[] = [
     name: 'רמת גן',
     population: 169706,
     foundedAt: '1921',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.21768',
@@ -7185,7 +7318,8 @@ export const CITIES: City[] = [
     name: 'רמת השרון',
     population: 47969,
     foundedAt: '1923',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.61102',
@@ -7235,7 +7369,8 @@ export const CITIES: City[] = [
     name: 'רמלה',
     population: 77798,
     foundedAt: '',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.59784',
@@ -7327,7 +7462,8 @@ export const CITIES: City[] = [
     name: 'רחובות',
     population: 147878,
     foundedAt: '1890',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '32.74907',
@@ -7335,7 +7471,8 @@ export const CITIES: City[] = [
     name: 'רכסים',
     population: 13736,
     foundedAt: '1957',
-    religion: 'יהודי'
+    religion: 'יהודי',
+    trivia: ''
   },
   {
     lat: '31.385553',
@@ -7355,7 +7492,8 @@ export const CITIES: City[] = [
     name: 'ריינה',
     population: 19266,
     foundedAt: '',
-    religion: 'ערבי מוסלמי'
+    religion: 'ערבי מוסלמי',
+    trivia: ''
   },
   {
     lat: '32.85208',

@@ -5,4 +5,5 @@ export interface City {
   population: number;
   foundedAt?: string;
   religion?: 'יהודי' | 'ערבי מוסלמי' | 'ערבי נוצרי' | 'דרוזי';
+  trivia?: string;
 }
