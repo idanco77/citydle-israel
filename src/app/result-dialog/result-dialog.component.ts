@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {City} from 'src/app/shared/models/city.model';
+import {City, CityOver10K} from 'src/app/shared/models/city.model';
 
 @Component({
   templateUrl: './result-dialog.component.html'
@@ -10,7 +10,7 @@ export class ResultDialogComponent implements OnInit{
    minutes: string | number;
    seconds: string | number;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: {city: City, isWin: boolean}) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: {city: CityOver10K, isWin: boolean}) {
   }
 
   ngOnInit() {

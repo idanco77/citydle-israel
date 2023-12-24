@@ -1,5 +1,5 @@
 import {Component, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
-import {City} from 'src/app/shared/models/city.model';
+import {City, CityOver10K} from 'src/app/shared/models/city.model';
 import {CITIES} from 'src/app/shared/consts/cities.const';
 import {catchError, map, Observable, of, startWith} from 'rxjs';
 import {FormControl} from '@angular/forms';
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
   autocompleteControl: FormControl<string | null> = new FormControl('');
   guesses: Guess[];
   currentGuess = 0;
-  mysteryCity: City;
+  mysteryCity: CityOver10K;
   options: google.maps.MapOptions;
   markers: any = [];
   isWin: boolean = false;
@@ -174,8 +174,8 @@ export class AppComponent implements OnInit {
       }))
   }
 
-  private setMysteryCity() {
-    let citiesOver10k = this.cities.filter(city => city.population >= 10000);
+  private setMysteryCity(): void {
+    let citiesOver10k = this.cities.filter(city => city.population >= 10000) as CityOver10K[];
     citiesOver10k = [...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k];
     this.mysteryCity = citiesOver10k[this.getDifferenceInDays((new Date('2023-10-25')), new Date(new Date()))];
   }
