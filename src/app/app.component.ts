@@ -24,6 +24,7 @@ import {NavigationEnd, Router} from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  clueLevel = 0;
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent): void {
     this.autoSelectionOnEnterKey(event.key);
@@ -287,7 +288,12 @@ export class AppComponent implements OnInit {
   }
 
   showClue() {
-    this.isShowClue = !this.isShowClue;
+    if (this.clueLevel === 2) {
+      this.isShowClue = !this.isShowClue;
+      return;
+    }
+    this.isShowClue = true;
+    this.clueLevel++;
   }
 }
 
