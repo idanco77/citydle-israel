@@ -1,8 +1,8 @@
   <h1 class="title">וורדעל יישובים בישראל <img (click)="openIntroDialog()" class="help-img" alt="?" src="assets/help.png"></h1>
   <div class="page-wrapper">
     <div class="guesses-wrapper">
-      <div class="clue-button-wrapper">
-      <button [disabled]="isGameOver" *ngIf="currentGuess >= 4 && ! isWin" mat-raised-button type="button"
+      <div class="clue-button-wrapper" *ngIf="currentGuess >= 4 && ! isWin">
+      <button [disabled]="isGameOver" mat-raised-button type="button"
               (click)="showClue()">{{ clueLevel === 0 ? 'רוצה רמז?' : 'עוד רמז??' }}
       </button>
         <span class="pt-3" *ngIf="isShowClue && clueLevel >= 1">{{ mysteryCity.foundedAt ? 'היישוב המסתורי נוסד בשנת ' + mysteryCity.foundedAt + ' והוא בעל רוב ' + mysteryCity.religion : 'זהו יישוב עתיק שנוסד לפני קום המדינה. היישוב הינו בעל רוב ' + mysteryCity.religion }}</span>
@@ -39,7 +39,7 @@
     </div>
 
     <div class="map-wrapper">
-      <google-map *ngIf="apiLoaded | async" #googleMap [width]="mapWidth" height="90vh" [options]="options">
+      <google-map *ngIf="apiLoaded | async" #googleMap [width]="mapWidth" height="60vh" [options]="options">
         <map-marker *ngFor="let marker of markers"
                     [position]="marker.position"
                     [label]="marker.label"
