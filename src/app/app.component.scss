@@ -76,10 +76,11 @@
 .game-wrapper {
   display: flex;
   height: 100vh;
+  flex-direction: column;
+  align-items: center;
 
   @include respond(phone) {
-    flex-direction: column;
-    align-items: center;
+
   }
 }
 
@@ -93,7 +94,7 @@
 .map-wrapper {
   display: flex;
   justify-content: center;
-  margin-right: 1rem;
+
   @include respond(phone) {
     margin: 0;
   }
@@ -109,9 +110,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 
   @include respond(phone) {
-    flex-direction: column;
+
   }
 }
 

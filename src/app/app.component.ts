@@ -25,6 +25,7 @@ import {NavigationEnd, Router} from '@angular/router';
 })
 export class AppComponent implements OnInit {
   clueLevel = 0;
+  private isMobile = window.innerWidth < 500;
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent): void {
     this.autoSelectionOnEnterKey(event.key);
@@ -43,6 +44,7 @@ export class AppComponent implements OnInit {
   isWin: boolean = false;
   apiLoaded: Observable<boolean>;
   isShowClue = false;
+  mapWidth = this.isMobile ? '35rem' : '45rem';
 
   constructor(private snackBar: MatSnackBar, httpClient: HttpClient,
               private router: Router,
@@ -54,6 +56,10 @@ export class AppComponent implements OnInit {
         catchError(() => of(false)),
       );
   }
+
+  get isGameOver() {
+    return this.isWin || this.currentGuess === 6;
+  };
 
   handleRouteEvents() {
     this.router.events.subscribe(event => {
@@ -71,7 +77,6 @@ export class AppComponent implements OnInit {
     this.options = {
       center: {lat: 31.496931, lng: 34.994928},
       zoom: 7.5,
-      minZoom: 7.5,
       streetViewControl: false,
       disableDefaultUI: true,
       scrollwheel: true,
@@ -80,7 +85,7 @@ export class AppComponent implements OnInit {
       zoomControl: false,
       styles: [
         { elementType: 'labels', stylers: [{visibility: 'off'}] },
-        { featureType: 'administrative.neighborhood', stylers: [{visibility: 'off'}] }
+        { featureType: 'administrative.locality', stylers: [{visibility: 'off'}] }
       ]
     }
 
@@ -120,19 +125,12 @@ export class AppComponent implements OnInit {
     if (this.isWin || this.currentGuess > 5) {
       return;
     }
-    if (this.isWin || this.currentGuess === 5) {
-      this.showMysteryCityMarker();
-      if (this.isWin) {
-        this.openResultsDialog();
-      }
-      this.isWin = false;
-      this.openResultsDialog();
-    }
     const city = this.cities.find(city => city.name === selectedCity) as City;
     if (!city) {
       this.showErrorMessage();
       return;
     }
+
     this.isWin = this.checkIsWin(city.name);
 
     this.markers.push({
@@ -154,10 +152,8 @@ export class AppComponent implements OnInit {
     this.currentGuess++;
     this.autocompleteControl.reset();
     this.autocomplete?.closePanel();
-    if (this.isWin) {
+    if (this.isGameOver) {
       this.openResultsDialog();
-    }
-    if (this.isWin || this.currentGuess === 6) {
       this.autocompleteControl.disable();
     }
     localStorage.setItem('date', this.getCurrentDateInUTC());
@@ -243,7 +239,7 @@ export class AppComponent implements OnInit {
       this.markers = markers;
       this.currentGuess = +currentGuess;
       this.isWin = this.checkIsWin(this.guesses[this.currentGuess - 1].name as string);
-      if (this.isWin || this.currentGuess === 6) {
+      if (this.isGameOver) {
         this.autocompleteControl.disable();
         setTimeout(() => {this.openResultsDialog();}, 1500);
       }
