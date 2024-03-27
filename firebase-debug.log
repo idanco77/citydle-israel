@@ -1,0 +1,35 @@
+[debug] [2024-03-27T23:05:37.094Z] ----------------------------------------------------------------------
+[debug] [2024-03-27T23:05:37.098Z] Command:       C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\firebase-tools\lib\bin\firebase.js deploy -m commit message --only hosting
+[debug] [2024-03-27T23:05:37.099Z] CLI Version:   12.6.2
+[debug] [2024-03-27T23:05:37.100Z] Platform:      win32
+[debug] [2024-03-27T23:05:37.100Z] Node Version:  v16.14.0
+[debug] [2024-03-27T23:05:37.107Z] Time:          Thu Mar 28 2024 01:05:37 GMT+0200 (שעון ישראל (חורף))
+[debug] [2024-03-27T23:05:37.108Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-03-27T23:05:37.259Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-03-27T23:05:37.260Z] > authorizing via signed-in user (idanco77@gmail.com)
+[debug] [2024-03-27T23:05:37.261Z] [iam] checking project citydle-il for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-03-27T23:05:37.265Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/citydle-il:testIamPermissions [none]
+[debug] [2024-03-27T23:05:37.265Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/citydle-il:testIamPermissions x-goog-quota-user=projects/citydle-il
+[debug] [2024-03-27T23:05:37.266Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/citydle-il:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-03-27T23:05:38.344Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/citydle-il:testIamPermissions 200
+[debug] [2024-03-27T23:05:38.345Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/citydle-il:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-03-27T23:05:38.348Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/citydle-il [none]
+[debug] [2024-03-27T23:05:38.845Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/citydle-il 200
+[debug] [2024-03-27T23:05:38.846Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/citydle-il {"projectId":"citydle-il","projectNumber":"908943757610","displayName":"citydle-il","name":"projects/citydle-il","resources":{"hostingSite":"citydle-il","storageBucket":"citydle-il.appspot.com","locationId":"europe-west"},"state":"ACTIVE","etag":"1_8ead7beb-e2a7-4eac-829c-b12b923d25aa"}
+[debug] [2024-03-27T23:05:46.670Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/citydle-il/sites pageToken=&pageSize=10
+[debug] [2024-03-27T23:05:47.903Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/citydle-il/sites 200
+[debug] [2024-03-27T23:05:47.903Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/citydle-il/sites {"sites":[{"name":"projects/citydle-il/sites/citydle-il","defaultUrl":"https://citydle-il.web.app","appId":"1:908943757610:web:12320303b7896f7d368e53","type":"DEFAULT_SITE"}]}
+[debug] [2024-03-27T23:05:47.903Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:908943757610:web:12320303b7896f7d368e53/config [none]
+[debug] [2024-03-27T23:05:48.679Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:908943757610:web:12320303b7896f7d368e53/config 200
+[debug] [2024-03-27T23:05:48.680Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:908943757610:web:12320303b7896f7d368e53/config {"projectId":"citydle-il","appId":"1:908943757610:web:12320303b7896f7d368e53","storageBucket":"citydle-il.appspot.com","locationId":"europe-west","apiKey":"AIzaSyB_8VgFSbFOpu6KxrzzaS-FTyE5xvNMIfI","authDomain":"citydle-il.firebaseapp.com","messagingSenderId":"908943757610","measurementId":"G-VHH3LLGHFC"}
+[info] 
+   Thank you for trying our early preview of Angular support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/angular
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
