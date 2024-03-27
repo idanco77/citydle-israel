@@ -164,8 +164,13 @@ export class AppComponent implements OnInit {
           },
         });
       }
-      this.openResultsDialog();
+      setTimeout(() => {
+        this.openResultsDialog();
+      }, 2000);
       this.autocompleteControl.disable();
+      if (this.isWin) {
+        this.showFireWorks();
+      }
     }
     localStorage.setItem('date', this.getCurrentDateInUTC());
     localStorage.setItem('guesses', JSON.stringify(this.guesses));
@@ -251,7 +256,6 @@ export class AppComponent implements OnInit {
       this.currentGuess = +currentGuess;
       this.isWin = this.checkIsWin(this.guesses[this.currentGuess - 1].name as string);
       if (this.isGameOver) {
-        this.showFireWorks();
         this.autocompleteControl.disable();
         setTimeout(() => {this.openResultsDialog();}, 1500);
       }
@@ -361,7 +365,7 @@ export class AppComponent implements OnInit {
         fireworks.clear();
         this.fireworks.nativeElement.remove();
       }, 6500);
-    }, 1500)
+    }, 1)
   }
 }
 
