@@ -39,7 +39,7 @@ export class ResultDialogComponent implements OnInit{
     const day = String(new Date().getDate()).padStart(2, '0');
     const month = String(new Date().getMonth() + 1).padStart(2, '0'); // January is 0!
     const year = new Date().getFullYear();
-    const totalGuesses = this.data.guesses.filter(guess => !guess.name).length;
+    const totalGuesses = this.data.guesses.filter(guess => guess.name).length;
     const highest = this.getHighest();
 
     this.results = `#Citydle-il #${daysDifference} (${day}.${month}.${year}) ${totalGuesses}/6 (${highest}%) \n${emojis}https://citydle-il.web.app/`;
