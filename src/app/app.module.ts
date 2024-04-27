@@ -16,6 +16,8 @@ import {IntroDialogComponent} from 'src/app/intro-dialog/intro-dialog.component'
 import {environment} from '../environments/environment';
 import { RouterOutlet} from '@angular/router';
 import {NgOptimizedImage} from '@angular/common';
+import {MatIconModule} from '@angular/material/icon';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [
@@ -23,21 +25,23 @@ import {NgOptimizedImage} from '@angular/common';
     ResultDialogComponent,
     IntroDialogComponent
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        MatAutocompleteModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatButtonModule,
-        MatSnackBarModule,
-        GoogleMapsModule,
-        HttpClientModule,
-        HttpClientJsonpModule,
-        MatDialogModule,
-        RouterOutlet,
-        NgOptimizedImage,
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatSnackBarModule,
+    GoogleMapsModule,
+    HttpClientModule,
+    HttpClientJsonpModule,
+    MatDialogModule,
+    RouterOutlet,
+    NgOptimizedImage,
+    MatIconModule,
+    ClipboardModule,
+  ],
   providers: [
   ],
   bootstrap: [AppComponent]

@@ -18,6 +18,7 @@ import {IntroDialogComponent} from 'src/app/intro-dialog/intro-dialog.component'
 import {DOCUMENT} from '@angular/common';
 import {NavigationEnd, Router} from '@angular/router';
 import { Fireworks } from 'fireworks-js';
+import {START_DATE} from 'src/app/shared/consts/start-date.const';
 
 @Component({
   selector: 'app-root',
@@ -190,7 +191,7 @@ export class AppComponent implements OnInit {
   private setMysteryCity(): void {
     let citiesOver10k = this.cities.filter(city => city.population >= 10000) as CityOver10K[];
     citiesOver10k = [...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k];
-    this.mysteryCity = citiesOver10k[this.getDifferenceInDays((new Date('2023-10-25')), new Date(new Date()))];
+    this.mysteryCity = citiesOver10k[this.getDifferenceInDays((new Date(START_DATE)), new Date(new Date()))];
   }
 
   getDifferenceInDays(firstDate: Date, today: Date) {
@@ -274,7 +275,7 @@ export class AppComponent implements OnInit {
   private openResultsDialog() {
     this.dialog.open(ResultDialogComponent, {
       width: '400px',
-      data: {city: this.mysteryCity, isWin: this.isWin}
+      data: {city: this.mysteryCity, isWin: this.isWin, guesses: this.guesses}
     });
   }
 

@@ -7,3 +7,4 @@
 <p class="text-center fs-3">היישוב הינו בעל רוב {{ data.city.religion }}</p>
 <p class="text-center fs-3">הידעת ש... {{ data.city.trivia }}</p>
 <p class="text-center fs-3">האתגר הבא מתחיל בעוד: {{ hours + ':' + minutes + ':' + seconds }}</p>
+<p class="text-center fs-3"><mat-icon (click)="showMessage()" [cdkCopyToClipboard]="results" class="pointer" aria-hidden="false" aria-label="home icon" fontIcon="share"></mat-icon></p>
