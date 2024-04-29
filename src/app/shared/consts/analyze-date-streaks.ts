@@ -21,12 +21,17 @@ export const analyzeDateStreaks = (dates: string[]): { maxStreak: number; lastSt
       currentStreak = 1;
     }
   }
-
+  console.log(currentStreak);
   // Consider the final streak for maxStreak comparison
   maxStreak = Math.max(maxStreak, currentStreak);
 
+  console.log(today);
+  console.log(new Date(dates[dates.length - 1]));
+
+  const lastArrayDate = new Date(dates[dates.length - 1]);
+  lastArrayDate.setHours(0, 0, 0, 0);
   // Determine if the last streak includes today or is ongoing until today
-  if (new Date(dates[dates.length - 1]).getTime() === today.getTime()) {
+  if (lastArrayDate.getTime() === today.getTime()) {
     lastStreak = currentStreak;
   } else {
     lastStreak = 0; // There is no current streak if the last date isn't today
