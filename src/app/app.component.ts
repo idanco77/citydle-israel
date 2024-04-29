@@ -258,7 +258,7 @@ export class AppComponent implements OnInit {
   private manageLocalStorage() {
     const date = localStorage.getItem('date');
     if (date && date !== this.getCurrentDateInUTC()) {
-      localStorage.clear();
+      this.clearDailyData();
     }
     const currentGuess = localStorage.getItem('currentGuess');
     const markers = JSON.parse(localStorage.getItem('markers') || '[]');
@@ -273,9 +273,7 @@ export class AppComponent implements OnInit {
         setTimeout(() => {this.openResultsDialog();}, 1500);
       }
     } else {
-      ['date', 'currentGuess', 'markers', 'guesses'].forEach(item => {
-        localStorage.removeItem(item);
-      });
+      this.clearDailyData();
     }
   }
 
@@ -406,6 +404,12 @@ export class AppComponent implements OnInit {
   private setTotalPlayedGames() {
     const totalPlayedGames = +(localStorage.getItem('totalPlayedGames') ?? 0) + 1;
     localStorage.setItem('totalPlayedGames', JSON.stringify(totalPlayedGames));
+  }
+
+  private clearDailyData(): void {
+    ['date', 'currentGuess', 'markers', 'guesses'].forEach(item => {
+      localStorage.removeItem(item);
+    });
   }
 }
 
