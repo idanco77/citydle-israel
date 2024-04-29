@@ -43,8 +43,6 @@ export class ResultDialogComponent implements OnInit{
     const highest = this.getHighest();
 
     this.results = `#Citydle-il #${daysDifference} (${day}.${month}.${year}) ${totalGuesses}/6 (${highest}%) \n${emojis}https://citydle-il.web.app/`;
-
-    console.log(this.results);
   }
 
   private getHighest(): number {
@@ -62,15 +60,29 @@ export class ResultDialogComponent implements OnInit{
   private generateProgressSquares(): string {
     const greenSquare = '🟩';
     const whiteSquare = '⬜';
+    const yellowSquare = '🟨';
 
-    const buildEmojiRow = (greenCount: number): string[] =>
-    Array(5).fill(whiteSquare).fill(greenSquare, 0, greenCount);
+// Builds a row of squares based on percentage
+    const buildSquaresRow = (percentage: number): string[] => {
+      const squares = Array(5).fill(whiteSquare); // Start with all white squares
+      const greenCount = Math.floor(percentage / 20); // Calculate number of green squares (20% each)
+      const remainder = percentage % 20; // Calculate the remainder to determine yellow square
+      const hasYellow = remainder >= 10 && remainder < 20; // Check if the remainder is in the yellow range
+
+      squares.fill(greenSquare, 0, greenCount); // Fill green squares
+
+      if (hasYellow && greenCount < 5) { // Add a yellow square if needed and there is space
+        squares[greenCount] = yellowSquare;
+      }
+
+      return squares;
+    };
 
     const emojiMap: string[] = this.data.guesses
-      .filter(guess => guess.percentage)
+      .filter(guess => guess.percentage) // Filter guesses with valid percentages
       .map(guess => {
-        const greenCount = Math.floor((guess.percentage as number) / 20);
-        return buildEmojiRow(greenCount).join('') + '\n';
+        const percentage = guess.percentage as number; // Ensure percentage is treated as a number
+        return buildSquaresRow(percentage).join('') + '\n'; // Build and join the emoji row, add newline
       });
 
     return emojiMap.join('');
