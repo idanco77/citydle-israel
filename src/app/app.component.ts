@@ -273,7 +273,9 @@ export class AppComponent implements OnInit {
         setTimeout(() => {this.openResultsDialog();}, 1500);
       }
     } else {
-      localStorage.clear();
+      ['date', 'currentGuess', 'markers', 'guesses'].forEach(item => {
+        localStorage.removeItem(item);
+      });
     }
   }
 
