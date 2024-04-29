@@ -21,12 +21,8 @@ export const analyzeDateStreaks = (dates: string[]): { maxStreak: number; lastSt
       currentStreak = 1;
     }
   }
-  console.log(currentStreak);
   // Consider the final streak for maxStreak comparison
   maxStreak = Math.max(maxStreak, currentStreak);
-
-  console.log(today);
-  console.log(new Date(dates[dates.length - 1]));
 
   const lastArrayDate = new Date(dates[dates.length - 1]);
   lastArrayDate.setHours(0, 0, 0, 0);
