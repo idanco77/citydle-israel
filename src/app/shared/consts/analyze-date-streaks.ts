@@ -1,12 +1,12 @@
 export const analyzeDateStreaks = (dates: string[]): { maxStreak: number; lastStreak: number } => {
-  if (!dates.length) {
+  const DAY_IN_MILLISECONDS = 86400000; // One day in milliseconds
+  if (dates.length === 0) {
     return { maxStreak: 0, lastStreak: 0 };
   }
-  const DAY_IN_MILLISECONDS = 86400000; // One day in milliseconds
+
   let maxStreak = 1;
   let currentStreak = 1;
   let lastStreak = 1;
-  let isCurrentStreakLast = true;
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Normalize today's date to start of the day
 
@@ -16,23 +16,21 @@ export const analyzeDateStreaks = (dates: string[]): { maxStreak: number; lastSt
 
     if (next.getTime() - current.getTime() === DAY_IN_MILLISECONDS) {
       currentStreak++;
-      if (isCurrentStreakLast) {
-        lastStreak = currentStreak;
-      }
     } else {
       maxStreak = Math.max(maxStreak, currentStreak);
-      if (current.getTime() >= today.getTime()) {
-        isCurrentStreakLast = false;
-      }
-      currentStreak = 1;  // Reset streak count
+      currentStreak = 1;
     }
   }
 
-  // Final check for the last streak if the last date in list is today or part of the current streak
-  if (new Date(dates[dates.length - 1]).getTime() >= today.getTime()) {
+  // Consider the final streak for maxStreak comparison
+  maxStreak = Math.max(maxStreak, currentStreak);
+
+  // Determine if the last streak includes today or is ongoing until today
+  if (new Date(dates[dates.length - 1]).getTime() === today.getTime()) {
     lastStreak = currentStreak;
+  } else {
+    lastStreak = 0; // There is no current streak if the last date isn't today
   }
-  maxStreak = Math.max(maxStreak, currentStreak);  // Consider the final streak
 
   return { maxStreak, lastStreak };
 };
