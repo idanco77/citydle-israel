@@ -42,7 +42,7 @@ export class ResultDialogComponent implements OnInit{
     const totalGuesses = this.data.guesses.filter(guess => guess.name).length;
     const highest = this.getHighest();
 
-    this.results = `#Citydle-il #${daysDifference} (${day}.${month}.${year}) ${totalGuesses}/6 (${highest}%) \n${emojis}https://citydle-il.web.app/`;
+    this.results = `#CitydleIl #${daysDifference} (${day}.${month}.${year}) ${totalGuesses}/6 (${highest}%) \n${emojis}https://citydle-il.web.app/`;
   }
 
   private getHighest(): number {
