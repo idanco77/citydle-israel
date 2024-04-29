@@ -18,12 +18,15 @@ import { RouterOutlet} from '@angular/router';
 import {NgOptimizedImage} from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
 import {ClipboardModule} from '@angular/cdk/clipboard';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {StatsComponent} from 'src/app/stats-dialog/stats.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ResultDialogComponent,
-    IntroDialogComponent
+    IntroDialogComponent,
+    StatsComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,7 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
     NgOptimizedImage,
     MatIconModule,
     ClipboardModule,
+    FontAwesomeModule,
   ],
   providers: [
   ],

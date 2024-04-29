@@ -1,5 +1,10 @@
-<div *ngIf="isWin" class="d-flex fireworks" #fireworks></div>
-<h1 class="title">וורדעל יישובים בישראל <img (click)="openIntroDialog()" class="help-img" alt="?" src="assets/help.png"></h1>
+<div *ngIf="isWin && isFireworksActive" class="d-flex fireworks" #fireworks></div>
+<div class="menu">
+  <fa-icon (click)="openIntroDialog()" class="h1 pointer" [icon]="faCircleQuestion"></fa-icon>
+  <h1 class="title">וורדעל יישובים בישראל</h1>
+  <fa-icon (click)="showStats()" class="h1 pointer" [icon]="faChartSimple"></fa-icon>
+</div>
+
   <div class="page-wrapper">
     <div class="guesses-wrapper">
       <div class="clue-button-wrapper" *ngIf="currentGuess >= 4 && ! isWin">

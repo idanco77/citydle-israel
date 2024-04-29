@@ -9,19 +9,17 @@
   z-index: 999;
 }
 
-.title {
+.menu {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin-bottom: 0;
+  margin: 15px 0;
 }
 
-.help-img {
-  height: 20px;
-  position: relative;
-  right: 10%;
-  cursor: pointer;
+.title {
+  padding: 0 20px;
+  margin: 0;
 }
 
 .donate-link {

@@ -19,6 +19,10 @@ import {DOCUMENT} from '@angular/common';
 import {NavigationEnd, Router} from '@angular/router';
 import { Fireworks } from 'fireworks-js';
 import {START_DATE} from 'src/app/shared/consts/start-date.const';
+import {faCircleQuestion} from '@fortawesome/free-solid-svg-icons';
+import {faChartSimple} from '@fortawesome/free-solid-svg-icons/faChartSimple';
+import {StatsComponent} from 'src/app/stats-dialog/stats.component';
+import {getCurrentDateYyyyMmDd} from 'src/app/shared/consts/get-current-date-yyyy-mm-dd.const';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +32,7 @@ import {START_DATE} from 'src/app/shared/consts/start-date.const';
 export class AppComponent implements OnInit {
   clueLevel = 0;
   private isMobile = window.innerWidth < 500;
+  isFireworksActive = false;
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent): void {
     this.autoSelectionOnEnterKey(event.key);
@@ -48,6 +53,8 @@ export class AppComponent implements OnInit {
   apiLoaded: Observable<boolean>;
   isShowClue = false;
   mapWidth = this.isMobile ? '35rem' : '45rem';
+  protected readonly faChartSimple = faChartSimple;
+  protected readonly faCircleQuestion = faCircleQuestion;
 
   constructor(private snackBar: MatSnackBar, httpClient: HttpClient,
               private router: Router,
@@ -164,7 +171,12 @@ export class AppComponent implements OnInit {
             text: this.mysteryCity.name,
           },
         });
+      } else {
+        this.saveHistory();
       }
+      this.setSuccessRate();
+      this.setTotalPlayedGames();
+
       setTimeout(() => {
         this.openResultsDialog();
       }, 2000);
@@ -310,6 +322,7 @@ export class AppComponent implements OnInit {
   }
 
   private showFireWorks() {
+    this.isFireworksActive = true;
     setTimeout(() => {
       const fireworks = new Fireworks(this.fireworks.nativeElement, {
         autoresize: true,
@@ -362,11 +375,35 @@ export class AppComponent implements OnInit {
       });
       fireworks.start();
       setTimeout(() => {
+        this.isFireworksActive = false;
         fireworks.stop();
         fireworks.clear();
         this.fireworks.nativeElement.remove();
       }, 6500);
     }, 1)
+  }
+
+  showStats(): void {
+    this.dialog.open(StatsComponent, {
+      width: '400px'
+    })
+  }
+
+  private saveHistory(): void {
+    const history = JSON.parse((localStorage.getItem('history') || '[]'));
+    history.push(getCurrentDateYyyyMmDd());
+    localStorage.setItem('history', JSON.stringify(history));
+  }
+
+  private setSuccessRate(): void {
+    const successRate: number[] = JSON.parse(localStorage.getItem('successRate') || '[]');
+    successRate.push(+this.isWin);
+    localStorage.setItem('successRate', JSON.stringify(successRate));
+  }
+
+  private setTotalPlayedGames() {
+    const totalPlayedGames = +(localStorage.getItem('totalPlayedGames') ?? 0) + 1;
+    localStorage.setItem('totalPlayedGames', JSON.stringify(totalPlayedGames));
   }
 }
 
