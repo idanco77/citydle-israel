@@ -4,6 +4,7 @@ import {CityOver10K} from 'src/app/shared/models/city.model';
 import {Guess} from 'src/app/shared/models/guess.model';
 import {START_DATE} from 'src/app/shared/consts/start-date.const';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {analyzeDateStreaks} from 'src/app/shared/consts/analyze-date-streaks';
 
 @Component({
   templateUrl: './result-dialog.component.html'
@@ -13,12 +14,25 @@ export class ResultDialogComponent implements OnInit{
   minutes: string | number;
   seconds: string | number;
   results: string;
+  currentWinStreak: number | null;
+  maxWinStreak: number | null;
+  successRate: number;
+  totalPlayedGames: number;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: {city: CityOver10K, isWin: boolean, guesses: Guess[]},
+  constructor(@Inject(MAT_DIALOG_DATA) public data: {city: CityOver10K, isWin: boolean, guesses: Guess[], showResults: boolean},
               private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
+    const history = JSON.parse(localStorage.getItem('history') || '[]');
+    const analyze = analyzeDateStreaks(history);
+    this.currentWinStreak = analyze.lastStreak;
+    this.maxWinStreak = analyze.maxStreak;
+    const rateData: number[] = JSON.parse(localStorage.getItem('successRate') || '[]');
+    const totalWins = rateData.filter(isWin => isWin);
+    this.successRate = rateData.length ? (totalWins.length / rateData.length) : 0;
+    this.totalPlayedGames = +(localStorage.getItem('totalPlayedGames') ?? 0);
+
     const timeRemaining = () => {
       const now: Date = new Date();
       const hoursLeft: number = 23 - now.getHours();

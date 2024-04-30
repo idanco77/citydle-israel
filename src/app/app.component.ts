@@ -21,7 +21,6 @@ import { Fireworks } from 'fireworks-js';
 import {START_DATE} from 'src/app/shared/consts/start-date.const';
 import {faCircleQuestion} from '@fortawesome/free-solid-svg-icons';
 import {faChartSimple} from '@fortawesome/free-solid-svg-icons/faChartSimple';
-import {StatsComponent} from 'src/app/stats-dialog/stats.component';
 import {getCurrentDateYyyyMmDd} from 'src/app/shared/consts/get-current-date-yyyy-mm-dd.const';
 
 @Component({
@@ -284,10 +283,10 @@ export class AppComponent implements OnInit {
     });
   }
 
-  private openResultsDialog() {
+  openResultsDialog(showResults: boolean = true): void {
     this.dialog.open(ResultDialogComponent, {
-      width: '400px',
-      data: {city: this.mysteryCity, isWin: this.isWin, guesses: this.guesses}
+      width: '800px',
+      data: {city: this.mysteryCity, isWin: this.isWin, guesses: this.guesses, showResults}
     });
   }
 
@@ -381,12 +380,6 @@ export class AppComponent implements OnInit {
         this.fireworks.nativeElement.remove();
       }, 6500);
     }, 1)
-  }
-
-  showStats(): void {
-    this.dialog.open(StatsComponent, {
-      width: '400px'
-    })
   }
 
   private saveHistory(): void {

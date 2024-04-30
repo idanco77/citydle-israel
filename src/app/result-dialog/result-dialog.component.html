@@ -1,10 +1,20 @@
-<span mat-dialog-close class="m-3">X</span>
-<p *ngIf="data.isWin" class="text-primary text-center fs-1">כל הכבוד! ניצחת</p>
-<p *ngIf="! data.isWin" class="text-danger text-center fs-2">לא נורא! הפעם לא הצלחת. אולי בפעם הבאה.</p>
-<p class="text-center fs-2">היישוב המסתורי: <a href="https://www.google.com/search?q={{ data.city.name + ' יישוב ' }}" target="_blank">{{ data.city.name }}</a></p>
-<p class="text-center fs-3">אוכלוסיה: {{ data.city.population | number }}</p>
-<p class="text-center fs-3">שנת ייסוד: {{ data.city.foundedAt ? data.city.foundedAt : 'לא ידוע'  }}</p>
-<p class="text-center fs-3">היישוב הינו בעל רוב {{ data.city.religion }}</p>
-<p class="text-center fs-3">הידעת ש... {{ data.city.trivia }}</p>
-<p class="text-center fs-3">האתגר הבא מתחיל בעוד: {{ hours + ':' + minutes + ':' + seconds }}</p>
-<p class="text-center fs-3"><mat-icon (click)="showMessage()" [cdkCopyToClipboard]="results" class="pointer" aria-hidden="false" aria-label="home icon" fontIcon="share"></mat-icon></p>
+<app-x></app-x>
+<ng-container *ngIf="data.showResults">
+  <p *ngIf="data.isWin" class="text-success text-center h1">כל הכבוד! ניצחת</p>
+  <p *ngIf="! data.isWin" class="text-danger text-center fs-2">לא נורא! הפעם לא הצלחת. אולי בפעם הבאה.</p>
+  <p class="text-center fs-2">היישוב המסתורי: <a href="https://www.google.com/search?q={{ data.city.name + ' יישוב ' }}"
+                                                 target="_blank">{{ data.city.name }}</a></p>
+  <p class="text-center fs-3">אוכלוסיה: {{ data.city.population | number }}</p>
+  <p class="text-center fs-3">שנת ייסוד: {{ data.city.foundedAt ? data.city.foundedAt : 'לא ידוע' }}</p>
+  <p class="text-center fs-3">היישוב הינו בעל רוב {{ data.city.religion }}</p>
+  <p class="text-center fs-3">הידעת ש... {{ data.city.trivia }}</p>
+  <p class="text-center fs-3">האתגר הבא מתחיל בעוד: {{ hours + ':' + minutes + ':' + seconds }}</p>
+</ng-container>
+<p class="h1 text-center">סטטיסטיקה</p>
+<div>
+  <p class="text-center">רצף הנצחונות הטוב ביותר: <span class="h1">{{ maxWinStreak }}</span></p>
+  <p class="text-center">רצף נצחונות נוכחי: <span class="h1">{{ currentWinStreak }}</span></p>
+  <p class="text-center">אחוזי הצלחה: <span class="h1">{{ successRate | percent }}</span></p>
+  <p class="text-center">סה"כ משחקים ששוחקו: <span class="h1">{{ totalPlayedGames }}</span></p>
+</div>
+<p class="text-center fs-3" [matTooltip]="'שתף תוצאה'"><mat-icon (click)="showMessage()" [cdkCopyToClipboard]="results" class="pointer" aria-hidden="false" aria-label="home icon" fontIcon="share"></mat-icon></p>

@@ -1,8 +1,11 @@
 <div *ngIf="isWin && isFireworksActive" class="d-flex fireworks" #fireworks></div>
 <div class="menu">
   <fa-icon (click)="openIntroDialog()" class="h1 pointer" [icon]="faCircleQuestion"></fa-icon>
-  <h1 class="title">וורדעל יישובים בישראל</h1>
-  <fa-icon (click)="showStats()" class="h1 pointer" [icon]="faChartSimple"></fa-icon>
+  <h1 class="title">
+    Citydle ישראל
+    <img ngSrc="assets/israel.svg" height="60" width="21" alt="israel">
+  </h1>
+  <fa-icon (click)="openResultsDialog(false)" class="h1 pointer" [icon]="faChartSimple"></fa-icon>
 </div>
 
   <div class="page-wrapper">
@@ -31,15 +34,8 @@
         </form>
       </div>
       <div class="guesses">
-        <div *ngFor="let guess of guesses" class="d-flex justify-content-center">
-          <div class="guess guess-name">{{ guess.name }}</div>
-          <div class="guess guess-distance">{{ guess.distance !== null ? guess.distance + ' ק"מ' : '' }}</div>
-
-          <div class="guess guess-direction">
-            <span [innerHTML]="guess.direction"></span>
-            <img *ngIf="guess.name === mysteryCity.name" ngSrc="assets/cup.png" alt="cup" height="25" width="20">
-          </div>
-          <div class="guess guess-direction">{{ guess.percentage ? (guess.percentage) + '%' : '' }}</div>
+        <div *ngFor="let guess of guesses">
+          <app-guess [guess]="guess" [mysteryCityName]="mysteryCity.name"></app-guess>
         </div>
       </div>
     </div>

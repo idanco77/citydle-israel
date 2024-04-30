@@ -1,6 +1,14 @@
-<span mat-dialog-close class="m-3">X</span>
-<p class="text-center fs-1">איך לשחק?</p>
-<p class="text-center fs-4">עליך לגלות את העיר המסתורית ב6 ניחושים.</p>
-<p class="text-center fs-4">כל ניחוש צריך להיות יישוב קיים במדינת ישראל.</p>
-<p class="text-center fs-4">לאחר כל ניחוש יהיה לך את המרחק, הכיוון והקרבה לעיר המסתורית.</p>
-<p class="text-center fs-4">משחק חדש זמין בכל יום בשעה 0:00 שעון מקומי של המכשיר שלך.</p>
+<app-x></app-x>
+<div class="pb-5 px-5 fs-4">
+  <p class="fs-1 fw-bold">איך משחקים?</p>
+  <p>עליכם לגלות את היישוב היומי בתוך שישה נסיונות או פחות.</p>
+  <p>בכל פעם בחרו שם של יישוב בישראל.</p>
+  <p>אחרי כל נסיון תקבלו את המרחק והכיוון מהיישוב של היום.</p>
+  <p class="fs-1 fw-bold">דוגמה:</p>
+  <app-guess [guess]="firstGuess"></app-guess>
+  <p class="pt-2">ניחוש ראשון: טבריה. היישוב היומי נמצא במרחק של 111 ק"מ מטבריה לכיוון דרום מערב.</p>
+  <app-guess [guess]="secondGuess"></app-guess>
+  <p class="pt-2">ניחוש שני: אשדוד. מתקרבים! היישוב היומי נמצא במרחק של 27 ק"מ מאשדוד לכיוון צפון מזרח.</p>
+  <app-guess [guess]="thirdGuess" [mysteryCityName]="thirdGuess.name"></app-guess>
+  <p class="pt-2">ניחוש שלישי: חולון. זה היישוב היומי!</p>
+</div>

@@ -13,20 +13,22 @@ import {HttpClientJsonpModule, HttpClientModule} from '@angular/common/http';
 import {ResultDialogComponent} from 'src/app/result-dialog/result-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {IntroDialogComponent} from 'src/app/intro-dialog/intro-dialog.component';
-import {environment} from '../environments/environment';
 import { RouterOutlet} from '@angular/router';
 import {NgOptimizedImage} from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {StatsComponent} from 'src/app/stats-dialog/stats.component';
+import {GuessComponent} from 'src/app/shared/components/guess/guess.component';
+import {XComponent} from 'src/app/shared/components/x/x.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
     AppComponent,
     ResultDialogComponent,
     IntroDialogComponent,
-    StatsComponent
+    GuessComponent,
+    XComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +47,7 @@ import {StatsComponent} from 'src/app/stats-dialog/stats.component';
     MatIconModule,
     ClipboardModule,
     FontAwesomeModule,
+    MatTooltipModule,
   ],
   providers: [
   ],
