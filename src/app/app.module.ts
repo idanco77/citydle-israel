@@ -21,6 +21,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {GuessComponent} from 'src/app/shared/components/guess/guess.component';
 import {XComponent} from 'src/app/shared/components/x/x.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {FireworksComponent} from 'src/app/shared/components/fireworks/fireworks.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     ResultDialogComponent,
     IntroDialogComponent,
     GuessComponent,
-    XComponent
+    XComponent,
+    FireworksComponent
   ],
   imports: [
     BrowserModule,

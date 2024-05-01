@@ -31,14 +31,15 @@ import {getCurrentDateYyyyMmDd} from 'src/app/shared/consts/get-current-date-yyy
 export class AppComponent implements OnInit {
   clueLevel = 0;
   private isMobile = window.innerWidth < 500;
-  isFireworksActive = false;
+  shouldStartFireworks = false;
+
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent): void {
     this.autoSelectionOnEnterKey(event.key);
   }
   @ViewChild('googleMap') googleMap: GoogleMap;
   @ViewChild(MatAutocompleteTrigger) autocomplete: MatAutocompleteTrigger | undefined;
-  @ViewChild('fireworks') fireworks: any;
+
   cities: City[];
   arrows: any = ARROWS;
   filteredCities: Observable<City[]>;
@@ -181,7 +182,7 @@ export class AppComponent implements OnInit {
       }, 2000);
       this.autocompleteControl.disable();
       if (this.isWin) {
-        this.showFireWorks();
+        this.shouldStartFireworks = true;
       }
     }
     localStorage.setItem('date', this.getCurrentDateInUTC());
@@ -318,68 +319,6 @@ export class AppComponent implements OnInit {
     }
     this.isShowClue = true;
     this.clueLevel++;
-  }
-
-  private showFireWorks() {
-    this.isFireworksActive = true;
-    setTimeout(() => {
-      const fireworks = new Fireworks(this.fireworks.nativeElement, {
-        autoresize: true,
-        opacity: 0.5,
-        acceleration: 1.05,
-        friction: 0.97,
-        gravity: 1.5,
-        particles: 50,
-        traceLength: 3,
-        traceSpeed: 10,
-        explosion: 5,
-        intensity: 30,
-        flickering: 50,
-        lineStyle: 'round',
-        hue: {
-          min: 0,
-          max: 360
-        },
-        delay: {
-          min: 30,
-          max: 60
-        },
-        rocketsPoint: {
-          min: 50,
-          max: 50
-        },
-        lineWidth: {
-          explosion: {
-            min: 1,
-            max: 3
-          },
-          trace: {
-            min: 1,
-            max: 2
-          }
-        },
-        brightness: {
-          min: 50,
-          max: 80
-        },
-        decay: {
-          min: 0.015,
-          max: 0.03
-        },
-        mouse: {
-          click: false,
-          move: false,
-          max: 1
-        }
-      });
-      fireworks.start();
-      setTimeout(() => {
-        this.isFireworksActive = false;
-        fireworks.stop();
-        fireworks.clear();
-        this.fireworks.nativeElement.remove();
-      }, 6500);
-    }, 1)
   }
 
   private saveHistory(): void {
