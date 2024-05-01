@@ -6,7 +6,6 @@ import {FormControl} from '@angular/forms';
 import {Guess} from 'src/app/shared/models/guess.model';
 import {haversineFormula} from 'src/app/shared/consts/haversineFormula.const';
 import {ARROWS} from 'src/app/shared/consts/arrows.const';
-import {toCamelCase} from 'src/app/shared/consts/to-camel-case.const';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {GoogleMap} from '@angular/google-maps';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
@@ -17,7 +16,6 @@ import {MatDialog} from '@angular/material/dialog';
 import {IntroDialogComponent} from 'src/app/intro-dialog/intro-dialog.component';
 import {DOCUMENT} from '@angular/common';
 import {NavigationEnd, Router} from '@angular/router';
-import { Fireworks } from 'fireworks-js';
 import {START_DATE} from 'src/app/shared/consts/start-date.const';
 import {faCircleQuestion} from '@fortawesome/free-solid-svg-icons';
 import {faChartSimple} from '@fortawesome/free-solid-svg-icons/faChartSimple';
@@ -47,7 +45,7 @@ export class AppComponent implements OnInit {
   guesses: Guess[];
   currentGuess = 0;
   mysteryCity: CityOver10K;
-  options: google.maps.MapOptions;
+  mapSettings: google.maps.MapOptions;
   markers: any = [];
   isWin: boolean = false;
   apiLoaded: Observable<boolean>;
@@ -60,7 +58,7 @@ export class AppComponent implements OnInit {
               private router: Router,
               private dialog: MatDialog, @Inject(DOCUMENT) private document: Document) {
     this.handleRouteEvents();
-    this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=' + environment.apiKey, 'callback')
+    this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=' + environment.apiKey + '&libraries=geometry', 'callback')
       .pipe(
         map(() => true),
         catchError(() => of(false)),
@@ -84,7 +82,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.options = {
+    this.mapSettings = {
       center: {lat: 31.496931, lng: 34.994928},
       zoom: 7.5,
       streetViewControl: false,
@@ -128,23 +126,19 @@ export class AppComponent implements OnInit {
 
 
   handleSelection(selectedCity: null | string) {
-    if (! selectedCity) {
-      this.showErrorMessage();
-      return;
-    }
-    if (this.isWin || this.currentGuess > 5) {
-      return;
-    }
     const city = this.cities.find(city => city.name === selectedCity) as City;
-    if (!city) {
+    if (! selectedCity || ! city) {
       this.showErrorMessage();
+      return;
+    }
+
+    if (this.isWin || this.currentGuess > 5) {
       return;
     }
 
     this.isWin = this.checkIsWin(city.name);
-
     this.markers.push({
-      position: {lat: +city.lat, lng: +city.lng},
+      position: {lat: city.lat, lng: city.lng},
       options: {animation: this.isWin ? google.maps.Animation.BOUNCE : null, draggable: false},
       label: {
         text: city.name,
@@ -152,12 +146,13 @@ export class AppComponent implements OnInit {
     });
     this.guesses[this.currentGuess].name = city.name;
     const distance = haversineFormula(
-      +this.mysteryCity.lat, +this.mysteryCity.lng, +city.lat, +city.lng
+      this.mysteryCity.lat, this.mysteryCity.lng, city.lat, city.lng
     );
+
     this.guesses[this.currentGuess].distance = distance;
     this.guesses[this.currentGuess].percentage = this.calculatePercentages(distance);
-    this.guesses[this.currentGuess].direction = this.getDirection(
-      +this.mysteryCity.lat, +this.mysteryCity.lng, +city.lat, +city.lng, distance
+    this.guesses[this.currentGuess].direction = this.getHeading(
+      this.mysteryCity.lat, this.mysteryCity.lng, city.lat, city.lng, distance
     );
     this.currentGuess++;
     this.autocompleteControl.reset();
@@ -165,7 +160,7 @@ export class AppComponent implements OnInit {
     if (this.isGameOver) {
       if (!this.isWin) {
         this.markers.push({
-          position: {lat: +this.mysteryCity.lat, lng: +this.mysteryCity.lng},
+          position: {lat: this.mysteryCity.lat, lng: this.mysteryCity.lng},
           options: {animation: google.maps.Animation.BOUNCE, draggable: false},
           label: {
             text: this.mysteryCity.name,
@@ -211,20 +206,29 @@ export class AppComponent implements OnInit {
     return Math.round(num / 864e5);
   }
 
-  private getDirection(mysteryLat: number, mysteryLng: number, guessLat: number, guessLng: number, distance: any) {
-    let direction = '';
-    if (guessLat !== mysteryLat) {
-      direction += guessLat > mysteryLat ?
-        'south ' : 'north ';
-    }
+  private getHeading(mysteryLat: number, mysteryLng: number, guessLat: number, guessLng: number, distance: any) {
+    const point1 = new google.maps.LatLng(guessLat, guessLng);
+    const point2 = new google.maps.LatLng(mysteryLat, mysteryLng);
+    const heading = google.maps.geometry.spherical.computeHeading(point1, point2);
 
-    if (guessLng !== mysteryLng) {
-      direction += (guessLng >
-      mysteryLng ?
-        'west' : 'east')
-    }
+    const directions = [
+      { limit: -157.5, direction: 'south' },
+      { limit: -112.5, direction: 'southWest' },
+      { limit: -67.5, direction: 'west' },
+      { limit: -22.5, direction: 'northWest' },
+      { limit: 22.5, direction: 'north' },
+      { limit: 67.5, direction: 'northEast' },
+      { limit: 112.5, direction: 'east' },
+      { limit: 157.5, direction: 'southEast' },
+      { limit: 180, direction: 'south' }
+    ];
 
-    return this.arrows[toCamelCase(direction)];
+    for (const { limit, direction } of directions) {
+      if (heading <= limit) {
+        return this.arrows[direction];
+      }
+    }
+    throw new Error('Heading out of range');
   }
 
   private autoSelectionOnEnterKey(eventKey: string): void {
@@ -234,17 +238,6 @@ export class AppComponent implements OnInit {
         this.autocompleteControl.setValue(filteredList[0].name);
       }
     }
-  }
-
-  private showMysteryCityMarker() {
-    this.markers.push({
-      position: {lat: +this.mysteryCity.lat, lng: +this.mysteryCity.lng},
-      options: {animation: google.maps.Animation.BOUNCE, draggable: false},
-      label: {
-        color: 'green',
-        text: 'העיר המסתורית היא: ' + this.mysteryCity.name,
-      },
-    });
   }
 
   private getCurrentDateInUTC(): string {

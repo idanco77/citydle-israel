@@ -41,7 +41,7 @@
     </div>
 
     <div class="map-wrapper">
-      <google-map *ngIf="apiLoaded | async" #googleMap [width]="mapWidth" height="60vh" [options]="options">
+      <google-map *ngIf="apiLoaded | async" #googleMap [width]="mapWidth" height="60vh" [options]="mapSettings">
         <map-marker *ngFor="let marker of markers"
                     [position]="marker.position"
                     [label]="marker.label"
