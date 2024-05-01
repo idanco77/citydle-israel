@@ -152,7 +152,7 @@ export class AppComponent implements OnInit {
     this.guesses[this.currentGuess].distance = distance;
     this.guesses[this.currentGuess].percentage = this.calculatePercentages(distance);
     this.guesses[this.currentGuess].direction = this.getHeading(
-      this.mysteryCity.lat, this.mysteryCity.lng, city.lat, city.lng, distance
+      this.mysteryCity.lat, this.mysteryCity.lng, city.lat, city.lng
     );
     this.currentGuess++;
     this.autocompleteControl.reset();
@@ -206,7 +206,10 @@ export class AppComponent implements OnInit {
     return Math.round(num / 864e5);
   }
 
-  private getHeading(mysteryLat: number, mysteryLng: number, guessLat: number, guessLng: number, distance: any) {
+  private getHeading(mysteryLat: number, mysteryLng: number, guessLat: number, guessLng: number) {
+    if (this.isWin) {
+      return;
+    }
     const point1 = new google.maps.LatLng(guessLat, guessLng);
     const point2 = new google.maps.LatLng(mysteryLat, mysteryLng);
     const heading = google.maps.geometry.spherical.computeHeading(point1, point2);

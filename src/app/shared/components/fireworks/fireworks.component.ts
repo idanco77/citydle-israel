@@ -12,7 +12,6 @@ export class FireworksComponent implements OnInit {
   isFireworksActive: boolean;
 
   ngOnInit() {
-    console.log(1);
     this.isFireworksActive = true;
     setTimeout(() => {
       const fireworks = new Fireworks(this.fireworks.nativeElement, {
