@@ -5,9 +5,8 @@ import {Guess} from 'src/app/shared/models/guess.model';
 import {START_DATE} from 'src/app/shared/consts/start-date.const';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {analyzeDateStreaks} from 'src/app/shared/consts/analyze-date-streaks';
-import {EMOJI_ARROWS} from 'src/app/shared/consts/arrows.const';
-import {Direction} from '@angular/cdk/bidi';
 import {directions} from 'src/app/shared/types/directions.type';
+import {ARROWS} from 'src/app/shared/consts/arrows.const';
 
 @Component({
   templateUrl: './result-dialog.component.html'
@@ -92,7 +91,7 @@ export class ResultDialogComponent implements OnInit{
         squares[greenCount] = yellowSquare;
       }
 
-      squares.push(EMOJI_ARROWS[guess.direction as directions]);
+      squares.push(guess.direction);
 
       return squares;
     };
