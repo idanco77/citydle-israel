@@ -8,3 +8,14 @@ export const ARROWS = {
   west: '🡸',
   northWest: '🡼',
 };
+
+export const EMOJI_ARROWS = {
+  '🡹': '⬆️',
+  '🡽': '↗️',
+  '🡺': '➡️',
+  '🡾': '↘️',
+  '🡻': '⬇️',
+  '🡿': '↙️',
+  '🡸': '⬅️',
+  '🡼': '↖️'
+}
