@@ -208,7 +208,7 @@ export class AppComponent implements OnInit {
 
   private getHeading(mysteryLat: number, mysteryLng: number, guessLat: number, guessLng: number) {
     if (this.isWin) {
-      return;
+      return '🏆';
     }
     const point1 = new google.maps.LatLng(guessLat, guessLng);
     const point2 = new google.maps.LatLng(mysteryLat, mysteryLng);

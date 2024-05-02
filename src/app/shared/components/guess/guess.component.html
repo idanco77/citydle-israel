@@ -3,6 +3,5 @@
 
 <div class="guess guess-direction">
   <span class="fs-2" [innerHTML]="guess.direction"></span>
-  <img *ngIf="guess.name === mysteryCityName" ngSrc="assets/cup.png" alt="cup" height="25" width="20">
 </div>
 <div class="guess guess-direction">{{ guess.percentage ? (guess.percentage) + '%' : '' }}</div>

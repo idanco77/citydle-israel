@@ -56,7 +56,7 @@ export class ResultDialogComponent implements OnInit{
     const totalGuesses = this.data.guesses.filter(guess => guess.name).length;
     const highest = this.getHighest();
 
-    this.results = `#citydle_il #${daysDifference} (${day}.${month}.${year}) ${totalGuesses}/6 (${highest}%) \n${emojis}https://citydle-il.web.app/`;
+    this.results = `#citydle_il 🇮🇱 #${daysDifference} (${day}.${month}.${year}) ${totalGuesses}/6 (${highest}%) \n${emojis}https://citydle-il.web.app/`;
   }
 
   private getHighest(): number {
@@ -77,10 +77,10 @@ export class ResultDialogComponent implements OnInit{
     const yellowSquare = '🟨';
 
 // Builds a row of squares based on percentage
-    const buildSquaresRow = (percentage: number): string[] => {
+    const buildSquaresRow = (guess: Guess): string[] => {
       const squares = Array(5).fill(whiteSquare); // Start with all white squares
-      const greenCount = Math.floor(percentage / 20); // Calculate number of green squares (20% each)
-      const remainder = percentage % 20; // Calculate the remainder to determine yellow square
+      const greenCount = Math.floor((guess.percentage as number) / 20); // Calculate number of green squares (20% each)
+      const remainder = (guess.percentage as number) % 20; // Calculate the remainder to determine yellow square
       const hasYellow = remainder >= 10 && remainder < 20; // Check if the remainder is in the yellow range
 
       squares.fill(greenSquare, 0, greenCount); // Fill green squares
@@ -89,6 +89,8 @@ export class ResultDialogComponent implements OnInit{
         squares[greenCount] = yellowSquare;
       }
 
+      squares.push(guess.direction);
+
       return squares;
     };
 
@@ -96,7 +98,7 @@ export class ResultDialogComponent implements OnInit{
       .filter(guess => guess.percentage) // Filter guesses with valid percentages
       .map(guess => {
         const percentage = guess.percentage as number; // Ensure percentage is treated as a number
-        return buildSquaresRow(percentage).join('') + '\n'; // Build and join the emoji row, add newline
+        return buildSquaresRow(guess).join('') + '\n'; // Build and join the emoji row, add newline
       });
 
     return emojiMap.join('');

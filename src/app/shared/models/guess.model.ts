@@ -4,5 +4,5 @@ export interface Guess {
   name: string | null;
   distance: number | null;
   percentage: number | null;
-  direction: directions | null;
+  direction: directions | '🏆' | null;
 }
