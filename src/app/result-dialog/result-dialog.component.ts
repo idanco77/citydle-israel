@@ -5,8 +5,6 @@ import {Guess} from 'src/app/shared/models/guess.model';
 import {START_DATE} from 'src/app/shared/consts/start-date.const';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {analyzeDateStreaks} from 'src/app/shared/consts/analyze-date-streaks';
-import {directions} from 'src/app/shared/types/directions.type';
-import {ARROWS} from 'src/app/shared/consts/arrows.const';
 
 @Component({
   templateUrl: './result-dialog.component.html'

@@ -5,7 +5,6 @@ import {catchError, map, Observable, of, startWith} from 'rxjs';
 import {FormControl} from '@angular/forms';
 import {Guess} from 'src/app/shared/models/guess.model';
 import {haversineFormula} from 'src/app/shared/consts/haversineFormula.const';
-import {ARROWS} from 'src/app/shared/consts/arrows.const';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {GoogleMap} from '@angular/google-maps';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
@@ -20,6 +19,7 @@ import {START_DATE} from 'src/app/shared/consts/start-date.const';
 import {faCircleQuestion} from '@fortawesome/free-solid-svg-icons';
 import {faChartSimple} from '@fortawesome/free-solid-svg-icons/faChartSimple';
 import {getCurrentDateYyyyMmDd} from 'src/app/shared/consts/get-current-date-yyyy-mm-dd.const';
+import {directions} from 'src/app/shared/types/directions.type';
 
 @Component({
   selector: 'app-root',
@@ -39,7 +39,6 @@ export class AppComponent implements OnInit {
   @ViewChild(MatAutocompleteTrigger) autocomplete: MatAutocompleteTrigger | undefined;
 
   cities: City[];
-  arrows: any = ARROWS;
   filteredCities: Observable<City[]>;
   autocompleteControl: FormControl<string | null> = new FormControl('');
   guesses: Guess[];
@@ -206,7 +205,7 @@ export class AppComponent implements OnInit {
     return Math.round(num / 864e5);
   }
 
-  private getHeading(mysteryLat: number, mysteryLng: number, guessLat: number, guessLng: number) {
+  private getHeading(mysteryLat: number, mysteryLng: number, guessLat: number, guessLng: number): directions | null {
     if (this.isWin) {
       return '🏆';
     }
@@ -214,24 +213,26 @@ export class AppComponent implements OnInit {
     const point2 = new google.maps.LatLng(mysteryLat, mysteryLng);
     const heading = google.maps.geometry.spherical.computeHeading(point1, point2);
 
-    const directions = [
-      { limit: -157.5, direction: 'south' },
-      { limit: -112.5, direction: 'southWest' },
-      { limit: -67.5, direction: 'west' },
-      { limit: -22.5, direction: 'northWest' },
-      { limit: 22.5, direction: 'north' },
-      { limit: 67.5, direction: 'northEast' },
-      { limit: 112.5, direction: 'east' },
-      { limit: 157.5, direction: 'southEast' },
-      { limit: 180, direction: 'south' }
+    const directions: {limit: number, direction: directions}[] = [
+      { limit: -157.5, direction: '⬇️' },
+      { limit: 22.5, direction: '⬆️' },
+      { limit: 67.5, direction: '↗️' },
+      { limit: -112.5, direction: '↙️' },
+      { limit: 112.5, direction: '➡️' },
+      { limit: 157.5, direction: '↘️' },
+      { limit: -67.5, direction: '⬅️' },
+      { limit: -22.5, direction: '↖️' },
+      { limit: 180, direction: '⬇️' }
     ];
+
+    directions.sort((a, b) => a.limit - b.limit);
 
     for (const { limit, direction } of directions) {
       if (heading <= limit) {
-        return this.arrows[direction];
+        return direction;
       }
     }
-    throw new Error('Heading out of range');
+    return null;
   }
 
   private autoSelectionOnEnterKey(eventKey: string): void {
