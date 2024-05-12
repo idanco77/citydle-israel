@@ -16,10 +16,11 @@ import {IntroDialogComponent} from 'src/app/intro-dialog/intro-dialog.component'
 import {DOCUMENT} from '@angular/common';
 import {NavigationEnd, Router} from '@angular/router';
 import {START_DATE} from 'src/app/shared/consts/start-date.const';
-import {faCircleQuestion} from '@fortawesome/free-solid-svg-icons';
+import {faCircleChevronLeft, faCircleChevronRight, faCircleQuestion} from '@fortawesome/free-solid-svg-icons';
 import {faChartSimple} from '@fortawesome/free-solid-svg-icons/faChartSimple';
 import {getCurrentDateYyyyMmDd} from 'src/app/shared/consts/get-current-date-yyyy-mm-dd.const';
 import {directions} from 'src/app/shared/types/directions.type';
+import {createNumberRange, range} from 'src/app/shared/consts/create-number-range.const';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +31,8 @@ export class AppComponent implements OnInit {
   clueLevel = 0;
   private isMobile = window.innerWidth < 500;
   shouldStartFireworks = false;
+  step: number = 1;
+  ranges: range[];
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent): void {
@@ -52,6 +55,8 @@ export class AppComponent implements OnInit {
   mapWidth = this.isMobile ? '35rem' : '45rem';
   protected readonly faChartSimple = faChartSimple;
   protected readonly faCircleQuestion = faCircleQuestion;
+  protected readonly faCircleChevronLeft = faCircleChevronLeft;
+  protected readonly faCircleChevronRight = faCircleChevronRight;
 
   constructor(private snackBar: MatSnackBar, httpClient: HttpClient,
               private router: Router,
@@ -172,7 +177,7 @@ export class AppComponent implements OnInit {
       this.setTotalPlayedGames();
 
       setTimeout(() => {
-        this.openResultsDialog();
+       // this.openResultsDialog();
       }, 2000);
       this.autocompleteControl.disable();
       if (this.isWin) {
@@ -267,7 +272,7 @@ export class AppComponent implements OnInit {
       this.isWin = this.checkIsWin(this.guesses[this.currentGuess - 1].name as string);
       if (this.isGameOver) {
         this.autocompleteControl.disable();
-        setTimeout(() => {this.openResultsDialog();}, 1500);
+       // setTimeout(() => {this.openResultsDialog();}, 1500);
       }
     } else {
       this.clearDailyData();
@@ -281,10 +286,15 @@ export class AppComponent implements OnInit {
     });
   }
 
-  openResultsDialog(showResults: boolean = true): void {
+  openResultsDialog(): void {
     this.dialog.open(ResultDialogComponent, {
       width: '800px',
-      data: {city: this.mysteryCity, isWin: this.isWin, guesses: this.guesses, showResults}
+      data: {
+        city: this.mysteryCity,
+        isWin: this.isWin,
+        guesses: this.guesses,
+        isGameOver: this.isGameOver
+      }
     });
   }
 
@@ -339,6 +349,20 @@ export class AppComponent implements OnInit {
     ['date', 'currentGuess', 'markers', 'guesses'].forEach(item => {
       localStorage.removeItem(item);
     });
+  }
+
+  navigateBetweenSteps(isUp: boolean) {
+    isUp ? this.step++ : this.step--;
+
+    if (this.step === 2) {
+      this.ranges = createNumberRange(this.mysteryCity.population);
+    }
+  }
+
+  isPopulationCorrect(range: range) {
+    if (range.isCorrect) {
+      console.log('correct');
+    }
   }
 }
 

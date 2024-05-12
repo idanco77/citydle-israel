@@ -105,3 +105,10 @@
     flex-direction: column;
   }
 }
+
+.width-container {
+  width: 430px;
+  @include respond(phone) {
+    width: 95%;
+  }
+}

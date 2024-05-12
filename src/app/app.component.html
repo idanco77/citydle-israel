@@ -5,11 +5,20 @@
     Citydle-il ישראל
     <img ngSrc="assets/israel.svg" height="60" width="21" alt="israel">
   </h1>
-  <fa-icon (click)="openResultsDialog(false)" class="h1 pointer" [icon]="faChartSimple"></fa-icon>
+  <fa-icon (click)="openResultsDialog()" class="h1 pointer" [icon]="faChartSimple"></fa-icon>
 </div>
 
   <div class="page-wrapper">
-    <div class="guesses-wrapper">
+    <div class="width-container">
+      <div class="d-flex justify-content-between">
+      <button *ngIf="isWin" [disabled]="step === 1" (click)="navigateBetweenSteps(false)" mat-flat-button color="accent" class="my-2 w-25">
+        <fa-icon class="fs-2" [icon]="faCircleChevronRight"></fa-icon>
+      </button>
+      <button *ngIf="isWin" [disabled]="step === 2" (click)="navigateBetweenSteps(true)" mat-flat-button color="accent" class="my-2 w-25">
+        <fa-icon class="fs-2" [icon]="faCircleChevronLeft"></fa-icon>
+      </button>
+      </div>
+    <div *ngIf="step === 1" class="guesses-wrapper">
       <div class="clue-button-wrapper" *ngIf="currentGuess >= 4 && ! isWin">
       <button [disabled]="isGameOver" mat-raised-button type="button"
               (click)="showClue()">{{ clueLevel === 0 ? 'רוצה רמז?' : 'עוד רמז??' }}
@@ -39,8 +48,16 @@
         </div>
       </div>
     </div>
-
-    <div class="map-wrapper">
+      <div *ngIf="step === 2" class="guesses-wrapper">
+      <div *ngFor="let range of ranges">
+        <div class="border pointer" (click)="isPopulationCorrect(range)">{{ range.label }}</div>
+      </div>
+      </div>
+      <div class="d-flex">
+        <button [disabled]="step === 2" *ngIf="isWin" (click)="navigateBetweenSteps(true)" mat-flat-button color="accent" class="my-2 w-100">שלב בונוס
+        </button>
+      </div>
+    <div *ngIf="step === 1" class="map-wrapper">
       <google-map *ngIf="apiLoaded | async" #googleMap [width]="mapWidth" height="60vh" [options]="mapSettings">
         <map-marker *ngFor="let marker of markers"
                     [position]="marker.position"
@@ -50,5 +67,6 @@
     </div>
     <div class="d-flex justify-content-center">
       <a class="donate-link" href="https://ko-fi.com/idanc" target="_blank">אפשר לקנות לי &#9749;!</a>
+    </div>
     </div>
   </div>

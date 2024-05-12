@@ -1,5 +1,5 @@
 <app-x></app-x>
-<ng-container *ngIf="data.showResults">
+<ng-container *ngIf="data.isGameOver">
   <p *ngIf="data.isWin" class="text-success text-center h1">כל הכבוד! ניצחת</p>
   <p *ngIf="! data.isWin" class="text-danger text-center fs-2">לא נורא! הפעם לא הצלחת. אולי בפעם הבאה.</p>
   <p class="text-center fs-2">היישוב המסתורי: <a href="https://www.google.com/search?q={{ data.city.name + ' יישוב ' }}"
