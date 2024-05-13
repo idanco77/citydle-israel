@@ -15,4 +15,5 @@ export interface CityOver10K {
   foundedAt: string;
   religion: 'יהודי' | 'ערבי מוסלמי' | 'ערבי נוצרי' | 'דרוזי';
   trivia: string;
+  area: number;
 }

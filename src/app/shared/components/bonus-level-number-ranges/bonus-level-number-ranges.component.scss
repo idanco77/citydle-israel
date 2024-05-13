@@ -1,0 +1,52 @@
+.tile {
+  border: 1px solid lightgray;
+  border-radius: 2rem;
+  cursor: pointer;
+}
+
+.tile:hover {
+  background-color: black;
+  color: white;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}
+
+.red:hover {
+  background-color: red;
+  color: black;
+}
+
+.clicked {
+  pointer-events: none;
+  color: grey;
+}
+
+.clicked:hover {
+  background-color: white;
+  color: black;
+}
+
+.answer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  margin-top: 2rem;
+  border-radius: 2rem;
+  text-align: center;
+  height: 4rem;
+  border: 1px solid black;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.answer-wrapper {
+  display: flex;
+  justify-content: center;
+}

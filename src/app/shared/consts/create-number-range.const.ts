@@ -1,9 +1,4 @@
-export interface range {
-  label: string;
-  min: number;
-  max: number;
-  isCorrect: boolean;
-}
+import {range} from 'src/app/shared/models/range.model';
 
 export const createNumberRange = (number: number): range[] => {
   const ranges: range[] = [

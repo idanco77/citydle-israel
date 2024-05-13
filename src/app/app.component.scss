@@ -1,18 +1,5 @@
 @import '../scss/main';
 
-.menu {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin: 15px 0;
-}
-
-.title {
-  padding: 0 20px;
-  margin: 0;
-}
-
 .donate-link {
   display: block;
   margin-top: 10px;
@@ -29,14 +16,22 @@
   max-width: 48rem;
 }
 
+.guess-button-wrapper {
+  padding: 2px 0 0 0;
+  @include respond(phone) {
+    align-self: center;
+    height: 2.5rem;
+    width: 50%;
+  }
+}
+
 .guess-button {
   height: 5.4rem;
   margin-right: 1.1rem;
   @include respond(phone) {
-    align-self: center;
     margin: -1rem 0 0.5rem 0;
     height: 2.5rem;
-    width: 50%;
+    width: 100%;
   }
 }
 
@@ -88,14 +83,6 @@
   }
 }
 
-.autocomplete-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 0 1rem;
-}
-
 .autocomplete-form {
   display: flex;
   justify-content: center;
@@ -111,4 +98,17 @@
   @include respond(phone) {
     width: 95%;
   }
+}
+
+.result {
+  text-align: center;
+  border: 1px solid;
+  font-size: 2rem;
+  background: rgb(63, 81, 181, 0.6);
+  color: white;
+  border-radius: 1rem;
+  width: 56%;
+  height: 4rem;
+  line-height: 2;
+  margin-bottom: 10px;
 }

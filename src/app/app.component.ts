@@ -10,17 +10,20 @@ import {GoogleMap} from '@angular/google-maps';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {HttpClient} from '@angular/common/http';
 import {environment} from 'src/environments/environment';
-import {ResultDialogComponent} from 'src/app/result-dialog/result-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
-import {IntroDialogComponent} from 'src/app/intro-dialog/intro-dialog.component';
 import {DOCUMENT} from '@angular/common';
 import {NavigationEnd, Router} from '@angular/router';
 import {START_DATE} from 'src/app/shared/consts/start-date.const';
-import {faCircleChevronLeft, faCircleChevronRight, faCircleQuestion} from '@fortawesome/free-solid-svg-icons';
-import {faChartSimple} from '@fortawesome/free-solid-svg-icons/faChartSimple';
+import {
+  faCircleChevronLeft,
+  faCircleChevronRight,
+  faLightbulb, faMagnifyingGlass, faSackDollar
+} from '@fortawesome/free-solid-svg-icons';
 import {getCurrentDateYyyyMmDd} from 'src/app/shared/consts/get-current-date-yyyy-mm-dd.const';
 import {directions} from 'src/app/shared/types/directions.type';
-import {createNumberRange, range} from 'src/app/shared/consts/create-number-range.const';
+import {createNumberRange} from 'src/app/shared/consts/create-number-range.const';
+import {AREA_LEVEL, GUESSES_LEVEL, POPULATION_LEVEL, LEVELS} from 'src/app/shared/consts/steps.const';
+import {range} from 'src/app/shared/models/range.model';
 
 @Component({
   selector: 'app-root',
@@ -31,7 +34,11 @@ export class AppComponent implements OnInit {
   clueLevel = 0;
   private isMobile = window.innerWidth < 500;
   shouldStartFireworks = false;
-  step: number = 1;
+  GUESSES_LEVEL = GUESSES_LEVEL;
+  POPULATION_LEVEL = POPULATION_LEVEL;
+  AREA_LEVEL = AREA_LEVEL;
+  lastLevel = LEVELS.length - 1;
+  step: number = this.GUESSES_LEVEL;
   ranges: range[];
 
   @HostListener('document:keydown', ['$event'])
@@ -53,8 +60,9 @@ export class AppComponent implements OnInit {
   apiLoaded: Observable<boolean>;
   isShowClue = false;
   mapWidth = this.isMobile ? '35rem' : '45rem';
-  protected readonly faChartSimple = faChartSimple;
-  protected readonly faCircleQuestion = faCircleQuestion;
+  protected readonly faLightbulb = faLightbulb;
+  protected readonly faSackDollar = faSackDollar;
+  protected readonly faMagnifyingGlass = faMagnifyingGlass;
   protected readonly faCircleChevronLeft = faCircleChevronLeft;
   protected readonly faCircleChevronRight = faCircleChevronRight;
 
@@ -286,18 +294,6 @@ export class AppComponent implements OnInit {
     });
   }
 
-  openResultsDialog(): void {
-    this.dialog.open(ResultDialogComponent, {
-      width: '800px',
-      data: {
-        city: this.mysteryCity,
-        isWin: this.isWin,
-        guesses: this.guesses,
-        isGameOver: this.isGameOver
-      }
-    });
-  }
-
   private checkIsWin(cityName: string) {
     return cityName === this.mysteryCity.name
   }
@@ -311,12 +307,6 @@ export class AppComponent implements OnInit {
       this.handleSelection(value);
     }
 
-  }
-
-  openIntroDialog() {
-    this.dialog.open(IntroDialogComponent, {
-      width: '500px'
-    });
   }
 
   showClue() {
@@ -354,14 +344,12 @@ export class AppComponent implements OnInit {
   navigateBetweenSteps(isUp: boolean) {
     isUp ? this.step++ : this.step--;
 
-    if (this.step === 2) {
+    if (this.step === this.POPULATION_LEVEL) {
       this.ranges = createNumberRange(this.mysteryCity.population);
     }
-  }
 
-  isPopulationCorrect(range: range) {
-    if (range.isCorrect) {
-      console.log('correct');
+    if (this.step === this.AREA_LEVEL) {
+      this.ranges = createNumberRange(this.mysteryCity.area);
     }
   }
 }

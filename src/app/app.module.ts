@@ -22,6 +22,11 @@ import {GuessComponent} from 'src/app/shared/components/guess/guess.component';
 import {XComponent} from 'src/app/shared/components/x/x.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {FireworksComponent} from 'src/app/shared/components/fireworks/fireworks.component';
+import {
+  BonusLevelNumberRangesComponent
+} from 'src/app/shared/components/bonus-level-number-ranges/bonus-level-number-ranges.component';
+import {MenuComponent} from 'src/app/shared/components/menu/menu.component';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -30,7 +35,9 @@ import {FireworksComponent} from 'src/app/shared/components/fireworks/fireworks.
     IntroDialogComponent,
     GuessComponent,
     XComponent,
-    FireworksComponent
+    FireworksComponent,
+    BonusLevelNumberRangesComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
@@ -50,6 +57,7 @@ import {FireworksComponent} from 'src/app/shared/components/fireworks/fireworks.
     ClipboardModule,
     FontAwesomeModule,
     MatTooltipModule,
+    MatGridListModule,
   ],
   providers: [
   ],

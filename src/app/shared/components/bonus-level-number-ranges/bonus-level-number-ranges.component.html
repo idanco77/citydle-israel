@@ -1,0 +1,17 @@
+<div class="fs-3 fw-bold text-center my-4">{{ question + mysteryCity.name }} ?</div>
+<mat-grid-list cols="2" rowHeight="4:1" gutterSize="15px">
+  <mat-grid-tile
+    [ngClass]="
+    {'green': range.isCorrect && range.isClicked,
+    'red': !range.isCorrect && range.isClicked,
+    'clicked': isClicked && !range.isClicked
+    }"
+    class="tile" *ngFor="let range of ranges" (click)="isAnswerCorrect(range)">{{ range.label }}</mat-grid-tile>
+</mat-grid-list>
+
+<div class="answer-wrapper">
+<div class="answer" *ngIf="isClicked">
+  <div>  {{ answer }}</div>
+</div>
+</div>
+

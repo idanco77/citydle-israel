@@ -1,72 +1,83 @@
 <app-fireworks *ngIf="shouldStartFireworks"></app-fireworks>
-<div class="menu">
-  <fa-icon (click)="openIntroDialog()" class="h1 pointer" [icon]="faCircleQuestion"></fa-icon>
-  <h1 class="title">
-    Citydle-il ישראל
-    <img ngSrc="assets/israel.svg" height="60" width="21" alt="israel">
-  </h1>
-  <fa-icon (click)="openResultsDialog()" class="h1 pointer" [icon]="faChartSimple"></fa-icon>
-</div>
+<app-menu [mysteryCity]="mysteryCity" [isWin]="isWin" [guesses]="guesses" [isGameOver]="isGameOver"></app-menu>
 
   <div class="page-wrapper">
     <div class="width-container">
       <div class="d-flex justify-content-between">
-      <button *ngIf="isWin" [disabled]="step === 1" (click)="navigateBetweenSteps(false)" mat-flat-button color="accent" class="my-2 w-25">
-        <fa-icon class="fs-2" [icon]="faCircleChevronRight"></fa-icon>
-      </button>
-      <button *ngIf="isWin" [disabled]="step === 2" (click)="navigateBetweenSteps(true)" mat-flat-button color="accent" class="my-2 w-25">
-        <fa-icon class="fs-2" [icon]="faCircleChevronLeft"></fa-icon>
-      </button>
-      </div>
-    <div *ngIf="step === 1" class="guesses-wrapper">
-      <div class="clue-button-wrapper" *ngIf="currentGuess >= 4 && ! isWin">
-      <button [disabled]="isGameOver" mat-raised-button type="button"
-              (click)="showClue()">{{ clueLevel === 0 ? 'רוצה רמז?' : 'עוד רמז??' }}
-      </button>
-        <span class="pt-3" *ngIf="isShowClue && clueLevel >= 1">{{ mysteryCity.foundedAt ? 'היישוב המסתורי נוסד בשנת ' + mysteryCity.foundedAt + ' והוא בעל רוב ' + mysteryCity.religion : 'זהו יישוב עתיק שנוסד לפני קום המדינה. היישוב הינו בעל רוב ' + mysteryCity.religion }}</span>
-        <span class="pt-3" *ngIf="isShowClue && clueLevel === 2">{{ mysteryCity.trivia }}</span>
-      </div>
-      <div class="autocomplete-wrapper">
-        <form (keydown.enter)="$event.preventDefault()" class="autocomplete-form">
-          <mat-form-field class="autocomplete">
-            <input (keydown.enter)="enterKeyHandleSelection(autocompleteControl.value)" matInput
-                   placeholder="שם העיר, יישוב..." [matAutocomplete]="auto" [formControl]="autocompleteControl">
-          </mat-form-field>
-          <mat-autocomplete #auto="matAutocomplete" [autoSelectActiveOption]="true">
-            <mat-option *ngFor="let option of filteredCities | async" [value]="option.name">
-              {{ option.name }}
-            </mat-option>
-          </mat-autocomplete>
-          <button [disabled]="currentGuess === 6 || isWin" class="guess-button" mat-raised-button type="button"
-                  (click)="handleSelection(autocompleteControl.value)">ניחוש
-          </button>
-        </form>
-      </div>
-      <div class="guesses">
-        <div *ngFor="let guess of guesses">
-          <app-guess [guess]="guess" [mysteryCityName]="mysteryCity.name"></app-guess>
-        </div>
-      </div>
-    </div>
-      <div *ngIf="step === 2" class="guesses-wrapper">
-      <div *ngFor="let range of ranges">
-        <div class="border pointer" (click)="isPopulationCorrect(range)">{{ range.label }}</div>
-      </div>
-      </div>
-      <div class="d-flex">
-        <button [disabled]="step === 2" *ngIf="isWin" (click)="navigateBetweenSteps(true)" mat-flat-button color="accent" class="my-2 w-100">שלב בונוס
+        <button *ngIf="isGameOver" [disabled]="step === GUESSES_LEVEL" (click)="navigateBetweenSteps(false)"
+                mat-flat-button color="primary" class="my-2 w-25">
+          <fa-icon class="fs-2" [icon]="faCircleChevronRight"></fa-icon>
+        </button>
+        <button *ngIf="isGameOver" [disabled]="step === lastLevel" (click)="navigateBetweenSteps(true)"
+                mat-flat-button color="primary" class="my-2 w-25">
+          <fa-icon class="fs-2" [icon]="faCircleChevronLeft"></fa-icon>
         </button>
       </div>
-    <div *ngIf="step === 1" class="map-wrapper">
-      <google-map *ngIf="apiLoaded | async" #googleMap [width]="mapWidth" height="60vh" [options]="mapSettings">
-        <map-marker *ngFor="let marker of markers"
-                    [position]="marker.position"
-                    [label]="marker.label"
-                    [options]="marker.options"></map-marker>
-      </google-map>
-    </div>
-    <div class="d-flex justify-content-center">
-      <a class="donate-link" href="https://ko-fi.com/idanc" target="_blank">אפשר לקנות לי &#9749;!</a>
-    </div>
+      <div *ngIf="step === GUESSES_LEVEL" class="guesses-wrapper">
+        <div class="clue-button-wrapper" *ngIf="currentGuess >= 4 && ! isGameOver">
+          <button [disabled]="isGameOver" mat-raised-button type="button"
+                  (click)="showClue()">
+            <fa-icon [icon]="faLightbulb"></fa-icon>
+            {{ clueLevel === 0 ? 'רוצה רמז?' : 'עוד רמז??' }}
+            <fa-icon [icon]="faLightbulb"></fa-icon>
+          </button>
+          <span class="pt-3"
+                *ngIf="isShowClue && clueLevel >= 1">{{ mysteryCity.foundedAt ? 'היישוב המסתורי נוסד בשנת ' + mysteryCity.foundedAt + ' והוא בעל רוב ' + mysteryCity.religion : 'זהו יישוב עתיק שנוסד לפני קום המדינה. היישוב הינו בעל רוב ' + mysteryCity.religion }}</span>
+          <span class="pt-3" *ngIf="isShowClue && clueLevel === 2">{{ mysteryCity.trivia }}</span>
+        </div>
+        <div>
+          <form (keydown.enter)="$event.preventDefault()" class="autocomplete-form">
+            <mat-form-field class="autocomplete">
+              <input (keydown.enter)="enterKeyHandleSelection(autocompleteControl.value)" matInput
+                     placeholder="שם העיר, יישוב..." [matAutocomplete]="auto" [formControl]="autocompleteControl">
+            </mat-form-field>
+            <mat-autocomplete #auto="matAutocomplete" [autoSelectActiveOption]="true">
+              <mat-option *ngFor="let option of filteredCities | async" [value]="option.name">
+                {{ option.name }}
+              </mat-option>
+            </mat-autocomplete>
+            <div class="guess-button-wrapper">
+              <button [disabled]="currentGuess === 6 || isWin" class="guess-button" mat-raised-button color="primary"
+                      type="button"
+                      (click)="handleSelection(autocompleteControl.value)">ניחוש
+                <fa-icon [icon]="faMagnifyingGlass"></fa-icon>
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="d-flex justify-content-center">
+          <div class="result" *ngIf="isGameOver">שם העיר: {{ mysteryCity.name }}</div>
+        </div>
+        <div class="guesses">
+          <div *ngFor="let guess of guesses">
+            <app-guess [guess]="guess" [mysteryCityName]="mysteryCity.name"></app-guess>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="step === POPULATION_LEVEL" class="guesses-wrapper">
+        <app-bonus-level-number-ranges question="כמה תושבים גרים ב" [answer]="mysteryCity.population + ' תושבים'" [mysteryCity]="mysteryCity" [ranges]="ranges"></app-bonus-level-number-ranges>
+      </div>
+      <div *ngIf="step === AREA_LEVEL" class="guesses-wrapper">
+        <app-bonus-level-number-ranges question="מה השטח של " [answer]="mysteryCity.area + ' דונם'" [mysteryCity]="mysteryCity" [ranges]="ranges"></app-bonus-level-number-ranges>
+      </div>
+      <div class="d-flex">
+        <button [disabled]="step === lastLevel" *ngIf="isGameOver" (click)="navigateBetweenSteps(true)"
+                mat-flat-button color="primary" class="my-5 w-100">
+          <fa-icon class="fs-3" [icon]="faSackDollar"></fa-icon>
+          שלב בונוס
+          <fa-icon class="fs-3" [icon]="faSackDollar"></fa-icon>
+        </button>
+      </div>
+      <div *ngIf="step === GUESSES_LEVEL" class="map-wrapper">
+        <google-map *ngIf="apiLoaded | async" #googleMap [width]="mapWidth" height="60vh" [options]="mapSettings">
+          <map-marker *ngFor="let marker of markers"
+                      [position]="marker.position"
+                      [label]="marker.label"
+                      [options]="marker.options"></map-marker>
+        </google-map>
+      </div>
+      <div class="d-flex justify-content-center">
+        <a class="donate-link" href="https://ko-fi.com/idanc" target="_blank">אפשר לקנות לי &#9749;!</a>
+      </div>
     </div>
   </div>
