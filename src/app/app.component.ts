@@ -16,8 +16,8 @@ import {NavigationEnd, Router} from '@angular/router';
 import {START_DATE} from 'src/app/shared/consts/start-date.const';
 import {
   faCircleChevronLeft,
-  faCircleChevronRight,
-  faLightbulb, faMagnifyingGlass, faSackDollar
+  faCircleChevronRight, faCity,
+  faLightbulb, faMagnifyingGlass, faMapLocation, faSackDollar, faUsers
 } from '@fortawesome/free-solid-svg-icons';
 import {getCurrentDateYyyyMmDd} from 'src/app/shared/consts/get-current-date-yyyy-mm-dd.const';
 import {directions} from 'src/app/shared/types/directions.type';
@@ -65,6 +65,9 @@ export class AppComponent implements OnInit {
   protected readonly faMagnifyingGlass = faMagnifyingGlass;
   protected readonly faCircleChevronLeft = faCircleChevronLeft;
   protected readonly faCircleChevronRight = faCircleChevronRight;
+  protected readonly faUsers = faUsers;
+  protected readonly faMapLocation = faMapLocation;
+  protected readonly faCity = faCity;
 
   constructor(private snackBar: MatSnackBar, httpClient: HttpClient,
               private router: Router,
