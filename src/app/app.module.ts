@@ -31,6 +31,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {
   BonusLevelTextAnswersComponent
 } from 'src/app/shared/components/bonus-level-text-ranges/bonus-level-text-answers.component';
+import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import {
     MatExpansionModule,
   ],
   providers: [
+    IsGameOverService
   ],
   bootstrap: [AppComponent]
 })

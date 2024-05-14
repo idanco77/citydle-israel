@@ -29,7 +29,6 @@ export class MenuComponent {
       width: '800px',
       data: {
         city: this.mysteryCity,
-        isWin: this.isWin,
         guesses: this.guesses,
         isGameOver: this.isGameOver
       }

@@ -29,6 +29,10 @@
             <fa-icon class="fs-3" [icon]="faClipboardQuestion"></fa-icon>
             טריוויה
           </div>
+          <div *ngSwitchCase="SISTER_LEVEL">
+            <fa-icon class="fs-3" [icon]="faGlobe"></fa-icon>
+            ערים תאומות
+          </div>
         </div>
         <button *ngIf="isGameOver" [disabled]="step === lastLevel" (click)="navigateBetweenSteps(true)"
                 mat-flat-button color="primary" class="my-2 w-25">
@@ -94,11 +98,16 @@
                                        [mysteryCity]="mysteryCity" [rangeAnswers]="rangeAnswers"></app-bonus-level-number-ranges>
       </div>
       <div *ngIf="step === TRIVIA_LEVEL" class="guesses-wrapper">
-
         <app-bonus-level-text-answers [step]="step"
                                        question="איזה מהפרטים הבאים נכון לגבי "
                                        [answer]="mysteryCity.trivia" [mysteryCity]="mysteryCity"
                                        [textAnswers]="textAnswers"></app-bonus-level-text-answers>
+      </div>
+      <div *ngIf="step === SISTER_LEVEL" class="guesses-wrapper">
+        <app-bonus-level-text-answers [step]="step"
+                                      question="מהן הערים התאומות של "
+                                      [answer]="mysteryCity.sisterCities ?? 'ללא עיר תאומה'" [mysteryCity]="mysteryCity"
+                                      [textAnswers]="textAnswers"></app-bonus-level-text-answers>
       </div>
       <div class="d-flex">
         <button [disabled]="step === lastLevel" *ngIf="isGameOver" (click)="navigateBetweenSteps(true)"

@@ -18,6 +18,7 @@ export class BonusLevelNumberRangesComponent implements OnInit {
   AREA_LEVEL = AREA_LEVEL;
 
   isClicked = false;
+  shouldStartFireworks = false;
 
   ngOnInit() {
     let answers = null;
@@ -39,11 +40,15 @@ export class BonusLevelNumberRangesComponent implements OnInit {
     }
   }
 
-  isAnswerCorrect(range: RangeAnswer | TextAnswer) {
+  isAnswerCorrect(answer: RangeAnswer) {
     this.isClicked = true;
-    range.isClicked = true;
+    answer.isClicked = true;
     const correctRange = this.rangeAnswers.find(range => range.isCorrect) as RangeAnswer;
     correctRange.isClicked = true;
+
+    if (answer.isCorrect) {
+      this.shouldStartFireworks = true;
+    }
 
     if (this.step === POPULATION_LEVEL) {
       localStorage.setItem('population', JSON.stringify(this.rangeAnswers));

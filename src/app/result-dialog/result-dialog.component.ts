@@ -19,7 +19,7 @@ export class ResultDialogComponent implements OnInit{
   successRate: number;
   totalPlayedGames: number;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: {city: CityOver10K, isWin: boolean, guesses: Guess[], isGameOver: boolean},
+  constructor(@Inject(MAT_DIALOG_DATA) public data: {city: CityOver10K, guesses: Guess[], isGameOver: boolean},
               private snackBar: MatSnackBar) {
   }
 

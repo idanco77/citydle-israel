@@ -16,4 +16,5 @@ export interface CityOver10K {
   religion: 'יהודי' | 'ערבי מוסלמי' | 'ערבי נוצרי' | 'דרוזי';
   trivia: string;
   area: number;
+  sisterCities: string | null;
 }

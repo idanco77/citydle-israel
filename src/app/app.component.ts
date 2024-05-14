@@ -17,22 +17,24 @@ import {START_DATE} from 'src/app/shared/consts/start-date.const';
 import {
   faCalendarCheck, faCalendarDays,
   faCircleChevronLeft,
-  faCircleChevronRight, faCity, faClipboardQuestion,
+  faCircleChevronRight, faCity, faClipboardQuestion, faGlobe,
   faLightbulb, faMagnifyingGlass, faMapLocation, faSackDollar, faUsers
 } from '@fortawesome/free-solid-svg-icons';
 import {getCurrentDateYyyyMmDd} from 'src/app/shared/consts/get-current-date-yyyy-mm-dd.const';
 import {directions} from 'src/app/shared/types/directions.type';
-import {createAnswers, createRanges} from 'src/app/shared/consts/create-number-range.const';
+import {createAnswers, createRanges, shuffleArray} from 'src/app/shared/consts/create-number-range.const';
 import {
   AREA_LEVEL,
   GUESSES_LEVEL,
   POPULATION_LEVEL,
   LEVELS,
-  FOUNDED_YEAR_LEVEL, TRIVIA_LEVEL
+  FOUNDED_YEAR_LEVEL, TRIVIA_LEVEL, SISTER_LEVEL
 } from 'src/app/shared/consts/steps.const';
 import {RangeAnswer} from 'src/app/shared/models/range-answer.model';
 import {TextAnswer} from 'src/app/shared/models/text-answer.model';
 import {getRandomElements} from 'src/app/shared/consts/get-random-element.const';
+import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
+import {ResultDialogComponent} from 'src/app/result-dialog/result-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -47,6 +49,7 @@ export class AppComponent implements OnInit {
   AREA_LEVEL = AREA_LEVEL;
   FOUNDED_YEAR_LEVEL = FOUNDED_YEAR_LEVEL;
   TRIVIA_LEVEL = TRIVIA_LEVEL;
+  SISTER_LEVEL = SISTER_LEVEL;
   lastLevel = LEVELS.length - 1;
   step: number = this.GUESSES_LEVEL;
   rangeAnswers: RangeAnswer[];
@@ -81,11 +84,13 @@ export class AppComponent implements OnInit {
   protected readonly faMapLocation = faMapLocation;
   protected readonly faCalendarDays = faCalendarDays;
   protected readonly faClipboardQuestion = faClipboardQuestion;
+  protected readonly faGlobe = faGlobe;
   protected readonly faCity = faCity;
 
   constructor(private snackBar: MatSnackBar, httpClient: HttpClient,
               private router: Router,
-              private dialog: MatDialog, @Inject(DOCUMENT) private document: Document) {
+              private dialog: MatDialog, @Inject(DOCUMENT) private document: Document,
+              private isGameOverService: IsGameOverService) {
     this.handleRouteEvents();
     this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=' + environment.apiKey + '&libraries=geometry', 'callback')
       .pipe(
@@ -131,6 +136,7 @@ export class AppComponent implements OnInit {
     this.setMysteryCity();
     this.initAutocomplete();
     this.manageLocalStorage();
+    this.openResultsDialog();
   }
 
   private initAutocomplete(): void {
@@ -380,9 +386,36 @@ export class AppComponent implements OnInit {
     if (this.step === TRIVIA_LEVEL) {
       let citiesWithoutMysteryCity = [...this.citiesOver10k];
       citiesWithoutMysteryCity = citiesWithoutMysteryCity.filter(city => city.name !== this.mysteryCity.name);
-      this.textAnswers = getRandomElements(citiesWithoutMysteryCity);
+      this.textAnswers = getRandomElements(citiesWithoutMysteryCity, 'trivia');
       this.textAnswers.push({text: this.mysteryCity.trivia, isCorrect: true});
+      shuffleArray(this.textAnswers);
     }
+
+    if (this.step === SISTER_LEVEL) {
+      let citiesWithoutMysteryCity = [...this.citiesOver10k];
+      citiesWithoutMysteryCity = citiesWithoutMysteryCity.filter(city => city.name !== this.mysteryCity.name);
+      const citiesWithSisterCity = citiesWithoutMysteryCity.filter(city => city.sisterCities);
+      this.textAnswers = getRandomElements(citiesWithSisterCity, 'sisterCities');
+      this.textAnswers.push({text: this.mysteryCity.sisterCities ?? 'ללא עיר תאומה' , isCorrect: true});
+      shuffleArray(this.textAnswers);
+    }
+  }
+
+  private openResultsDialog() {
+    this.isGameOverService.isGameOver.subscribe(isGameOver => {
+      if (isGameOver) {
+        setTimeout(() => {
+          this.dialog.open(ResultDialogComponent, {
+            width: '800px',
+            data: {
+              city: this.mysteryCity,
+              guesses: this.guesses,
+              isGameOver: this.isGameOver
+            }
+          });
+        }, 2500);
+      }
+    });
   }
 }
 

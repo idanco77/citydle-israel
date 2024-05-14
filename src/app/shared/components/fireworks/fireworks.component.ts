@@ -18,7 +18,7 @@ export class FireworksComponent implements OnInit {
         autoresize: true,
         opacity: 0.5,
         acceleration: 1.05,
-        friction: 0.97,
+        friction: 1.04,
         gravity: 1.5,
         particles: 50,
         traceLength: 3,
@@ -69,7 +69,7 @@ export class FireworksComponent implements OnInit {
         fireworks.stop();
         fireworks.clear();
         this.fireworks.nativeElement.remove();
-      }, 2000);
+      }, 1800);
     }, 1)
   }
 
