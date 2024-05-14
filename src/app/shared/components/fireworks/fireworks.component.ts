@@ -69,7 +69,7 @@ export class FireworksComponent implements OnInit {
         fireworks.stop();
         fireworks.clear();
         this.fireworks.nativeElement.remove();
-      }, 6500);
+      }, 2000);
     }, 1)
   }
 

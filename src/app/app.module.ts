@@ -28,6 +28,9 @@ import {
 import {MenuComponent} from 'src/app/shared/components/menu/menu.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {
+  BonusLevelTextAnswersComponent
+} from 'src/app/shared/components/bonus-level-text-ranges/bonus-level-text-answers.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     XComponent,
     FireworksComponent,
     BonusLevelNumberRangesComponent,
-    MenuComponent
+    MenuComponent,
+    BonusLevelTextAnswersComponent
   ],
   imports: [
     BrowserModule,

@@ -29,3 +29,62 @@
 .pointer {
   cursor: pointer;
 }
+
+.tile {
+  border: 1px solid lightgray;
+  border-radius: 2rem;
+  cursor: pointer;
+}
+
+.tile:hover {
+  background-color: black;
+  color: white;
+}
+
+.bg-red {
+  background-color: red;
+}
+
+.bg-green {
+  background-color: green;
+}
+
+.bg-red:hover {
+  background-color: red;
+  color: black;
+}
+
+.bg-green:hover {
+  background-color: green;
+  color: black;
+}
+
+.clicked {
+  pointer-events: none;
+  color: grey;
+}
+
+.clicked:hover {
+  background-color: white;
+  color: black;
+}
+
+.answer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  margin-top: 2rem;
+  border-radius: 2rem;
+  text-align: center;
+  height: 4rem;
+  border: 1px solid black;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.answer-wrapper {
+  display: flex;
+  justify-content: center;
+}
+

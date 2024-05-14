@@ -1,15 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {CityOver10K} from 'src/app/shared/models/city.model';
-import {Range} from 'src/app/shared/models/range.model';
-import {AREA_LEVEL, FOUNDED_YEAR_LEVEL, POPULATION_LEVEL, UNITS} from 'src/app/shared/consts/steps.const';
+import {RangeAnswer} from 'src/app/shared/models/range-answer.model';
+import {AREA_LEVEL, FOUNDED_YEAR_LEVEL, POPULATION_LEVEL, TRIVIA_LEVEL, UNITS} from 'src/app/shared/consts/steps.const';
+import {TextAnswer} from 'src/app/shared/models/text-answer.model';
 
 @Component({
   selector: 'app-bonus-level-number-ranges',
   templateUrl: './bonus-level-number-ranges.component.html',
-  styleUrls: ['./bonus-level-number-ranges.component.scss']
 })
 export class BonusLevelNumberRangesComponent implements OnInit {
-  @Input() ranges: Range[];
+  @Input() rangeAnswers: RangeAnswer[];
   @Input() mysteryCity: CityOver10K;
   @Input() question: string;
   @Input() answer: string;
@@ -20,36 +20,39 @@ export class BonusLevelNumberRangesComponent implements OnInit {
   isClicked = false;
 
   ngOnInit() {
-    let ranges = null;
+    let answers = null;
     if (this.step === POPULATION_LEVEL) {
-      ranges = JSON.parse(localStorage.getItem('population') || '[]');
+      answers = JSON.parse(localStorage.getItem('population') || '[]');
     }
     if (this.step === AREA_LEVEL) {
-      ranges = JSON.parse(localStorage.getItem('area') || '[]');
+      answers = JSON.parse(localStorage.getItem('area') || '[]');
     }
     if (this.step === FOUNDED_YEAR_LEVEL) {
-      ranges = JSON.parse(localStorage.getItem('foundedAt') || '[]');
+      answers = JSON.parse(localStorage.getItem('foundedAt') || '[]');
     }
-    if (ranges?.length) {
-    this.ranges = ranges;
+    if (this.step === TRIVIA_LEVEL) {
+      answers = JSON.parse(localStorage.getItem('trivia') || '[]');
+    }
+    if (answers?.length) {
+      this.rangeAnswers = answers;
       this.isClicked = true;
     }
   }
 
-  isAnswerCorrect(range: Range) {
+  isAnswerCorrect(range: RangeAnswer | TextAnswer) {
     this.isClicked = true;
     range.isClicked = true;
-    const correctRange = this.ranges.find(range => range.isCorrect) as Range;
+    const correctRange = this.rangeAnswers.find(range => range.isCorrect) as RangeAnswer;
     correctRange.isClicked = true;
 
     if (this.step === POPULATION_LEVEL) {
-      localStorage.setItem('population', JSON.stringify(this.ranges));
+      localStorage.setItem('population', JSON.stringify(this.rangeAnswers));
     }
     if (this.step === AREA_LEVEL) {
-      localStorage.setItem('area', JSON.stringify(this.ranges));
+      localStorage.setItem('area', JSON.stringify(this.rangeAnswers));
     }
     if (this.step === FOUNDED_YEAR_LEVEL) {
-      localStorage.setItem('foundedAt', JSON.stringify(this.ranges));
+      localStorage.setItem('foundedAt', JSON.stringify(this.rangeAnswers));
     }
   }
 }

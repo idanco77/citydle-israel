@@ -17,7 +17,7 @@ import {START_DATE} from 'src/app/shared/consts/start-date.const';
 import {
   faCalendarCheck, faCalendarDays,
   faCircleChevronLeft,
-  faCircleChevronRight, faCity,
+  faCircleChevronRight, faCity, faClipboardQuestion,
   faLightbulb, faMagnifyingGlass, faMapLocation, faSackDollar, faUsers
 } from '@fortawesome/free-solid-svg-icons';
 import {getCurrentDateYyyyMmDd} from 'src/app/shared/consts/get-current-date-yyyy-mm-dd.const';
@@ -28,9 +28,11 @@ import {
   GUESSES_LEVEL,
   POPULATION_LEVEL,
   LEVELS,
-  FOUNDED_YEAR_LEVEL
+  FOUNDED_YEAR_LEVEL, TRIVIA_LEVEL
 } from 'src/app/shared/consts/steps.const';
-import {Range} from 'src/app/shared/models/range.model';
+import {RangeAnswer} from 'src/app/shared/models/range-answer.model';
+import {TextAnswer} from 'src/app/shared/models/text-answer.model';
+import {getRandomElements} from 'src/app/shared/consts/get-random-element.const';
 
 @Component({
   selector: 'app-root',
@@ -38,16 +40,18 @@ import {Range} from 'src/app/shared/models/range.model';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  clueLevel = 0;
   private isMobile = window.innerWidth < 500;
   shouldStartFireworks = false;
   GUESSES_LEVEL = GUESSES_LEVEL;
   POPULATION_LEVEL = POPULATION_LEVEL;
   AREA_LEVEL = AREA_LEVEL;
   FOUNDED_YEAR_LEVEL = FOUNDED_YEAR_LEVEL;
+  TRIVIA_LEVEL = TRIVIA_LEVEL;
   lastLevel = LEVELS.length - 1;
   step: number = this.GUESSES_LEVEL;
-  ranges: Range[];
+  rangeAnswers: RangeAnswer[];
+  textAnswers: TextAnswer[];
+  private citiesOver10k: CityOver10K[];
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent): void {
@@ -76,6 +80,7 @@ export class AppComponent implements OnInit {
   protected readonly faUsers = faUsers;
   protected readonly faMapLocation = faMapLocation;
   protected readonly faCalendarDays = faCalendarDays;
+  protected readonly faClipboardQuestion = faClipboardQuestion;
   protected readonly faCity = faCity;
 
   constructor(private snackBar: MatSnackBar, httpClient: HttpClient,
@@ -196,9 +201,6 @@ export class AppComponent implements OnInit {
       this.setSuccessRate();
       this.setTotalPlayedGames();
 
-      setTimeout(() => {
-       // this.openResultsDialog();
-      }, 2000);
       this.autocompleteControl.disable();
       if (this.isWin) {
         this.shouldStartFireworks = true;
@@ -220,8 +222,8 @@ export class AppComponent implements OnInit {
   }
 
   private setMysteryCity(): void {
-    let citiesOver10k = this.cities.filter(city => city.population >= 10000) as CityOver10K[];
-    citiesOver10k = [...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k, ...citiesOver10k];
+    this.citiesOver10k = this.cities.filter(city => city.population >= 10000) as CityOver10K[];
+    const citiesOver10k = [...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k];
     this.mysteryCity = citiesOver10k[this.getDifferenceInDays((new Date(START_DATE)), new Date(new Date()))];
   }
 
@@ -292,7 +294,6 @@ export class AppComponent implements OnInit {
       this.isWin = this.checkIsWin(this.guesses[this.currentGuess - 1].name as string);
       if (this.isGameOver) {
         this.autocompleteControl.disable();
-       // setTimeout(() => {this.openResultsDialog();}, 1500);
       }
     } else {
       this.clearDailyData();
@@ -322,12 +323,7 @@ export class AppComponent implements OnInit {
   }
 
   showClue() {
-    if (this.clueLevel === 2) {
-      this.isShowClue = !this.isShowClue;
-      return;
-    }
-    this.isShowClue = true;
-    this.clueLevel++;
+    this.isShowClue = !this.isShowClue;
   }
 
   private saveHistory(): void {
@@ -358,20 +354,20 @@ export class AppComponent implements OnInit {
 
     if (this.step === this.POPULATION_LEVEL) {
       const data = createRanges(0, 1000000, 5000);
-      this.ranges = createAnswers(this.mysteryCity.population, data);
+      this.rangeAnswers = createAnswers(this.mysteryCity.population, data);
     }
 
     if (this.step === this.AREA_LEVEL) {
       const data = createRanges(0, 250000, 3000);
-      this.ranges = createAnswers(this.mysteryCity.area, data);
+      this.rangeAnswers = createAnswers(this.mysteryCity.area, data);
     }
 
     if (this.step === this.FOUNDED_YEAR_LEVEL) {
       const data = createRanges(1590, 2024, 10);
       if (this.mysteryCity.foundedAt) {
-        this.ranges = createAnswers(this.mysteryCity.foundedAt, data);
+        this.rangeAnswers = createAnswers(this.mysteryCity.foundedAt, data);
       } else {
-        this.ranges = [
+        this.rangeAnswers = [
           {min: 1910, max: 1920, isCorrect: false},
           {min: 0, max: 0, isCorrect: true},
           {min: 1920, max: 1930, isCorrect: false},
@@ -379,6 +375,13 @@ export class AppComponent implements OnInit {
         ]
       }
 
+    }
+
+    if (this.step === TRIVIA_LEVEL) {
+      let citiesWithoutMysteryCity = [...this.citiesOver10k];
+      citiesWithoutMysteryCity = citiesWithoutMysteryCity.filter(city => city.name !== this.mysteryCity.name);
+      this.textAnswers = getRandomElements(citiesWithoutMysteryCity);
+      this.textAnswers.push({text: this.mysteryCity.trivia, isCorrect: true});
     }
   }
 }

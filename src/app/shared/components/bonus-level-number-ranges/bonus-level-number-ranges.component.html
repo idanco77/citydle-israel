@@ -1,14 +1,14 @@
 <div class="fs-3 fw-bold text-center my-4">{{ question + mysteryCity.name }} ?</div>
 <mat-grid-list cols="2" rowHeight="4:1" gutterSize="15px">
-  <mat-grid-tile
-    [ngClass]="
-    {'green': range.isCorrect && range.isClicked,
-    'red': !range.isCorrect && range.isClicked,
-    'clicked': isClicked && !range.isClicked
+    <mat-grid-tile
+      [ngClass]="
+    {'bg-green': answer.isCorrect && answer.isClicked,
+    'bg-red': !answer.isCorrect && answer.isClicked,
+    'clicked': isClicked && !answer.isClicked
     }"
-    class="tile" *ngFor="let range of ranges" (click)="isAnswerCorrect(range)">
-    {{ range.min === 0 && range.max === 0 ? 'לא ידוע' : (range.min | number) + '-' + (range.max | number) + UNITS[step] }}
-  </mat-grid-tile>
+      class="tile" *ngFor="let answer of rangeAnswers" (click)="isAnswerCorrect(answer)">
+      {{ answer.min === 0 && answer.max === 0 ? 'לא ידוע' : (answer.min | number) + '-' + (answer.max | number) + UNITS[step] }}
+    </mat-grid-tile>
 </mat-grid-list>
 
 <div class="answer-wrapper mb-5">

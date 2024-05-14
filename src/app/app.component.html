@@ -11,7 +11,7 @@
         <div *ngIf="isGameOver" class="stepTitle d-flex justify-content-center align-items-center" [ngSwitch]="step">
           <div *ngSwitchCase="GUESSES_LEVEL">
             <fa-icon class="fs-3" [icon]="faCity"></fa-icon>
-            היישוב
+            שם היישוב
           </div>
           <div *ngSwitchCase="POPULATION_LEVEL">
             <fa-icon class="fs-3" [icon]="faUsers"></fa-icon>
@@ -25,6 +25,10 @@
             <fa-icon class="fs-3" [icon]="faCalendarDays"></fa-icon>
             שנת ייסוד
           </div>
+          <div *ngSwitchCase="TRIVIA_LEVEL">
+            <fa-icon class="fs-3" [icon]="faClipboardQuestion"></fa-icon>
+            טריוויה
+          </div>
         </div>
         <button *ngIf="isGameOver" [disabled]="step === lastLevel" (click)="navigateBetweenSteps(true)"
                 mat-flat-button color="primary" class="my-2 w-25">
@@ -36,12 +40,10 @@
           <button [disabled]="isGameOver" mat-raised-button type="button"
                   (click)="showClue()">
             <fa-icon [icon]="faLightbulb"></fa-icon>
-            {{ clueLevel === 0 ? 'רוצה רמז?' : 'עוד רמז??' }}
-            <fa-icon [icon]="faLightbulb"></fa-icon>
+            רוצה רמז?
           </button>
           <span class="pt-3"
-                *ngIf="isShowClue && clueLevel >= 1">{{ mysteryCity.foundedAt ? 'היישוב המסתורי נוסד בשנת ' + mysteryCity.foundedAt + ' והוא בעל רוב ' + mysteryCity.religion : 'זהו יישוב עתיק שנוסד לפני קום המדינה. היישוב הינו בעל רוב ' + mysteryCity.religion }}</span>
-          <span class="pt-3" *ngIf="isShowClue && clueLevel === 2">{{ mysteryCity.trivia }}</span>
+                *ngIf="isShowClue">{{ ' היישוב המסתורי הינו בעל רוב ' + mysteryCity.religion }}</span>
         </div>
         <div *ngIf="!isGameOver">
           <form (keydown.enter)="$event.preventDefault()" class="autocomplete-form">
@@ -73,13 +75,30 @@
         </div>
       </div>
       <div *ngIf="step === POPULATION_LEVEL" class="guesses-wrapper">
-        <app-bonus-level-number-ranges [step]="step" question="כמה תושבים גרים ב" [answer]="(mysteryCity.population | number) + ' תושבים'" [mysteryCity]="mysteryCity" [ranges]="ranges"></app-bonus-level-number-ranges>
+        <app-bonus-level-number-ranges [step]="step"
+                                       question="כמה תושבים גרים ב"
+                                       [answer]="(mysteryCity.population | number) + ' תושבים'"
+                                       [mysteryCity]="mysteryCity" [rangeAnswers]="rangeAnswers">
+        </app-bonus-level-number-ranges>
       </div>
       <div *ngIf="step === AREA_LEVEL" class="guesses-wrapper">
-        <app-bonus-level-number-ranges [step]="step" question="מה השטח של " [answer]="(mysteryCity.area | number) + ' דונם'" [mysteryCity]="mysteryCity" [ranges]="ranges"></app-bonus-level-number-ranges>
+        <app-bonus-level-number-ranges [step]="step"
+                                       question="מה השטח של "
+                                       [answer]="(mysteryCity.area | number) + ' דונם'"
+                                       [mysteryCity]="mysteryCity" [rangeAnswers]="rangeAnswers"></app-bonus-level-number-ranges>
       </div>
       <div *ngIf="step === FOUNDED_YEAR_LEVEL" class="guesses-wrapper">
-        <app-bonus-level-number-ranges [step]="step" question="באיזו שנה נוסדה " [answer]="mysteryCity.foundedAt ? mysteryCity.foundedAt + '' : 'לא ידוע'" [mysteryCity]="mysteryCity" [ranges]="ranges"></app-bonus-level-number-ranges>
+        <app-bonus-level-number-ranges [step]="step"
+                                       question="באיזו שנה נוסדה "
+                                       [answer]="mysteryCity.foundedAt ? mysteryCity.foundedAt + '' : 'לא ידוע'"
+                                       [mysteryCity]="mysteryCity" [rangeAnswers]="rangeAnswers"></app-bonus-level-number-ranges>
+      </div>
+      <div *ngIf="step === TRIVIA_LEVEL" class="guesses-wrapper">
+
+        <app-bonus-level-text-answers [step]="step"
+                                       question="איזה מהפרטים הבאים נכון לגבי "
+                                       [answer]="mysteryCity.trivia" [mysteryCity]="mysteryCity"
+                                       [textAnswers]="textAnswers"></app-bonus-level-text-answers>
       </div>
       <div class="d-flex">
         <button [disabled]="step === lastLevel" *ngIf="isGameOver" (click)="navigateBetweenSteps(true)"

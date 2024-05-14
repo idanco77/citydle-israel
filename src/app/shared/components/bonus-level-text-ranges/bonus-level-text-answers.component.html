@@ -1,0 +1,11 @@
+<mat-grid-list cols="2" rowHeight="1:1" gutterSize="15px">
+  <mat-grid-tile
+    [ngClass]="
+    {'bg-green': answer.isCorrect && answer.isClicked,
+    'bg-red': !answer.isCorrect && answer.isClicked,
+    'clicked': isClicked && !answer.isClicked
+    }"
+    class="tile" *ngFor="let answer of textAnswers" (click)="isAnswerCorrect(answer)">
+    <p class="px-4">{{ answer.text }}</p>
+  </mat-grid-tile>
+</mat-grid-list>
