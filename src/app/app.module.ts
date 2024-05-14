@@ -27,6 +27,7 @@ import {
 } from 'src/app/shared/components/bonus-level-number-ranges/bonus-level-number-ranges.component';
 import {MenuComponent} from 'src/app/shared/components/menu/menu.component';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
     FontAwesomeModule,
     MatTooltipModule,
     MatGridListModule,
+    MatExpansionModule,
   ],
   providers: [
   ],

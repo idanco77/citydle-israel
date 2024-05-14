@@ -6,12 +6,30 @@
     'red': !range.isCorrect && range.isClicked,
     'clicked': isClicked && !range.isClicked
     }"
-    class="tile" *ngFor="let range of ranges" (click)="isAnswerCorrect(range)">{{ range.label }}</mat-grid-tile>
+    class="tile" *ngFor="let range of ranges" (click)="isAnswerCorrect(range)">
+    {{ range.min === 0 && range.max === 0 ? 'לא ידוע' : (range.min | number) + '-' + (range.max | number) + UNITS[step] }}
+  </mat-grid-tile>
 </mat-grid-list>
 
-<div class="answer-wrapper">
-<div class="answer" *ngIf="isClicked">
-  <div>  {{ answer }}</div>
+<div class="answer-wrapper mb-5">
+  <div class="answer" *ngIf="isClicked">
+    <div> {{ answer }}</div>
+  </div>
 </div>
-</div>
+
+<mat-accordion *ngIf="step === AREA_LEVEL">
+  <mat-expansion-panel (opened)="true"
+                       (closed)="false">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="fw-bold">רמז</mat-panel-title>
+    </mat-expansion-panel-header>
+    <div>
+      <p>ירושלים: 125,420 דונם</p>
+      <p>חדרה: 50,000 דונם</p>
+      <p>רעננה: 15,000 דונם</p>
+      <p>קרית אונו: 4,500 דונם</p>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+
 

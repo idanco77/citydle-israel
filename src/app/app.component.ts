@@ -15,15 +15,22 @@ import {DOCUMENT} from '@angular/common';
 import {NavigationEnd, Router} from '@angular/router';
 import {START_DATE} from 'src/app/shared/consts/start-date.const';
 import {
+  faCalendarCheck, faCalendarDays,
   faCircleChevronLeft,
   faCircleChevronRight, faCity,
   faLightbulb, faMagnifyingGlass, faMapLocation, faSackDollar, faUsers
 } from '@fortawesome/free-solid-svg-icons';
 import {getCurrentDateYyyyMmDd} from 'src/app/shared/consts/get-current-date-yyyy-mm-dd.const';
 import {directions} from 'src/app/shared/types/directions.type';
-import {createNumberRange} from 'src/app/shared/consts/create-number-range.const';
-import {AREA_LEVEL, GUESSES_LEVEL, POPULATION_LEVEL, LEVELS} from 'src/app/shared/consts/steps.const';
-import {range} from 'src/app/shared/models/range.model';
+import {createAnswers, createRanges} from 'src/app/shared/consts/create-number-range.const';
+import {
+  AREA_LEVEL,
+  GUESSES_LEVEL,
+  POPULATION_LEVEL,
+  LEVELS,
+  FOUNDED_YEAR_LEVEL
+} from 'src/app/shared/consts/steps.const';
+import {Range} from 'src/app/shared/models/range.model';
 
 @Component({
   selector: 'app-root',
@@ -37,9 +44,10 @@ export class AppComponent implements OnInit {
   GUESSES_LEVEL = GUESSES_LEVEL;
   POPULATION_LEVEL = POPULATION_LEVEL;
   AREA_LEVEL = AREA_LEVEL;
+  FOUNDED_YEAR_LEVEL = FOUNDED_YEAR_LEVEL;
   lastLevel = LEVELS.length - 1;
   step: number = this.GUESSES_LEVEL;
-  ranges: range[];
+  ranges: Range[];
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent): void {
@@ -67,6 +75,7 @@ export class AppComponent implements OnInit {
   protected readonly faCircleChevronRight = faCircleChevronRight;
   protected readonly faUsers = faUsers;
   protected readonly faMapLocation = faMapLocation;
+  protected readonly faCalendarDays = faCalendarDays;
   protected readonly faCity = faCity;
 
   constructor(private snackBar: MatSnackBar, httpClient: HttpClient,
@@ -339,7 +348,7 @@ export class AppComponent implements OnInit {
   }
 
   private clearDailyData(): void {
-    ['date', 'currentGuess', 'markers', 'guesses'].forEach(item => {
+    ['date', 'currentGuess', 'markers', 'guesses', 'population', 'area'].forEach(item => {
       localStorage.removeItem(item);
     });
   }
@@ -348,11 +357,28 @@ export class AppComponent implements OnInit {
     isUp ? this.step++ : this.step--;
 
     if (this.step === this.POPULATION_LEVEL) {
-      this.ranges = createNumberRange(this.mysteryCity.population);
+      const data = createRanges(0, 1000000, 5000);
+      this.ranges = createAnswers(this.mysteryCity.population, data);
     }
 
     if (this.step === this.AREA_LEVEL) {
-      this.ranges = createNumberRange(this.mysteryCity.area);
+      const data = createRanges(0, 250000, 3000);
+      this.ranges = createAnswers(this.mysteryCity.area, data);
+    }
+
+    if (this.step === this.FOUNDED_YEAR_LEVEL) {
+      const data = createRanges(1590, 2024, 10);
+      if (this.mysteryCity.foundedAt) {
+        this.ranges = createAnswers(this.mysteryCity.foundedAt, data);
+      } else {
+        this.ranges = [
+          {min: 1910, max: 1920, isCorrect: false},
+          {min: 0, max: 0, isCorrect: true},
+          {min: 1920, max: 1930, isCorrect: false},
+          {min: 1930, max: 1940, isCorrect: false},
+        ]
+      }
+
     }
   }
 }

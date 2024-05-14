@@ -12,7 +12,7 @@ export interface CityOver10K {
   lat: number;
   lng: number;
   population: number;
-  foundedAt: string;
+  foundedAt: number | null;
   religion: 'יהודי' | 'ערבי מוסלמי' | 'ערבי נוצרי' | 'דרוזי';
   trivia: string;
   area: number;

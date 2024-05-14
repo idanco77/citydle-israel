@@ -1,5 +1,4 @@
-export interface range {
-  label: string;
+export interface Range {
   min: number;
   max: number;
   isCorrect: boolean;
