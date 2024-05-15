@@ -48,14 +48,16 @@ export class BonusLevelTextAnswersComponent implements OnInit{
   }
 
   isAnswerCorrect(answer: TextAnswer) {
+    if (answer.isClicked) {
+      return;
+    }
     this.isClicked = true;
-    answer.isClicked = true;
-    const correctRange = this.textAnswers.find(range => range.isCorrect) as TextAnswer;
-    correctRange.isClicked = true;
-
     if (answer.isCorrect && !answer.isClicked) {
       this.shouldStartFireworks = true;
     }
+    answer.isClicked = true;
+    const correctRange = this.textAnswers.find(range => range.isCorrect) as TextAnswer;
+    correctRange.isClicked = true;
 
     if (this.step === TRIVIA_LEVEL) {
       localStorage.setItem('trivia', JSON.stringify(this.textAnswers));

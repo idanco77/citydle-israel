@@ -55,13 +55,14 @@ export class BonusLevelNumberRangesComponent implements OnInit {
 
   isAnswerCorrect(answer: RangeAnswer) {
     this.isClicked = true;
-    answer.isClicked = true;
-    const correctRange = this.rangeAnswers.find(range => range.isCorrect) as RangeAnswer;
-    correctRange.isClicked = true;
 
     if (answer.isCorrect && !answer.isClicked) {
       this.shouldStartFireworks = true;
     }
+
+    answer.isClicked = true;
+    const correctRange = this.rangeAnswers.find(range => range.isCorrect) as RangeAnswer;
+    correctRange.isClicked = true;
 
     if (this.step === POPULATION_LEVEL) {
       localStorage.setItem('population', JSON.stringify(this.rangeAnswers));

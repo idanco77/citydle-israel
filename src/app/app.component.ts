@@ -15,10 +15,10 @@ import {DOCUMENT} from '@angular/common';
 import {NavigationEnd, Router} from '@angular/router';
 import {START_DATE} from 'src/app/shared/consts/start-date.const';
 import {
-  faCalendarCheck, faCalendarDays,
+  faCalendarDays,
   faCircleChevronLeft,
   faCircleChevronRight, faCity, faClipboardQuestion, faGlobe,
-  faLightbulb, faMagnifyingGlass, faMapLocation, faSackDollar, faUsers
+  faLightbulb, faMagnifyingGlass, faMapLocation, faMugHot, faSackDollar, faUsers
 } from '@fortawesome/free-solid-svg-icons';
 import {getCurrentDateYyyyMmDd} from 'src/app/shared/consts/get-current-date-yyyy-mm-dd.const';
 import {directions} from 'src/app/shared/types/directions.type';
@@ -35,11 +35,14 @@ import {TextAnswer} from 'src/app/shared/models/text-answer.model';
 import {getRandomElements} from 'src/app/shared/consts/get-random-element.const';
 import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
 import {ResultDialogComponent} from 'src/app/result-dialog/result-dialog.component';
+import { bounceInLeftOnEnterAnimation, pulseOnEnterAnimation } from 'angular-animations';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [ pulseOnEnterAnimation(),
+    bounceInLeftOnEnterAnimation({ anchor: 'enter', duration: 1000, delay: 100, translate: '300px' })]
 })
 export class AppComponent implements OnInit {
   isMobile = window.innerWidth < 500;
@@ -80,12 +83,14 @@ export class AppComponent implements OnInit {
   protected readonly faMagnifyingGlass = faMagnifyingGlass;
   protected readonly faCircleChevronLeft = faCircleChevronLeft;
   protected readonly faCircleChevronRight = faCircleChevronRight;
+  protected readonly faMugHot = faMugHot;
   protected readonly faUsers = faUsers;
   protected readonly faMapLocation = faMapLocation;
   protected readonly faCalendarDays = faCalendarDays;
   protected readonly faClipboardQuestion = faClipboardQuestion;
   protected readonly faGlobe = faGlobe;
   protected readonly faCity = faCity;
+  isShow = true;
 
   constructor(private snackBar: MatSnackBar, httpClient: HttpClient,
               private router: Router,
@@ -360,6 +365,7 @@ export class AppComponent implements OnInit {
   }
 
   navigateBetweenSteps(isUp: boolean) {
+    this.isShow = false;
     isUp ? this.step++ : this.step--;
     localStorage.setItem('step', this.step.toString());
 
@@ -405,6 +411,7 @@ export class AppComponent implements OnInit {
       this.textAnswers.push({text: this.mysteryCity.sisterCities ?? 'ללא עיר תאומה' , isCorrect: true});
       shuffleArray(this.textAnswers);
     }
+    setTimeout(() => {    this.isShow = true;}, 20)
   }
 
   private openResultsDialog() {

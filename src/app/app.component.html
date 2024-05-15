@@ -9,27 +9,27 @@
           <fa-icon class="fs-2" [icon]="faCircleChevronRight"></fa-icon>
         </button>
         <button *ngIf="isGameOver" mat-flat-button color="primary" class="my-2" [ngSwitch]="step">
-          <div *ngSwitchCase="GUESSES_LEVEL">
+          <div *ngSwitchCase="GUESSES_LEVEL" [@pulseOnEnter]>
             <fa-icon class="fs-3" [icon]="faCity"></fa-icon>
             שם היישוב
           </div>
-          <div *ngSwitchCase="POPULATION_LEVEL">
+          <div *ngSwitchCase="POPULATION_LEVEL" [@pulseOnEnter]>
             <fa-icon class="fs-3" [icon]="faUsers"></fa-icon>
             אוכלוסייה
           </div>
-          <div *ngSwitchCase="AREA_LEVEL">
+          <div *ngSwitchCase="AREA_LEVEL" [@pulseOnEnter]>
             <fa-icon class="fs-3" [icon]="faMapLocation"></fa-icon>
             שטח
           </div>
-          <div *ngSwitchCase="FOUNDED_YEAR_LEVEL">
+          <div *ngSwitchCase="FOUNDED_YEAR_LEVEL" [@pulseOnEnter]>
             <fa-icon class="fs-3" [icon]="faCalendarDays"></fa-icon>
             שנת ייסוד
           </div>
-          <div *ngSwitchCase="TRIVIA_LEVEL">
+          <div *ngSwitchCase="TRIVIA_LEVEL" [@pulseOnEnter]>
             <fa-icon class="fs-3" [icon]="faClipboardQuestion"></fa-icon>
             טריוויה
           </div>
-          <div *ngSwitchCase="SISTER_LEVEL">
+          <div *ngSwitchCase="SISTER_LEVEL" [@pulseOnEnter]>
             <fa-icon class="fs-3" [icon]="faGlobe"></fa-icon>
             ערים תאומות
           </div>
@@ -39,7 +39,7 @@
           <fa-icon class="fs-2" [icon]="faCircleChevronLeft"></fa-icon>
         </button>
       </div>
-      <div *ngIf="step === GUESSES_LEVEL" class="guesses-wrapper">
+      <div *ngIf="step === GUESSES_LEVEL" [@enter] class="guesses-wrapper">
         <div class="clue-button-wrapper" *ngIf="currentGuess >= 4 && ! isGameOver">
           <button [disabled]="isGameOver" mat-raised-button type="button"
                   (click)="showClue()">
@@ -78,32 +78,32 @@
           </div>
         </div>
       </div>
-      <div *ngIf="step === POPULATION_LEVEL" class="guesses-wrapper">
+      <div *ngIf="step === POPULATION_LEVEL" [@enter]  class="guesses-wrapper">
         <app-bonus-level-number-ranges [step]="step"
                                        question="כמה תושבים גרים ב"
                                        [answer]="(mysteryCity.population | number) + ' תושבים'"
                                        [mysteryCity]="mysteryCity" [rangeAnswers]="rangeAnswers">
         </app-bonus-level-number-ranges>
       </div>
-      <div *ngIf="step === AREA_LEVEL" class="guesses-wrapper">
+      <div *ngIf="step === AREA_LEVEL"   [@enter]  class="guesses-wrapper">
         <app-bonus-level-number-ranges [step]="step"
                                        question="מה השטח של "
                                        [answer]="(mysteryCity.area | number) + ' דונם'"
                                        [mysteryCity]="mysteryCity" [rangeAnswers]="rangeAnswers"></app-bonus-level-number-ranges>
       </div>
-      <div *ngIf="step === FOUNDED_YEAR_LEVEL" class="guesses-wrapper">
+      <div *ngIf="step === FOUNDED_YEAR_LEVEL"  [@enter]   class="guesses-wrapper">
         <app-bonus-level-number-ranges [step]="step"
                                        question="באיזו שנה נוסדה "
                                        [answer]="mysteryCity.foundedAt ? mysteryCity.foundedAt + '' : 'לא ידוע'"
                                        [mysteryCity]="mysteryCity" [rangeAnswers]="rangeAnswers"></app-bonus-level-number-ranges>
       </div>
-      <div *ngIf="step === TRIVIA_LEVEL" class="guesses-wrapper">
+      <div *ngIf="step === TRIVIA_LEVEL"  [@enter]  class="guesses-wrapper">
         <app-bonus-level-text-answers [step]="step"
                                        question="איזה מהפרטים הבאים נכון לגבי "
                                        [answer]="mysteryCity.trivia" [mysteryCity]="mysteryCity"
                                        [textAnswers]="textAnswers"></app-bonus-level-text-answers>
       </div>
-      <div *ngIf="step === SISTER_LEVEL" class="guesses-wrapper">
+      <div *ngIf="step === SISTER_LEVEL"  [@enter]  class="guesses-wrapper">
         <app-bonus-level-text-answers [step]="step"
                                       question="מהן הערים התאומות של "
                                       [answer]="mysteryCity.sisterCities ?? 'ללא עיר תאומה'" [mysteryCity]="mysteryCity"
@@ -116,7 +116,7 @@
           שלב בונוס
         </button>
       </div>
-      <div *ngIf="step === GUESSES_LEVEL" class="map-wrapper">
+      <div *ngIf="step === GUESSES_LEVEL"  [@enter] class="map-wrapper">
         <google-map *ngIf="apiLoaded | async" #googleMap [width]="mapWidth" height="60vh" [options]="mapSettings">
           <map-marker *ngFor="let marker of markers"
                       [position]="marker.position"
@@ -125,7 +125,8 @@
         </google-map>
       </div>
       <div class="d-flex justify-content-center">
-        <a class="donate-link" href="https://ko-fi.com/idanc" target="_blank">אפשר לקנות לי &#9749;!</a>
+        <a class="donate-link" href="https://ko-fi.com/idanc" target="_blank">אפשר לקנות לי <fa-icon class="fs-2" [icon]="faMugHot"></fa-icon>
+          !</a>
       </div>
     </div>
   </div>
