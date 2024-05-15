@@ -1,8 +1,16 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {CityOver10K} from 'src/app/shared/models/city.model';
 import {RangeAnswer} from 'src/app/shared/models/range-answer.model';
-import {AREA_LEVEL, FOUNDED_YEAR_LEVEL, POPULATION_LEVEL, TRIVIA_LEVEL, UNITS} from 'src/app/shared/consts/steps.const';
-import {TextAnswer} from 'src/app/shared/models/text-answer.model';
+import {
+  AREA_LEVEL,
+  FOUNDED_YEAR_LEVEL,
+  POPULATION_LEVEL,
+  SISTER_LEVEL,
+  TRIVIA_LEVEL,
+  UNITS
+} from 'src/app/shared/consts/steps.const';
+import {DecimalPipe} from '@angular/common';
+import {StorageItem} from 'src/app/shared/models/storage-items.model';
 
 @Component({
   selector: 'app-bonus-level-number-ranges',
@@ -20,22 +28,27 @@ export class BonusLevelNumberRangesComponent implements OnInit {
   isClicked = false;
   shouldStartFireworks = false;
 
+  constructor(private decimalPipe: DecimalPipe) {}
+
   ngOnInit() {
-    let answers = null;
-    if (this.step === POPULATION_LEVEL) {
-      answers = JSON.parse(localStorage.getItem('population') || '[]');
-    }
-    if (this.step === AREA_LEVEL) {
-      answers = JSON.parse(localStorage.getItem('area') || '[]');
-    }
-    if (this.step === FOUNDED_YEAR_LEVEL) {
-      answers = JSON.parse(localStorage.getItem('foundedAt') || '[]');
-    }
-    if (this.step === TRIVIA_LEVEL) {
-      answers = JSON.parse(localStorage.getItem('trivia') || '[]');
-    }
-    if (answers?.length) {
-      this.rangeAnswers = answers;
+    const storageItems: StorageItem[] = [
+      { storageKey: 'population', level: POPULATION_LEVEL },
+      { storageKey: 'area', level: AREA_LEVEL },
+      { storageKey: 'foundedAt', level: FOUNDED_YEAR_LEVEL },
+    ];
+
+    storageItems.forEach(item => {
+      if (this.step === item.level) {
+        const textAnswers = JSON.parse(localStorage.getItem(item.storageKey) || '[]');
+        if (!textAnswers.length) {
+          localStorage.setItem(item.storageKey, JSON.stringify(this.rangeAnswers));
+        } else {
+          this.rangeAnswers = textAnswers;
+        }
+      }
+    });
+
+    if (this.rangeAnswers.find(answer => answer.isClicked)) {
       this.isClicked = true;
     }
   }
@@ -46,7 +59,7 @@ export class BonusLevelNumberRangesComponent implements OnInit {
     const correctRange = this.rangeAnswers.find(range => range.isCorrect) as RangeAnswer;
     correctRange.isClicked = true;
 
-    if (answer.isCorrect) {
+    if (answer.isCorrect && !answer.isClicked) {
       this.shouldStartFireworks = true;
     }
 
@@ -59,5 +72,16 @@ export class BonusLevelNumberRangesComponent implements OnInit {
     if (this.step === FOUNDED_YEAR_LEVEL) {
       localStorage.setItem('foundedAt', JSON.stringify(this.rangeAnswers));
     }
+  }
+
+  getFormattedAnswer(answer: RangeAnswer) {
+    if (answer.min === 0 && answer.max === 0) {
+      return 'לא ידוע';
+    }
+
+    const min = (this.step === FOUNDED_YEAR_LEVEL) ? answer.min : this.decimalPipe.transform(answer.min, '1.0-0');
+    const max = (this.step === FOUNDED_YEAR_LEVEL) ? answer.max : this.decimalPipe.transform(answer.max, '1.0-0');
+
+    return `${min}-${max}${this.UNITS[this.step]}`;
   }
 }

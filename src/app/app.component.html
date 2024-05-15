@@ -1,14 +1,14 @@
 <app-fireworks *ngIf="shouldStartFireworks"></app-fireworks>
 <app-menu [mysteryCity]="mysteryCity" [isWin]="isWin" [guesses]="guesses" [isGameOver]="isGameOver"></app-menu>
 
-  <div class="page-wrapper">
+  <div class="page-wrapper" [ngStyle]="{zoom: step !== GUESSES_LEVEL && !isMobile ? '125%' : '100%'}">
     <div class="width-container">
       <div class="d-flex justify-content-between mb-4">
         <button *ngIf="isGameOver" [disabled]="step === GUESSES_LEVEL" (click)="navigateBetweenSteps(false)"
                 mat-flat-button color="primary" class="my-2 w-25">
           <fa-icon class="fs-2" [icon]="faCircleChevronRight"></fa-icon>
         </button>
-        <div *ngIf="isGameOver" class="stepTitle d-flex justify-content-center align-items-center" [ngSwitch]="step">
+        <button *ngIf="isGameOver" mat-flat-button color="primary" class="my-2" [ngSwitch]="step">
           <div *ngSwitchCase="GUESSES_LEVEL">
             <fa-icon class="fs-3" [icon]="faCity"></fa-icon>
             שם היישוב
@@ -33,7 +33,7 @@
             <fa-icon class="fs-3" [icon]="faGlobe"></fa-icon>
             ערים תאומות
           </div>
-        </div>
+        </button>
         <button *ngIf="isGameOver" [disabled]="step === lastLevel" (click)="navigateBetweenSteps(true)"
                 mat-flat-button color="primary" class="my-2 w-25">
           <fa-icon class="fs-2" [icon]="faCircleChevronLeft"></fa-icon>

@@ -42,7 +42,7 @@ import {ResultDialogComponent} from 'src/app/result-dialog/result-dialog.compone
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  private isMobile = window.innerWidth < 500;
+  isMobile = window.innerWidth < 500;
   shouldStartFireworks = false;
   GUESSES_LEVEL = GUESSES_LEVEL;
   POPULATION_LEVEL = POPULATION_LEVEL;
@@ -286,6 +286,8 @@ export class AppComponent implements OnInit {
   }
 
   private manageLocalStorage() {
+    const step: string | null = localStorage.getItem('step');
+    this.step = step ? +step : GUESSES_LEVEL;
     const date = localStorage.getItem('date');
     if (date && date !== this.getCurrentDateInUTC()) {
       this.clearDailyData();
@@ -350,13 +352,17 @@ export class AppComponent implements OnInit {
   }
 
   private clearDailyData(): void {
-    ['date', 'currentGuess', 'markers', 'guesses', 'population', 'area'].forEach(item => {
-      localStorage.removeItem(item);
-    });
+    const itemKeys = ['date', 'currentGuess', 'markers', 'guesses',
+      'population', 'area', 'foundedAt', 'trivia', 'sisterCities', 'step',
+    ];
+
+      itemKeys.forEach(item => {localStorage.removeItem(item);});
   }
 
   navigateBetweenSteps(isUp: boolean) {
     isUp ? this.step++ : this.step--;
+    localStorage.setItem('step', this.step.toString());
+
 
     if (this.step === this.POPULATION_LEVEL) {
       const data = createRanges(0, 1000000, 5000);

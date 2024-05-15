@@ -26,6 +26,7 @@
 }
 
 .guess-button {
+  width: 10rem;
   height: 5.4rem;
   margin-right: 1.1rem;
   @include respond(phone) {
@@ -36,7 +37,11 @@
 }
 
 .autocomplete {
-  width: 100%;
+  width: 30rem;
+  @include respond(phone) {
+    width: 100%;
+    margin: -1rem 0 0.5rem 0;
+  }
 }
 
 .game-wrapper {
@@ -77,10 +82,6 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
-  @include respond(phone) {
-
-  }
 }
 
 .autocomplete-form {
@@ -117,5 +118,5 @@
   width: 15rem;
   font-size: 1.5rem;
   font-weight: bold;
-  border-radius: 1rem;
+  border-radius: 0.4rem;
 }

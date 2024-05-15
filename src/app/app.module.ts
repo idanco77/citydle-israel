@@ -14,7 +14,7 @@ import {ResultDialogComponent} from 'src/app/result-dialog/result-dialog.compone
 import {MatDialogModule} from '@angular/material/dialog';
 import {IntroDialogComponent} from 'src/app/intro-dialog/intro-dialog.component';
 import { RouterOutlet} from '@angular/router';
-import {NgOptimizedImage} from '@angular/common';
+import {DecimalPipe, NgOptimizedImage} from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -67,7 +67,8 @@ import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
     MatExpansionModule,
   ],
   providers: [
-    IsGameOverService
+    IsGameOverService,
+    DecimalPipe
   ],
   bootstrap: [AppComponent]
 })

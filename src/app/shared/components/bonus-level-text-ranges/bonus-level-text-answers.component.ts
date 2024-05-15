@@ -1,15 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {
-  FOUNDED_YEAR_LEVEL,
   LEVELS,
-  POPULATION_LEVEL,
   SISTER_LEVEL,
   TRIVIA_LEVEL
 } from 'src/app/shared/consts/steps.const';
-import {RangeAnswer} from 'src/app/shared/models/range-answer.model';
 import {TextAnswer} from 'src/app/shared/models/text-answer.model';
 import {CityOver10K} from 'src/app/shared/models/city.model';
 import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
+import {StorageItem} from 'src/app/shared/models/storage-items.model';
 
 @Component({
   selector: 'app-bonus-level-text-answers',
@@ -28,16 +26,23 @@ export class BonusLevelTextAnswersComponent implements OnInit{
   }
 
   ngOnInit() {
-    let answers = null;
-    if (this.step === TRIVIA_LEVEL) {
-      answers = JSON.parse(localStorage.getItem('trivia') || '[]');
-    }
-    if (this.step === SISTER_LEVEL) {
-      answers = JSON.parse(localStorage.getItem('sisterCities') || '[]');
-    }
+    const storageItems: StorageItem[] = [
+      { storageKey: 'trivia', level: TRIVIA_LEVEL },
+      { storageKey: 'sisterCities', level: SISTER_LEVEL },
+    ];
 
-    if (answers?.length) {
-        this.textAnswers = answers;
+    storageItems.forEach(item => {
+      if (this.step === item.level) {
+        const textAnswers = JSON.parse(localStorage.getItem(item.storageKey) || '[]');
+        if (!textAnswers.length) {
+          localStorage.setItem(item.storageKey, JSON.stringify(this.textAnswers));
+        } else {
+          this.textAnswers = textAnswers;
+        }
+      }
+    });
+
+    if (this.textAnswers.find(answer => answer.isClicked)) {
         this.isClicked = true;
     }
   }
@@ -48,7 +53,7 @@ export class BonusLevelTextAnswersComponent implements OnInit{
     const correctRange = this.textAnswers.find(range => range.isCorrect) as TextAnswer;
     correctRange.isClicked = true;
 
-    if (answer.isCorrect) {
+    if (answer.isCorrect && !answer.isClicked) {
       this.shouldStartFireworks = true;
     }
 

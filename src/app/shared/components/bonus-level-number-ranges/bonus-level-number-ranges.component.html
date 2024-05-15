@@ -1,15 +1,15 @@
 <app-fireworks *ngIf="shouldStartFireworks"></app-fireworks>
-<div class="fs-3 fw-bold text-center my-4">{{ question + mysteryCity.name }} ?</div>
+<div class="fs-3 fw-bold text-center my-4">{{ question + mysteryCity.name }}?</div>
 <mat-grid-list cols="2" rowHeight="4:1" gutterSize="15px">
-    <mat-grid-tile
-      [ngClass]="
+  <mat-grid-tile
+    [ngClass]="
     {'bg-green': answer.isCorrect && answer.isClicked,
     'bg-red': !answer.isCorrect && answer.isClicked,
     'clicked': isClicked && !answer.isClicked
     }"
-      class="tile" *ngFor="let answer of rangeAnswers" (click)="isAnswerCorrect(answer)">
-      {{ answer.min === 0 && answer.max === 0 ? 'לא ידוע' : (answer.min | number) + '-' + (answer.max | number) + UNITS[step] }}
-    </mat-grid-tile>
+    class="tile" *ngFor="let answer of rangeAnswers" (click)="isAnswerCorrect(answer)">
+    {{ getFormattedAnswer(answer) }}
+  </mat-grid-tile>
 </mat-grid-list>
 
 <div class="answer-wrapper mb-5">
