@@ -112,7 +112,7 @@ export class NearestCityComponent implements OnInit {
       this.isWin = false;
       return;
     }
-    this.isWin = filterGuesses.length === 4 && filterGuesses.every(guess => nearestNames.includes(guess.name as string));
+    this.isWin = filterGuesses.filter(guess => guess.isCorrect).length === 4;
     if (this.isWin) {
       this.isGameOver = true;
     }
