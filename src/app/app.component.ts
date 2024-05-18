@@ -296,6 +296,7 @@ export class AppComponent implements OnInit {
     const date = localStorage.getItem('date');
     if (date && date !== this.getCurrentDateInUTC()) {
       this.clearDailyData();
+      location.reload();
     }
     const currentGuess = localStorage.getItem('currentGuess');
     const markers = JSON.parse(localStorage.getItem('markers') || '[]');
