@@ -5,6 +5,7 @@ export interface CityLessThen10K {
   lat: number;
   lng: number;
   population: number;
+  distance?: number;
 }
 
 export interface CityOver10K {
@@ -17,4 +18,6 @@ export interface CityOver10K {
   trivia: string;
   area: number;
   sisterCities: string | null;
+  distance?: number;
+  isCorrect?: boolean;
 }

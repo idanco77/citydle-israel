@@ -32,6 +32,10 @@ import {
   BonusLevelTextAnswersComponent
 } from 'src/app/shared/components/bonus-level-text-ranges/bonus-level-text-answers.component';
 import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
+import {NearestCityComponent} from 'src/app/shared/components/nearest-cities/nearest-city.component';
+import {AutocompleteCityComponent} from 'src/app/shared/components/autocomplete-city/autocomplete-city.component';
+import {TitlesComponent} from 'src/app/shared/components/titles/titles.component';
+import {GoogleMapService} from 'src/app/shared/services/google-map.service';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,10 @@ import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
     FireworksComponent,
     BonusLevelNumberRangesComponent,
     MenuComponent,
-    BonusLevelTextAnswersComponent
+    BonusLevelTextAnswersComponent,
+    NearestCityComponent,
+    AutocompleteCityComponent,
+    TitlesComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +75,8 @@ import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
   ],
   providers: [
     IsGameOverService,
-    DecimalPipe
+    DecimalPipe,
+    GoogleMapService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,44 +1,9 @@
 <app-fireworks *ngIf="shouldStartFireworks"></app-fireworks>
 <app-menu [mysteryCity]="mysteryCity" [isWin]="isWin" [guesses]="guesses" [isGameOver]="isGameOver"></app-menu>
 
-  <div class="page-wrapper" [ngStyle]="{zoom: step !== GUESSES_LEVEL && !isMobile ? '125%' : '100%'}">
+  <div class="page-wrapper" [ngStyle]="{zoom: [GUESSES_LEVEL, NEAREST_CITY_LEVEL].includes(step) && !isMobile ? '100%' : '125%'}">
     <div class="width-container">
-      <div class="d-flex justify-content-between mb-4">
-        <button *ngIf="isGameOver" [disabled]="step === GUESSES_LEVEL" (click)="navigateBetweenSteps(false)"
-                mat-flat-button color="primary" class="my-2 w-25">
-          <fa-icon class="fs-2" [icon]="faCircleChevronRight"></fa-icon>
-        </button>
-        <button *ngIf="isGameOver" mat-flat-button color="primary" class="my-2" [ngSwitch]="step">
-          <div *ngSwitchCase="GUESSES_LEVEL" [@pulseOnEnter]>
-            <fa-icon class="fs-3" [icon]="faCity"></fa-icon>
-            שם היישוב
-          </div>
-          <div *ngSwitchCase="POPULATION_LEVEL" [@pulseOnEnter]>
-            <fa-icon class="fs-3" [icon]="faUsers"></fa-icon>
-            אוכלוסייה
-          </div>
-          <div *ngSwitchCase="AREA_LEVEL" [@pulseOnEnter]>
-            <fa-icon class="fs-3" [icon]="faMapLocation"></fa-icon>
-            שטח
-          </div>
-          <div *ngSwitchCase="FOUNDED_YEAR_LEVEL" [@pulseOnEnter]>
-            <fa-icon class="fs-3" [icon]="faCalendarDays"></fa-icon>
-            שנת ייסוד
-          </div>
-          <div *ngSwitchCase="TRIVIA_LEVEL" [@pulseOnEnter]>
-            <fa-icon class="fs-3" [icon]="faClipboardQuestion"></fa-icon>
-            טריוויה
-          </div>
-          <div *ngSwitchCase="SISTER_LEVEL" [@pulseOnEnter]>
-            <fa-icon class="fs-3" [icon]="faGlobe"></fa-icon>
-            ערים תאומות
-          </div>
-        </button>
-        <button *ngIf="isGameOver" [disabled]="step === lastLevel" (click)="navigateBetweenSteps(true)"
-                mat-flat-button color="primary" class="my-2 w-25">
-          <fa-icon class="fs-2" [icon]="faCircleChevronLeft"></fa-icon>
-        </button>
-      </div>
+        <app-titles (navigate)="navigateBetweenSteps($event)" [step]="step" [isGameOver]="isGameOver"></app-titles>
       <div *ngIf="step === GUESSES_LEVEL" [@enter] class="guesses-wrapper">
         <div class="clue-button-wrapper" *ngIf="currentGuess >= 4 && ! isGameOver">
           <button [disabled]="isGameOver" mat-raised-button type="button"
@@ -50,27 +15,10 @@
                 *ngIf="isShowClue">{{ ' היישוב המסתורי הינו בעל רוב ' + mysteryCity.religion }}</span>
         </div>
         <div *ngIf="!isGameOver">
-          <form (keydown.enter)="$event.preventDefault()" class="autocomplete-form">
-            <mat-form-field class="autocomplete">
-              <input (keydown.enter)="enterKeyHandleSelection(autocompleteControl.value)" matInput
-                     placeholder="שם העיר, יישוב..." [matAutocomplete]="auto" [formControl]="autocompleteControl">
-            </mat-form-field>
-            <mat-autocomplete #auto="matAutocomplete" [autoSelectActiveOption]="true">
-              <mat-option *ngFor="let option of filteredCities | async" [value]="option.name">
-                {{ option.name }}
-              </mat-option>
-            </mat-autocomplete>
-            <div class="guess-button-wrapper">
-              <button [disabled]="currentGuess === 6 || isWin" class="guess-button" mat-raised-button color="primary"
-                      type="button"
-                      (click)="handleSelection(autocompleteControl.value)">ניחוש
-                <fa-icon [icon]="faMagnifyingGlass"></fa-icon>
-              </button>
-            </div>
-          </form>
+          <app-autocomplete [cities]="cities" (selectedCity)="handleSelection($event)"></app-autocomplete>
         </div>
         <div class="d-flex justify-content-center">
-          <div class="result" *ngIf="isGameOver">שם היישוב: {{ mysteryCity.name }}</div>
+          <div class="result" *ngIf="isGameOver">{{ mysteryCity.name }}</div>
         </div>
         <div class="guesses">
           <div *ngFor="let guess of guesses">
@@ -91,26 +39,29 @@
                                        [answer]="(mysteryCity.area | number) + ' דונם'"
                                        [mysteryCity]="mysteryCity" [rangeAnswers]="rangeAnswers"></app-bonus-level-number-ranges>
       </div>
-      <div *ngIf="step === FOUNDED_YEAR_LEVEL"  [@enter]   class="guesses-wrapper">
+      <div *ngIf="step === FOUNDED_YEAR_LEVEL"  [@enter] class="guesses-wrapper">
         <app-bonus-level-number-ranges [step]="step"
                                        question="באיזו שנה נוסדה "
                                        [answer]="mysteryCity.foundedAt ? mysteryCity.foundedAt + '' : 'לא ידוע'"
                                        [mysteryCity]="mysteryCity" [rangeAnswers]="rangeAnswers"></app-bonus-level-number-ranges>
       </div>
-      <div *ngIf="step === TRIVIA_LEVEL"  [@enter]  class="guesses-wrapper">
+      <div *ngIf="step === TRIVIA_LEVEL" [@enter] class="guesses-wrapper">
         <app-bonus-level-text-answers [step]="step"
                                        question="איזה מהפרטים הבאים נכון לגבי "
                                        [answer]="mysteryCity.trivia" [mysteryCity]="mysteryCity"
                                        [textAnswers]="textAnswers"></app-bonus-level-text-answers>
       </div>
-      <div *ngIf="step === SISTER_LEVEL"  [@enter]  class="guesses-wrapper">
+      <div *ngIf="step === SISTER_LEVEL" [@enter] class="guesses-wrapper">
         <app-bonus-level-text-answers [step]="step"
                                       question="מהן הערים התאומות של "
                                       [answer]="mysteryCity.sisterCities ?? 'ללא עיר תאומה'" [mysteryCity]="mysteryCity"
                                       [textAnswers]="textAnswers"></app-bonus-level-text-answers>
       </div>
+      <div *ngIf="step === NEAREST_CITY_LEVEL" [@enter] class="guesses-wrapper">
+        <app-nearest-city [mysteryCity]="mysteryCity" [citiesOver10k]="citiesOver10k"></app-nearest-city>
+      </div>
       <div class="d-flex">
-        <button [disabled]="step === lastLevel" *ngIf="isGameOver" (click)="navigateBetweenSteps(true)"
+        <button [disabled]="step === LAST_LEVEL" *ngIf="isGameOver" (click)="navigateBetweenSteps(true)"
                 mat-flat-button color="primary" class="my-5 w-100">
           <fa-icon class="fs-3" [icon]="faSackDollar"></fa-icon>
           שלב בונוס

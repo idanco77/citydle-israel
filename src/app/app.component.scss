@@ -16,34 +16,6 @@
   max-width: 48rem;
 }
 
-.guess-button-wrapper {
-  padding: 2px 0 0 0;
-  @include respond(phone) {
-    align-self: center;
-    height: 2.5rem;
-    width: 50%;
-  }
-}
-
-.guess-button {
-  width: 10rem;
-  height: 5.4rem;
-  margin-right: 1.1rem;
-  @include respond(phone) {
-    margin: -1rem 0 0.5rem 0;
-    height: 2.5rem;
-    width: 100%;
-  }
-}
-
-.autocomplete {
-  width: 30rem;
-  @include respond(phone) {
-    width: 100%;
-    margin: -1rem 0 0.5rem 0;
-  }
-}
-
 .game-wrapper {
   display: flex;
   height: 100vh;
@@ -84,15 +56,7 @@
   flex-direction: column;
 }
 
-.autocomplete-form {
-  display: flex;
-  justify-content: center;
-  width: 100%;
 
-  @include respond(phone) {
-    flex-direction: column;
-  }
-}
 
 .width-container {
   width: 430px;

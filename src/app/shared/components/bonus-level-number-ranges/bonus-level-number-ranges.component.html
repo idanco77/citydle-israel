@@ -7,7 +7,7 @@
     'bg-red': !answer.isCorrect && answer.isClicked,
     'clicked': isClicked && !answer.isClicked
     }"
-    class="tile" *ngFor="let answer of rangeAnswers" (click)="isAnswerCorrect(answer)">
+    class="tile text-center" *ngFor="let answer of rangeAnswers" (click)="isAnswerCorrect(answer)">
     {{ getFormattedAnswer(answer) }}
   </mat-grid-tile>
 </mat-grid-list>

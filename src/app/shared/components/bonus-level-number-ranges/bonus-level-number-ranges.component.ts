@@ -3,7 +3,7 @@ import {CityOver10K} from 'src/app/shared/models/city.model';
 import {RangeAnswer} from 'src/app/shared/models/range-answer.model';
 import {
   AREA_LEVEL,
-  FOUNDED_YEAR_LEVEL,
+  FOUNDED_YEAR_LEVEL, LEVELS,
   POPULATION_LEVEL,
   SISTER_LEVEL,
   TRIVIA_LEVEL,
@@ -11,6 +11,7 @@ import {
 } from 'src/app/shared/consts/steps.const';
 import {DecimalPipe} from '@angular/common';
 import {StorageItem} from 'src/app/shared/models/storage-items.model';
+import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
 
 @Component({
   selector: 'app-bonus-level-number-ranges',
@@ -28,7 +29,7 @@ export class BonusLevelNumberRangesComponent implements OnInit {
   isClicked = false;
   shouldStartFireworks = false;
 
-  constructor(private decimalPipe: DecimalPipe) {}
+  constructor(private decimalPipe: DecimalPipe, private isGameOverService: IsGameOverService) {}
 
   ngOnInit() {
     const storageItems: StorageItem[] = [
@@ -72,6 +73,10 @@ export class BonusLevelNumberRangesComponent implements OnInit {
     }
     if (this.step === FOUNDED_YEAR_LEVEL) {
       localStorage.setItem('foundedAt', JSON.stringify(this.rangeAnswers));
+    }
+
+    if (this.step === LEVELS.length - 1) {
+      this.isGameOverService.isGameOver.next(true);
     }
   }
 

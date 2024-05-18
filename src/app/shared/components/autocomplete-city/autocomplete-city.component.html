@@ -1,0 +1,18 @@
+<form (keydown.enter)="$event.preventDefault()" class="autocomplete-form">
+  <mat-form-field class="autocomplete">
+    <input (keydown.enter)="enterKeyHandleSelection(autocompleteControl.value)" matInput
+           placeholder="שם העיר, יישוב..." [matAutocomplete]="auto" [formControl]="autocompleteControl">
+  </mat-form-field>
+  <mat-autocomplete #auto="matAutocomplete" [autoSelectActiveOption]="true">
+    <mat-option *ngFor="let option of filteredCities | async" [value]="option.name">
+      {{ option.name }}
+    </mat-option>
+  </mat-autocomplete>
+  <div class="guess-button-wrapper">
+    <button [disabled]="isDisabled" class="guess-button" mat-raised-button color="primary"
+            type="button"
+            (click)="handleSelection(autocompleteControl.value)">ניחוש
+      <fa-icon [icon]="faMagnifyingGlass"></fa-icon>
+    </button>
+  </div>
+</form>

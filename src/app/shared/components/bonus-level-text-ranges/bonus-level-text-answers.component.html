@@ -8,6 +8,6 @@
     'clicked': isClicked && !answer.isClicked
     }"
     class="tile" *ngFor="let answer of textAnswers" (click)="isAnswerCorrect(answer)">
-    <p class="px-4">{{ answer.text }}</p>
+    <p class="px-4 text-center">{{ answer.text }}</p>
   </mat-grid-tile>
 </mat-grid-list>

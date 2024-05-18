@@ -1,0 +1,40 @@
+<div class="d-flex justify-content-between mb-4">
+  <button *ngIf="isGameOver" [disabled]="step === GUESSES_LEVEL" (click)="navigateBetweenSteps(false)"
+          mat-flat-button color="primary" class="my-2 w-25">
+    <fa-icon class="fs-2" [icon]="faCircleChevronRight"></fa-icon>
+  </button>
+  <button *ngIf="isGameOver" mat-flat-button color="primary" class="my-2" [ngSwitch]="step">
+    <div *ngSwitchCase="GUESSES_LEVEL">
+      <fa-icon class="fs-3" [icon]="faCity"></fa-icon>
+      שם היישוב
+    </div>
+    <div *ngSwitchCase="POPULATION_LEVEL">
+      <fa-icon class="fs-3" [icon]="faUsers"></fa-icon>
+      אוכלוסייה
+    </div>
+    <div *ngSwitchCase="AREA_LEVEL">
+      <fa-icon class="fs-3" [icon]="faMapLocation"></fa-icon>
+      שטח
+    </div>
+    <div *ngSwitchCase="FOUNDED_YEAR_LEVEL">
+      <fa-icon class="fs-3" [icon]="faCalendarDays"></fa-icon>
+      שנת ייסוד
+    </div>
+    <div *ngSwitchCase="TRIVIA_LEVEL">
+      <fa-icon class="fs-3" [icon]="faClipboardQuestion"></fa-icon>
+      טריוויה
+    </div>
+    <div *ngSwitchCase="SISTER_LEVEL">
+      <fa-icon class="fs-3" [icon]="faGlobe"></fa-icon>
+      ערים תאומות
+    </div>
+    <div *ngSwitchCase="NEAREST_CITY_LEVEL">
+      <fa-icon class="fs-3" [icon]="faCity"></fa-icon>
+      ערים קרובות
+    </div>
+  </button>
+  <button *ngIf="isGameOver" [disabled]="step === LAST_LEVEL" (click)="navigateBetweenSteps(true)"
+          mat-flat-button color="primary" class="my-2 w-25">
+    <fa-icon class="fs-2" [icon]="faCircleChevronLeft"></fa-icon>
+  </button>
+</div>

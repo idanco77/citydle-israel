@@ -1,25 +1,15 @@
-import {Component, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {City, CityOver10K} from 'src/app/shared/models/city.model';
-import {CITIES} from 'src/app/shared/consts/cities.const';
-import {catchError, map, Observable, of, startWith} from 'rxjs';
-import {FormControl} from '@angular/forms';
+import {Observable} from 'rxjs';
 import {Guess} from 'src/app/shared/models/guess.model';
 import {haversineFormula} from 'src/app/shared/consts/haversineFormula.const';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {GoogleMap} from '@angular/google-maps';
-import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
-import {HttpClient} from '@angular/common/http';
-import {environment} from 'src/environments/environment';
 import {MatDialog} from '@angular/material/dialog';
 import {DOCUMENT} from '@angular/common';
 import {NavigationEnd, Router} from '@angular/router';
 import {START_DATE} from 'src/app/shared/consts/start-date.const';
-import {
-  faCalendarDays,
-  faCircleChevronLeft,
-  faCircleChevronRight, faCity, faClipboardQuestion, faGlobe,
-  faLightbulb, faMagnifyingGlass, faMapLocation, faMugHot, faSackDollar, faUsers
-} from '@fortawesome/free-solid-svg-icons';
+import {faLightbulb, faMugHot, faSackDollar} from '@fortawesome/free-solid-svg-icons';
 import {getCurrentDateYyyyMmDd} from 'src/app/shared/consts/get-current-date-yyyy-mm-dd.const';
 import {directions} from 'src/app/shared/types/directions.type';
 import {createAnswers, createRanges, shuffleArray} from 'src/app/shared/consts/create-number-range.const';
@@ -28,20 +18,26 @@ import {
   GUESSES_LEVEL,
   POPULATION_LEVEL,
   LEVELS,
-  FOUNDED_YEAR_LEVEL, TRIVIA_LEVEL, SISTER_LEVEL
+  FOUNDED_YEAR_LEVEL, TRIVIA_LEVEL, SISTER_LEVEL, NEAREST_CITY_LEVEL
 } from 'src/app/shared/consts/steps.const';
 import {RangeAnswer} from 'src/app/shared/models/range-answer.model';
 import {TextAnswer} from 'src/app/shared/models/text-answer.model';
 import {getRandomElements} from 'src/app/shared/consts/get-random-element.const';
 import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
 import {ResultDialogComponent} from 'src/app/result-dialog/result-dialog.component';
-import { bounceInLeftOnEnterAnimation, pulseOnEnterAnimation } from 'angular-animations';
+import { bounceInLeftOnEnterAnimation } from 'angular-animations';
+import {calculateHeading} from 'src/app/shared/consts/headingFormula.const';
+
+import {CITIES} from 'src/app/shared/consts/cities.const';
+import {AutocompleteCityComponent} from 'src/app/shared/components/autocomplete-city/autocomplete-city.component';
+import {GoogleMapService} from 'src/app/shared/services/google-map.service';
+import {MAP_SETTINGS} from 'src/app/shared/consts/map-settings.const';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  animations: [ pulseOnEnterAnimation(),
+  animations: [
     bounceInLeftOnEnterAnimation({ anchor: 'enter', duration: 1000, delay: 100, translate: '300px' })]
 })
 export class AppComponent implements OnInit {
@@ -53,22 +49,18 @@ export class AppComponent implements OnInit {
   FOUNDED_YEAR_LEVEL = FOUNDED_YEAR_LEVEL;
   TRIVIA_LEVEL = TRIVIA_LEVEL;
   SISTER_LEVEL = SISTER_LEVEL;
-  lastLevel = LEVELS.length - 1;
+  NEAREST_CITY_LEVEL = NEAREST_CITY_LEVEL;
+  protected readonly LAST_LEVEL = LEVELS.length - 1;
   step: number = this.GUESSES_LEVEL;
   rangeAnswers: RangeAnswer[];
   textAnswers: TextAnswer[];
-  private citiesOver10k: CityOver10K[];
+  citiesOver10k: CityOver10K[];
 
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent): void {
-    this.autoSelectionOnEnterKey(event.key);
-  }
   @ViewChild('googleMap') googleMap: GoogleMap;
-  @ViewChild(MatAutocompleteTrigger) autocomplete: MatAutocompleteTrigger | undefined;
+  @ViewChild(AutocompleteCityComponent) autocompleteCity: AutocompleteCityComponent;
 
-  cities: City[];
-  filteredCities: Observable<City[]>;
-  autocompleteControl: FormControl<string | null> = new FormControl('');
+  cities: City[] = CITIES;
+
   guesses: Guess[];
   currentGuess = 0;
   mysteryCity: CityOver10K;
@@ -80,28 +72,17 @@ export class AppComponent implements OnInit {
   mapWidth = this.isMobile ? '35rem' : '45rem';
   protected readonly faLightbulb = faLightbulb;
   protected readonly faSackDollar = faSackDollar;
-  protected readonly faMagnifyingGlass = faMagnifyingGlass;
-  protected readonly faCircleChevronLeft = faCircleChevronLeft;
-  protected readonly faCircleChevronRight = faCircleChevronRight;
+
   protected readonly faMugHot = faMugHot;
-  protected readonly faUsers = faUsers;
-  protected readonly faMapLocation = faMapLocation;
-  protected readonly faCalendarDays = faCalendarDays;
-  protected readonly faClipboardQuestion = faClipboardQuestion;
-  protected readonly faGlobe = faGlobe;
-  protected readonly faCity = faCity;
   isShow = true;
 
-  constructor(private snackBar: MatSnackBar, httpClient: HttpClient,
+  constructor(private snackBar: MatSnackBar,
               private router: Router,
               private dialog: MatDialog, @Inject(DOCUMENT) private document: Document,
-              private isGameOverService: IsGameOverService) {
+              private isGameOverService: IsGameOverService,
+              private googleMapService: GoogleMapService) {
     this.handleRouteEvents();
-    this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=' + environment.apiKey + '&libraries=geometry', 'callback')
-      .pipe(
-        map(() => true),
-        catchError(() => of(false)),
-      );
+    this.apiLoaded = this.googleMapService.apiLoaded();
   }
 
   get isGameOver() {
@@ -121,36 +102,13 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.mapSettings = {
-      center: {lat: 31.496931, lng: 34.994928},
-      zoom: 7.5,
-      streetViewControl: false,
-      disableDefaultUI: true,
-      scrollwheel: true,
-      fullscreenControl: false,
-      mapTypeControl: false,
-      zoomControl: false,
-      styles: [
-        { elementType: 'labels', stylers: [{visibility: 'off'}] },
-        { featureType: 'administrative.locality', stylers: [{visibility: 'off'}] }
-      ]
-    }
+    this.mapSettings = MAP_SETTINGS;
 
-    this.cities = CITIES;
     this.setGuesses();
     this.setMysteryCity();
-    this.initAutocomplete();
+
     this.manageLocalStorage();
     this.openResultsDialog();
-  }
-
-  private initAutocomplete(): void {
-    this.filteredCities = this.autocompleteControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this.cities.sort((a, b) => 0.5 - Math.random()).filter(
-        option => option.name.includes(value || '')
-      )),
-    );
   }
 
   calculatePercentages(distance: number): number {
@@ -195,13 +153,11 @@ export class AppComponent implements OnInit {
       this.mysteryCity.lat, this.mysteryCity.lng, city.lat, city.lng
     );
     this.currentGuess++;
-    this.autocompleteControl.reset();
-    this.autocomplete?.closePanel();
     if (this.isGameOver) {
       if (!this.isWin) {
         this.markers.push({
           position: {lat: this.mysteryCity.lat, lng: this.mysteryCity.lng},
-          options: {animation: google.maps.Animation.BOUNCE, draggable: false},
+          options: {animation: 0.0, draggable: false},
           label: {
             text: this.mysteryCity.name,
           },
@@ -212,7 +168,7 @@ export class AppComponent implements OnInit {
       this.setSuccessRate();
       this.setTotalPlayedGames();
 
-      this.autocompleteControl.disable();
+      this.autocompleteCity.autocompleteControl.disable();
       if (this.isWin) {
         this.shouldStartFireworks = true;
       }
@@ -247,10 +203,7 @@ export class AppComponent implements OnInit {
     if (this.isWin) {
       return '🏆';
     }
-    const point1 = new google.maps.LatLng(guessLat, guessLng);
-    const point2 = new google.maps.LatLng(mysteryLat, mysteryLng);
-    const heading = google.maps.geometry.spherical.computeHeading(point1, point2);
-
+    const heading = calculateHeading(guessLat, guessLng, mysteryLat, mysteryLng);
     const directions: {limit: number, direction: directions}[] = [
       { limit: -157.5, direction: '⬇️' },
       { limit: 22.5, direction: '⬆️' },
@@ -271,15 +224,6 @@ export class AppComponent implements OnInit {
       }
     }
     return null;
-  }
-
-  private autoSelectionOnEnterKey(eventKey: string): void {
-    if (eventKey === 'Enter' && this.autocomplete?.panelOpen) {
-      const filteredList = this.cities?.filter(option => option.name.includes(this.autocompleteControl.value || ''));
-      if (filteredList.length) {
-        this.autocompleteControl.setValue(filteredList[0].name);
-      }
-    }
   }
 
   private getCurrentDateInUTC(): string {
@@ -306,9 +250,6 @@ export class AppComponent implements OnInit {
       this.markers = markers;
       this.currentGuess = +currentGuess;
       this.isWin = this.checkIsWin(this.guesses[this.currentGuess - 1].name as string);
-      if (this.isGameOver) {
-        this.autocompleteControl.disable();
-      }
     } else {
       this.clearDailyData();
     }
@@ -323,17 +264,6 @@ export class AppComponent implements OnInit {
 
   private checkIsWin(cityName: string) {
     return cityName === this.mysteryCity.name
-  }
-
-  enterKeyHandleSelection(value: string | null) {
-    if (! value) {
-      return;
-    }
-    const cityNames = this.cities.map(city => city.name);
-    if (cityNames.includes(value)) {
-      this.handleSelection(value);
-    }
-
   }
 
   showClue() {
@@ -360,6 +290,8 @@ export class AppComponent implements OnInit {
   private clearDailyData(): void {
     const itemKeys = ['date', 'currentGuess', 'markers', 'guesses',
       'population', 'area', 'foundedAt', 'trivia', 'sisterCities', 'step',
+      'nearestCities', 'nearestCitiesGuesses', 'nearestCitiesGuessesIndex',
+      'nearestCitiesMarkers'
     ];
 
       itemKeys.forEach(item => {localStorage.removeItem(item);});

@@ -1,0 +1,36 @@
+@import '../../../../scss/main';
+
+.nearest-cities-guess {
+  height: 3.6rem;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  display: flex;
+  font-size: 2rem;
+}
+
+.guess-sign {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0.1rem solid #e5e7eb;
+  width: 15%;
+  border-radius: 0.4rem;
+}
+
+.guess-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1rem;
+  border: 0.1rem solid #e5e7eb;
+  width: 85%;
+  border-radius: 0.4rem;
+}
+
+.check {
+  color: green;
+}
+
+.x {
+  color: red;
+}

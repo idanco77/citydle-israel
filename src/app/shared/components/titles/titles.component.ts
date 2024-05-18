@@ -1,0 +1,43 @@
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {faCalendarDays, faCircleChevronLeft, faCircleChevronRight,
+  faCity,
+  faClipboardQuestion, faGlobe, faMapLocation, faUsers } from '@fortawesome/free-solid-svg-icons';
+import {
+  AREA_LEVEL,
+  GUESSES_LEVEL,
+  POPULATION_LEVEL,
+  LEVELS,
+  FOUNDED_YEAR_LEVEL, TRIVIA_LEVEL, SISTER_LEVEL, NEAREST_CITY_LEVEL
+} from 'src/app/shared/consts/steps.const';
+
+
+@Component({
+  selector: 'app-titles',
+  templateUrl: './titles.component.html'
+})
+export class TitlesComponent {
+  @Input() step: number;
+  @Input() isGameOver: boolean;
+  @Output() navigate = new EventEmitter<boolean>();
+
+  protected readonly GUESSES_LEVEL = GUESSES_LEVEL;
+  protected readonly POPULATION_LEVEL = POPULATION_LEVEL;
+  protected readonly AREA_LEVEL = AREA_LEVEL;
+  protected readonly FOUNDED_YEAR_LEVEL = FOUNDED_YEAR_LEVEL;
+  protected readonly TRIVIA_LEVEL = TRIVIA_LEVEL;
+  protected readonly SISTER_LEVEL = SISTER_LEVEL;
+  protected readonly NEAREST_CITY_LEVEL = NEAREST_CITY_LEVEL;
+  protected readonly faCircleChevronLeft = faCircleChevronLeft;
+  protected readonly faCircleChevronRight = faCircleChevronRight;
+  protected readonly faUsers = faUsers;
+  protected readonly faMapLocation = faMapLocation;
+  protected readonly faCalendarDays = faCalendarDays;
+  protected readonly faClipboardQuestion = faClipboardQuestion;
+  protected readonly faGlobe = faGlobe;
+  protected readonly faCity = faCity;
+  protected readonly LAST_LEVEL = LEVELS.length - 1;
+
+  navigateBetweenSteps(isUp: boolean) {
+    this.navigate.emit(isUp);
+  }
+}
