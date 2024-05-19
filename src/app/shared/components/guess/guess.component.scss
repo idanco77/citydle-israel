@@ -2,16 +2,15 @@
 
 :host {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .guess {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 0.1rem solid #e5e7eb;
+  border: 0.2rem solid #e5e7eb;
   border-radius: 0.4rem;
-  margin: 0.4rem;
   font-size: 1.8rem;
   height: 3rem;
 
@@ -22,12 +21,20 @@
 
 .guess-name {
   width: 18rem;
+  margin: 0.4rem 0 0.4rem 0.4rem;
 }
 
 .guess-distance {
   width: 12rem;
+  margin: 0.4rem 0 0.4rem 0.4rem;
 }
 
 .guess-direction {
   width: 6rem;
+  margin: 0.4rem 0 0.4rem 0.4rem;
+}
+
+.guess-percentage {
+  width: 6rem;
+  margin: 0.4rem 0;
 }

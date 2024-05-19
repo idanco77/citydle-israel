@@ -8,6 +8,7 @@ import {TextAnswer} from 'src/app/shared/models/text-answer.model';
 import {CityOver10K} from 'src/app/shared/models/city.model';
 import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
 import {StorageItem} from 'src/app/shared/models/storage-items.model';
+import {HEBREW_LETTERS} from 'src/app/shared/consts/letters-mapper.const';
 
 @Component({
   selector: 'app-bonus-level-text-answers',
@@ -21,6 +22,8 @@ export class BonusLevelTextAnswersComponent implements OnInit{
   @Input() step: number;
   isClicked = false;
   shouldStartFireworks = false;
+  protected readonly HEBREW_LETTERS = HEBREW_LETTERS;
+
 
   constructor(private isGameOverService: IsGameOverService) {
   }

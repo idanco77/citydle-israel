@@ -102,6 +102,11 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    const date = localStorage.getItem('date');
+    if (date && date !== this.getCurrentDateInUTC()) {
+      localStorage.removeItem('step');
+      location.reload();
+    }
     this.mapSettings = MAP_SETTINGS;
 
     this.setGuesses();
@@ -240,7 +245,6 @@ export class AppComponent implements OnInit {
     const date = localStorage.getItem('date');
     if (date && date !== this.getCurrentDateInUTC()) {
       this.clearDailyData();
-      location.reload();
     }
     const currentGuess = localStorage.getItem('currentGuess');
     const markers = JSON.parse(localStorage.getItem('markers') || '[]');

@@ -8,11 +8,9 @@
       {{ option.name }}
     </mat-option>
   </mat-autocomplete>
-  <div class="guess-button-wrapper">
     <button [disabled]="isDisabled" class="guess-button" mat-raised-button color="primary"
             type="button"
             (click)="handleSelection(autocompleteControl.value)">ניחוש
       <fa-icon [icon]="faMagnifyingGlass"></fa-icon>
     </button>
-  </div>
 </form>

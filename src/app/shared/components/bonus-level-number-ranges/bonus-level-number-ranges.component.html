@@ -3,11 +3,12 @@
 <mat-grid-list cols="2" rowHeight="4:1" gutterSize="15px">
   <mat-grid-tile
     [ngClass]="
-    {'bg-green': answer.isCorrect && answer.isClicked,
-    'bg-red': !answer.isCorrect && answer.isClicked,
+    {'success': answer.isCorrect && answer.isClicked,
+    'wrong': !answer.isCorrect && answer.isClicked,
     'clicked': isClicked && !answer.isClicked
     }"
-    class="tile text-center" *ngFor="let answer of rangeAnswers" (click)="isAnswerCorrect(answer)">
+    class="tile text-center" *ngFor="let answer of rangeAnswers let index = index" (click)="isAnswerCorrect(answer)">
+    <span class="ms-2 fw-bolder">{{(HEBREW_LETTERS[index]) + '.'}}</span>
     {{ getFormattedAnswer(answer) }}
   </mat-grid-tile>
 </mat-grid-list>

@@ -4,22 +4,12 @@
   min-width: 33.3%;
 }
 
-.green {
-  background-color: $dark-green!important;
-  color: $white;
-  animation: flip 550ms ease forwards;
+.success {
+  background-color:	$success-bg;
 }
 
-.yellow {
-  background-color: $dark-yellow!important;
-  color: $white;
-  animation: flip 550ms ease forwards;
-}
-
-.gray {
-  background-color: $dark-gray!important;
-  color: $white;
-  animation: flip 550ms ease forwards;
+.wrong {
+  background-color: $wrong-bg;
 }
 
 .swal2-popup {
@@ -41,21 +31,14 @@
   color: white;
 }
 
-.bg-red {
-  background-color: red;
-}
 
-.bg-green {
-  background-color: green;
-}
-
-.bg-red:hover {
-  background-color: red;
+.wrong:hover {
+  background-color: $wrong-bg;
   color: black;
 }
 
-.bg-green:hover {
-  background-color: green;
+.success:hover {
+  background-color: $success-bg;
   color: black;
 }
 

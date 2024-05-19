@@ -5,13 +5,12 @@ import {
   AREA_LEVEL,
   FOUNDED_YEAR_LEVEL, LEVELS,
   POPULATION_LEVEL,
-  SISTER_LEVEL,
-  TRIVIA_LEVEL,
   UNITS
 } from 'src/app/shared/consts/steps.const';
 import {DecimalPipe} from '@angular/common';
 import {StorageItem} from 'src/app/shared/models/storage-items.model';
 import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
+import {HEBREW_LETTERS} from 'src/app/shared/consts/letters-mapper.const';
 
 @Component({
   selector: 'app-bonus-level-number-ranges',
@@ -25,6 +24,7 @@ export class BonusLevelNumberRangesComponent implements OnInit {
   @Input() step: number;
   UNITS: any = UNITS;
   AREA_LEVEL = AREA_LEVEL;
+  HEBREW_LETTERS = HEBREW_LETTERS;
 
   isClicked = false;
   shouldStartFireworks = false;
@@ -90,4 +90,6 @@ export class BonusLevelNumberRangesComponent implements OnInit {
 
     return `${min}-${max}${this.UNITS[this.step]}`;
   }
+
+  protected readonly String = String;
 }
