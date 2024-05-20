@@ -45,3 +45,12 @@
   border-radius: 4px;
   height: 7rem;
 }
+
+.map-wrapper {
+  display: flex;
+  justify-content: center;
+
+  @include respond(phone) {
+    margin: 0;
+  }
+}

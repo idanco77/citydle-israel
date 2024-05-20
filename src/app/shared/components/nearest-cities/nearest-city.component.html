@@ -15,9 +15,11 @@
   'success': guess.isCorrect,
   'wrong': guess.isCorrect === false}">{{ guess.name }}</div>
 </div>
-<google-map *ngIf="apiLoaded | async" #googleMap [width]="mapWidth" height="60vh" [options]="mapSettings">
-  <map-marker *ngFor="let marker of nearestCitiesMarkers"
-              [position]="marker.position"
-              [label]="marker.label"
-              [options]="marker.options"></map-marker>
-</google-map>
+<div class="map-wrapper">
+  <google-map *ngIf="apiLoaded | async" #googleMap [width]="mapWidth" height="60vh" [options]="mapSettings">
+    <map-marker *ngFor="let marker of nearestCitiesMarkers"
+                [position]="marker.position"
+                [label]="marker.label"
+                [options]="marker.options"></map-marker>
+  </google-map>
+</div>
