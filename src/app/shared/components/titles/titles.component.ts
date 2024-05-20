@@ -1,14 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {faCalendarDays, faCircleChevronLeft, faCircleChevronRight,
-  faCity,
+import {faCalendarDays, faCircleChevronLeft, faCircleChevronRight, faCity,
   faClipboardQuestion, faGlobe, faMapLocation, faUsers } from '@fortawesome/free-solid-svg-icons';
-import {
-  AREA_LEVEL,
-  GUESSES_LEVEL,
-  POPULATION_LEVEL,
-  LEVELS,
-  FOUNDED_YEAR_LEVEL, TRIVIA_LEVEL, SISTER_LEVEL, NEAREST_CITY_LEVEL
-} from 'src/app/shared/consts/steps.const';
+import {LEVELS, Levels} from 'src/app/shared/consts/steps.const';
 
 
 @Component({
@@ -20,13 +13,13 @@ export class TitlesComponent {
   @Input() isGameOver: boolean;
   @Output() navigate = new EventEmitter<boolean>();
 
-  protected readonly GUESSES_LEVEL = GUESSES_LEVEL;
-  protected readonly POPULATION_LEVEL = POPULATION_LEVEL;
-  protected readonly AREA_LEVEL = AREA_LEVEL;
-  protected readonly FOUNDED_YEAR_LEVEL = FOUNDED_YEAR_LEVEL;
-  protected readonly TRIVIA_LEVEL = TRIVIA_LEVEL;
-  protected readonly SISTER_LEVEL = SISTER_LEVEL;
-  protected readonly NEAREST_CITY_LEVEL = NEAREST_CITY_LEVEL;
+  protected readonly GUESSES_LEVEL = Levels.GUESSES;
+  protected readonly POPULATION_LEVEL = Levels.POPULATION;
+  protected readonly AREA_LEVEL = Levels.AREA;
+  protected readonly FOUNDED_YEAR_LEVEL = Levels.FOUNDED_YEAR;
+  protected readonly TRIVIA_LEVEL = Levels.TRIVIA;
+  protected readonly SISTER_LEVEL = Levels.SISTER;
+  protected readonly NEAREST_CITY_LEVEL = Levels.NEAREST_CITY;
   protected readonly faCircleChevronLeft = faCircleChevronLeft;
   protected readonly faCircleChevronRight = faCircleChevronRight;
   protected readonly faUsers = faUsers;

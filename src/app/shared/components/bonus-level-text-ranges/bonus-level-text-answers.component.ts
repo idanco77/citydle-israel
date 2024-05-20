@@ -1,14 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {
-  LEVELS,
-  SISTER_LEVEL,
-  TRIVIA_LEVEL
-} from 'src/app/shared/consts/steps.const';
 import {TextAnswer} from 'src/app/shared/models/text-answer.model';
 import {CityOver10K} from 'src/app/shared/models/city.model';
 import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
 import {StorageItem} from 'src/app/shared/models/storage-items.model';
 import {HEBREW_LETTERS} from 'src/app/shared/consts/letters-mapper.const';
+import {Levels, LEVELS} from 'src/app/shared/consts/steps.const';
 
 @Component({
   selector: 'app-bonus-level-text-answers',
@@ -20,9 +16,13 @@ export class BonusLevelTextAnswersComponent implements OnInit{
   @Input() question: string;
   @Input() answer: string;
   @Input() step: number;
+
+  protected readonly SISTER_LEVEL = Levels.SISTER;
+  protected readonly HEBREW_LETTERS = HEBREW_LETTERS;
+  protected readonly TRIVIA_LEVEL = Levels.TRIVIA;
+
   isClicked = false;
   shouldStartFireworks = false;
-  protected readonly HEBREW_LETTERS = HEBREW_LETTERS;
 
 
   constructor(private isGameOverService: IsGameOverService) {
@@ -30,8 +30,8 @@ export class BonusLevelTextAnswersComponent implements OnInit{
 
   ngOnInit() {
     const storageItems: StorageItem[] = [
-      { storageKey: 'trivia', level: TRIVIA_LEVEL },
-      { storageKey: 'sisterCities', level: SISTER_LEVEL },
+      { storageKey: 'trivia', level: this.TRIVIA_LEVEL },
+      { storageKey: 'sisterCities', level: this.SISTER_LEVEL },
     ];
 
     storageItems.forEach(item => {
@@ -62,11 +62,11 @@ export class BonusLevelTextAnswersComponent implements OnInit{
     const correctRange = this.textAnswers.find(range => range.isCorrect) as TextAnswer;
     correctRange.isClicked = true;
 
-    if (this.step === TRIVIA_LEVEL) {
+    if (this.step === this.TRIVIA_LEVEL) {
       localStorage.setItem('trivia', JSON.stringify(this.textAnswers));
     }
 
-    if (this.step === SISTER_LEVEL) {
+    if (this.step === this.SISTER_LEVEL) {
       localStorage.setItem('sisterCities', JSON.stringify(this.textAnswers));
     }
 

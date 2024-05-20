@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {Guess} from 'src/app/shared/models/guess.model';
-import {CityOver10K} from 'src/app/shared/models/city.model';
 
 @Component({
   selector: 'app-guess',

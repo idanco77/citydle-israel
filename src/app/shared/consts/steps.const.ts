@@ -1,18 +1,20 @@
-export const GUESSES_LEVEL = 0;
-export const POPULATION_LEVEL = 1;
-export const NEAREST_CITY_LEVEL = 2;
-export const FOUNDED_YEAR_LEVEL = 3;
-export const AREA_LEVEL = 4;
-export const TRIVIA_LEVEL = 5;
-export const SISTER_LEVEL = 6;
+export enum Levels {
+  GUESSES,
+  POPULATION,
+  FOUNDED_YEAR,
+  AREA,
+  TRIVIA,
+  SISTER,
+  NEAREST_CITY,
+}
+export const LEVELS = Object.values(Levels).filter(value => typeof value === 'number');
 
-export const LEVELS = [
-  GUESSES_LEVEL, POPULATION_LEVEL, NEAREST_CITY_LEVEL, FOUNDED_YEAR_LEVEL, AREA_LEVEL, TRIVIA_LEVEL,
-  SISTER_LEVEL
-];
-
-export const UNITS = {
-  1: ' תושבים',
-  3: '',
-  4: ' דונם',
+export const UNITS: { [key in Levels]?: string } = {
+  [Levels.POPULATION]: ' תושבים',
+  [Levels.AREA]: ' דונם',
+  [Levels.GUESSES]: '',
+  [Levels.NEAREST_CITY]: '',
+  [Levels.FOUNDED_YEAR]: '',
+  [Levels.TRIVIA]: '',
+  [Levels.SISTER]: ''
 };

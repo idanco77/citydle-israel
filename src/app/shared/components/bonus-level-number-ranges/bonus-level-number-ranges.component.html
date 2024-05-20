@@ -8,7 +8,7 @@
     'clicked': isClicked && !answer.isClicked
     }"
     class="tile text-center" *ngFor="let answer of rangeAnswers let index = index" (click)="isAnswerCorrect(answer)">
-    <span class="ms-2 fw-bolder">{{(HEBREW_LETTERS[index]) + '.'}}</span>
+    <span class="ms-2 fw-bolder">{{ (HEBREW_LETTERS[index]) + '.' }}</span>
     {{ getFormattedAnswer(answer) }}
   </mat-grid-tile>
 </mat-grid-list>
@@ -33,5 +33,4 @@
     </div>
   </mat-expansion-panel>
 </mat-accordion>
-
 

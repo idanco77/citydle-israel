@@ -8,6 +8,7 @@ import {GoogleMapService} from 'src/app/shared/services/google-map.service';
 import {Observable} from 'rxjs';
 import {MAP_SETTINGS} from 'src/app/shared/consts/map-settings.const';
 import {LEVELS} from 'src/app/shared/consts/steps.const';
+import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
 
 @Component({
   selector: 'app-nearest-city',
@@ -17,6 +18,7 @@ import {LEVELS} from 'src/app/shared/consts/steps.const';
 export class NearestCityComponent implements OnInit {
   @Input() mysteryCity: CityOver10K;
   @Input() citiesOver10k: CityOver10K[];
+  @Input() step: number;
   @ViewChild('googleMap') googleMap: GoogleMap;
 
   protected readonly faCheck = faCheck;
@@ -32,7 +34,8 @@ export class NearestCityComponent implements OnInit {
   apiLoaded: Observable<boolean>;
   mapSettings: google.maps.MapOptions;
 
-  constructor(private googleMapService: GoogleMapService) {
+  constructor(private googleMapService: GoogleMapService,
+              private isGameOverService: IsGameOverService) {
     this.apiLoaded = this.googleMapService.apiLoaded();
   }
 
@@ -86,6 +89,10 @@ export class NearestCityComponent implements OnInit {
         this.addMarker(city);
       });
     }
+
+    if (this.step === LEVELS.length - 1) {
+      this.isGameOverService.isGameOver.next(true);
+    }
   }
 
   private setNearestCities() {
@@ -131,6 +138,5 @@ export class NearestCityComponent implements OnInit {
       options: {draggable: false},
       label: {text:cityObj.name},
     });
-
   }
 }

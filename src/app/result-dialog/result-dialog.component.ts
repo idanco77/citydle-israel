@@ -20,8 +20,7 @@ export class ResultDialogComponent implements OnInit{
   totalPlayedGames: number;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: {city: CityOver10K, guesses: Guess[], isGameOver: boolean},
-              private snackBar: MatSnackBar) {
-  }
+              private snackBar: MatSnackBar) {}
 
   ngOnInit() {
     const history = JSON.parse(localStorage.getItem('history') || '[]');

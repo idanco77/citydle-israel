@@ -21,8 +21,7 @@ export class MenuComponent {
   @Input() isWin: boolean;
   @Input() mysteryCity: CityOver10K;
 
-  constructor(private dialog: MatDialog) {
-  }
+  constructor(private dialog: MatDialog) {}
 
   openResultsDialog(): void {
     this.dialog.open(ResultDialogComponent, {
@@ -40,6 +39,4 @@ export class MenuComponent {
       width: '500px'
     });
   }
-
-
 }

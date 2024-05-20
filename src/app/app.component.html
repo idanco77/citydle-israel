@@ -1,7 +1,7 @@
 <app-fireworks *ngIf="shouldStartFireworks"></app-fireworks>
 <app-menu [mysteryCity]="mysteryCity" [isWin]="isWin" [guesses]="guesses" [isGameOver]="isGameOver"></app-menu>
 
-  <div class="page-wrapper" [ngStyle]="{zoom: [GUESSES_LEVEL, NEAREST_CITY_LEVEL].includes(step) && !isMobile ? '100%' : '125%'}">
+  <div class="page-wrapper" [ngStyle]="{zoom: [GUESSES_LEVEL, NEAREST_CITY_LEVEL].includes(step) || isMobile ? '100%' : '125%'}">
     <div class="width-container">
         <app-titles (navigate)="navigateBetweenSteps($event)" [step]="step" [isGameOver]="isGameOver"></app-titles>
       <div *ngIf="step === GUESSES_LEVEL" [@enter] class="guesses-wrapper">
@@ -33,16 +33,16 @@
                                        [mysteryCity]="mysteryCity" [rangeAnswers]="rangeAnswers">
         </app-bonus-level-number-ranges>
       </div>
-      <div *ngIf="step === AREA_LEVEL"   [@enter]  class="guesses-wrapper">
+      <div *ngIf="step === AREA_LEVEL" [@enter] class="guesses-wrapper">
         <app-bonus-level-number-ranges [step]="step"
                                        question="מה השטח של "
                                        [answer]="(mysteryCity.area | number) + ' דונם'"
                                        [mysteryCity]="mysteryCity" [rangeAnswers]="rangeAnswers"></app-bonus-level-number-ranges>
       </div>
-      <div *ngIf="step === FOUNDED_YEAR_LEVEL"  [@enter] class="guesses-wrapper">
+      <div *ngIf="step === FOUNDED_YEAR_LEVEL" [@enter] class="guesses-wrapper">
         <app-bonus-level-number-ranges [step]="step"
                                        question="באיזו שנה נוסדה "
-                                       [answer]="mysteryCity.foundedAt ? mysteryCity.foundedAt + '' : 'לא ידוע'"
+                                       [answer]="mysteryCity.foundedAt"
                                        [mysteryCity]="mysteryCity" [rangeAnswers]="rangeAnswers"></app-bonus-level-number-ranges>
       </div>
       <div *ngIf="step === TRIVIA_LEVEL" [@enter] class="guesses-wrapper">
@@ -58,7 +58,7 @@
                                       [textAnswers]="textAnswers"></app-bonus-level-text-answers>
       </div>
       <div *ngIf="step === NEAREST_CITY_LEVEL" [@enter] class="guesses-wrapper">
-        <app-nearest-city [mysteryCity]="mysteryCity" [citiesOver10k]="citiesOver10k"></app-nearest-city>
+        <app-nearest-city [step]="step" [mysteryCity]="mysteryCity" [citiesOver10k]="citiesOver10k"></app-nearest-city>
       </div>
       <div class="d-flex">
         <button [disabled]="step === LAST_LEVEL" *ngIf="isGameOver" (click)="navigateBetweenSteps(true)"

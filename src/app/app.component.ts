@@ -13,13 +13,7 @@ import {faLightbulb, faMugHot, faSackDollar} from '@fortawesome/free-solid-svg-i
 import {getCurrentDateYyyyMmDd} from 'src/app/shared/consts/get-current-date-yyyy-mm-dd.const';
 import {directions} from 'src/app/shared/types/directions.type';
 import {createAnswers, createRanges, shuffleArray} from 'src/app/shared/consts/create-number-range.const';
-import {
-  AREA_LEVEL,
-  GUESSES_LEVEL,
-  POPULATION_LEVEL,
-  LEVELS,
-  FOUNDED_YEAR_LEVEL, TRIVIA_LEVEL, SISTER_LEVEL, NEAREST_CITY_LEVEL
-} from 'src/app/shared/consts/steps.const';
+import {Levels, LEVELS} from 'src/app/shared/consts/steps.const';
 import {RangeAnswer} from 'src/app/shared/models/range-answer.model';
 import {TextAnswer} from 'src/app/shared/models/text-answer.model';
 import {getRandomElements} from 'src/app/shared/consts/get-random-element.const';
@@ -41,16 +35,17 @@ import {MAP_SETTINGS} from 'src/app/shared/consts/map-settings.const';
     bounceInLeftOnEnterAnimation({ anchor: 'enter', duration: 1000, delay: 100, translate: '300px' })]
 })
 export class AppComponent implements OnInit {
-  isMobile = window.innerWidth < 500;
-  shouldStartFireworks = false;
-  GUESSES_LEVEL = GUESSES_LEVEL;
-  POPULATION_LEVEL = POPULATION_LEVEL;
-  AREA_LEVEL = AREA_LEVEL;
-  FOUNDED_YEAR_LEVEL = FOUNDED_YEAR_LEVEL;
-  TRIVIA_LEVEL = TRIVIA_LEVEL;
-  SISTER_LEVEL = SISTER_LEVEL;
-  NEAREST_CITY_LEVEL = NEAREST_CITY_LEVEL;
+  protected readonly isMobile = window.innerWidth < 500;
+  protected readonly GUESSES_LEVEL = Levels.GUESSES;
+  protected readonly POPULATION_LEVEL = Levels.POPULATION;
+  protected readonly AREA_LEVEL = Levels.AREA;
+  protected readonly FOUNDED_YEAR_LEVEL = Levels.FOUNDED_YEAR;
+  protected readonly TRIVIA_LEVEL = Levels.TRIVIA;
+  protected readonly SISTER_LEVEL = Levels.SISTER;
+  protected readonly NEAREST_CITY_LEVEL = Levels.NEAREST_CITY;
   protected readonly LAST_LEVEL = LEVELS.length - 1;
+
+  shouldStartFireworks = false;
   step: number = this.GUESSES_LEVEL;
   rangeAnswers: RangeAnswer[];
   textAnswers: TextAnswer[];
@@ -241,7 +236,7 @@ export class AppComponent implements OnInit {
 
   private manageLocalStorage() {
     const step: string | null = localStorage.getItem('step');
-    this.step = step ? +step : GUESSES_LEVEL;
+    this.step = step ? +step : Levels.GUESSES;
     const date = localStorage.getItem('date');
     if (date && date !== this.getCurrentDateInUTC()) {
       this.clearDailyData();
@@ -304,8 +299,11 @@ export class AppComponent implements OnInit {
   navigateBetweenSteps(isUp: boolean) {
     this.isShow = false;
     isUp ? this.step++ : this.step--;
-    localStorage.setItem('step', this.step.toString());
-
+    if (this.step === this.FOUNDED_YEAR_LEVEL && !this.mysteryCity.foundedAt ||
+      this.step === this.SISTER_LEVEL && !this.mysteryCity.sisterCities) {
+      isUp ? this.step++ : this.step--;
+      return;
+    }
 
     if (this.step === this.POPULATION_LEVEL) {
       const data = createRanges(0, 1000000, 5000);
@@ -332,7 +330,7 @@ export class AppComponent implements OnInit {
 
     }
 
-    if (this.step === TRIVIA_LEVEL) {
+    if (this.step === this.TRIVIA_LEVEL) {
       let citiesWithoutMysteryCity = [...this.citiesOver10k];
       citiesWithoutMysteryCity = citiesWithoutMysteryCity.filter(city => city.name !== this.mysteryCity.name);
       this.textAnswers = getRandomElements(citiesWithoutMysteryCity, 'trivia');
@@ -340,7 +338,7 @@ export class AppComponent implements OnInit {
       shuffleArray(this.textAnswers);
     }
 
-    if (this.step === SISTER_LEVEL) {
+    if (this.step === this.SISTER_LEVEL) {
       let citiesWithoutMysteryCity = [...this.citiesOver10k];
       citiesWithoutMysteryCity = citiesWithoutMysteryCity.filter(city => city.name !== this.mysteryCity.name);
       const citiesWithSisterCity = citiesWithoutMysteryCity.filter(city => city.sisterCities);
@@ -349,6 +347,7 @@ export class AppComponent implements OnInit {
       shuffleArray(this.textAnswers);
     }
     setTimeout(() => {    this.isShow = true;}, 20)
+    localStorage.setItem('step', this.step.toString());
   }
 
   private openResultsDialog() {

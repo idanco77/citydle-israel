@@ -1,7 +1,6 @@
 import {Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 import {FormControl} from '@angular/forms';
-import {CITIES} from 'src/app/shared/consts/cities.const';
 import {City} from 'src/app/shared/models/city.model';
 import {map, Observable, startWith} from 'rxjs';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
@@ -23,9 +22,10 @@ export class AutocompleteCityComponent implements OnInit {
   @Input() isDisabled: boolean;
   @Input() cities: City[];
 
+  protected readonly faMagnifyingGlass = faMagnifyingGlass;
+
   filteredCities: Observable<City[]>;
   autocompleteControl: FormControl<string | null> = new FormControl('');
-  protected readonly faMagnifyingGlass = faMagnifyingGlass;
 
   ngOnInit() {
     this.initAutocomplete();

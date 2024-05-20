@@ -1,23 +1,19 @@
 <div class="fs-3 fw-bolder text-center my-4">מהן 4 הערים הקרובות ביותר ל{{ mysteryCity.name }}? </div>
 <app-autocomplete *ngIf="!isGameOver" [cities]="citiesOver10k" (selectedCity)="handleSelection($event)"></app-autocomplete>
 <div class="text-center fs-3 fw-bolder mb-4 d-flex justify-content-between" *ngIf="isGameOver">
-  <div class="answers" *ngFor="let city of nearestCities" [ngClass]="{
-  'check': city.isCorrect,
-  'success': city.isCorrect}">
+  <div class="answers" *ngFor="let city of nearestCities">
     <fa-icon *ngIf="city.isCorrect" class="check" [icon]="faCheck"></fa-icon>
     <fa-icon *ngIf="!city.isCorrect" class="x" [icon]="faX"></fa-icon>
     {{ city.name }}</div>
 </div>
 <div *ngFor="let guess of guesses" class="nearest-cities-guess">
   <div class="guess-sign" [ngClass]="{'success': guess.isCorrect, 'wrong': guess.isCorrect === false}">
-    <fa-icon *ngIf="guess.isCorrect" class="check" [icon]="faCheck"></fa-icon>
-    <fa-icon *ngIf="guess.isCorrect === false" class="x" [icon]="faX"></fa-icon>
+    <fa-icon *ngIf="guess.isCorrect" [icon]="faCheck"></fa-icon>
+    <fa-icon *ngIf="guess.isCorrect === false" [icon]="faX"></fa-icon>
   </div>
   <div class="guess-label" [ngClass]="{
   'success': guess.isCorrect,
-  'check': guess.isCorrect,
-  'wrong': guess.isCorrect === false,
-  'x': guess.isCorrect === false}">{{ guess.name }}</div>
+  'wrong': guess.isCorrect === false}">{{ guess.name }}</div>
 </div>
 <google-map *ngIf="apiLoaded | async" #googleMap [width]="mapWidth" height="60vh" [options]="mapSettings">
   <map-marker *ngFor="let marker of nearestCitiesMarkers"
