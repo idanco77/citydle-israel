@@ -90,7 +90,7 @@ export class NearestCityComponent implements OnInit {
       });
     }
 
-    if (this.step === LEVELS.length - 1) {
+    if (this.isGameOver && this.step === LEVELS.length - 1) {
       this.isGameOverService.isGameOver.next(true);
     }
   }

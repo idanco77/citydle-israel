@@ -306,28 +306,35 @@ export class AppComponent implements OnInit {
     }
 
     if (this.step === this.POPULATION_LEVEL) {
-      const data = createRanges(0, 1000000, 5000);
+      let data;
+      if (this.mysteryCity.population >= 100000) {
+        data = createRanges(10000, 1200000, 25000);
+      } else {
+        data = createRanges(10000, 1000000, 5000);
+      }
       this.rangeAnswers = createAnswers(this.mysteryCity.population, data);
     }
 
     if (this.step === this.AREA_LEVEL) {
-      const data = createRanges(0, 250000, 3000);
+      let data;
+      if (this.mysteryCity.area >= 100000) {
+        data = createRanges(10000, 300000, 20000);
+      } else {
+        data = createRanges(0, 250000, 3000);
+      }
       this.rangeAnswers = createAnswers(this.mysteryCity.area, data);
     }
 
     if (this.step === this.FOUNDED_YEAR_LEVEL) {
-      const data = createRanges(1590, 2024, 10);
       if (this.mysteryCity.foundedAt) {
+        let data;
+        if (this.mysteryCity.foundedAt < 1900) {
+          data = createRanges(1500, 2000, 100);
+        } else {
+          data = createRanges(1500, 2024, 10);
+        }
         this.rangeAnswers = createAnswers(this.mysteryCity.foundedAt, data);
-      } else {
-        this.rangeAnswers = [
-          {min: 1910, max: 1920, isCorrect: false},
-          {min: 0, max: 0, isCorrect: true},
-          {min: 1920, max: 1930, isCorrect: false},
-          {min: 1930, max: 1940, isCorrect: false},
-        ]
       }
-
     }
 
     if (this.step === this.TRIVIA_LEVEL) {
