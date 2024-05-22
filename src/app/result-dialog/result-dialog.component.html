@@ -3,7 +3,7 @@
   <p class="text-center fs-2">היישוב המסתורי: <a href="https://www.google.com/search?q={{ data.city.name + ' יישוב ' }}"
                                                  target="_blank">{{ data.city.name }}</a></p>
   <p class="text-center fs-3">אוכלוסיה: {{ data.city.population | number }} תושבים</p>
-  <p class="text-center fs-3">שנת ייסוד: {{ data.city.foundedAt ? data.city.foundedAt : 'לא ידוע' }}</p>
+  <p class="text-center fs-3" *ngIf="data.city.foundedAt">שנת ייסוד: {{ data.city.foundedAt }}</p>
   <p class="text-center fs-3">שטח: {{ (data.city.area | number) + ' דונם' }}</p>
   <p class="text-center fs-3">היישוב הינו בעל רוב {{ data.city.religion }}</p>
   <p *ngIf="data.city.sisterCities" class="text-center fs-3">ערים תאומות: {{ data.city.sisterCities }}</p>

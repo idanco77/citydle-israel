@@ -299,11 +299,6 @@ export class AppComponent implements OnInit {
   navigateBetweenSteps(isUp: boolean) {
     this.isShow = false;
     isUp ? this.step++ : this.step--;
-    if (this.step === this.FOUNDED_YEAR_LEVEL && !this.mysteryCity.foundedAt ||
-      this.step === this.SISTER_LEVEL && !this.mysteryCity.sisterCities) {
-      isUp ? this.step++ : this.step--;
-      return;
-    }
 
     if (this.step === this.POPULATION_LEVEL) {
       let data;
@@ -326,7 +321,10 @@ export class AppComponent implements OnInit {
     }
 
     if (this.step === this.FOUNDED_YEAR_LEVEL) {
-      if (this.mysteryCity.foundedAt) {
+      if (!this.mysteryCity.foundedAt) {
+        this.navigateBetweenSteps(isUp);
+        return;
+      }
         let data;
         if (this.mysteryCity.foundedAt < 1900) {
           data = createRanges(1500, 2000, 100);
@@ -334,7 +332,6 @@ export class AppComponent implements OnInit {
           data = createRanges(1500, 2024, 10);
         }
         this.rangeAnswers = createAnswers(this.mysteryCity.foundedAt, data);
-      }
     }
 
     if (this.step === this.TRIVIA_LEVEL) {
@@ -346,11 +343,15 @@ export class AppComponent implements OnInit {
     }
 
     if (this.step === this.SISTER_LEVEL) {
+      if (!this.mysteryCity.sisterCities) {
+        this.navigateBetweenSteps(isUp);
+        return;
+      }
       let citiesWithoutMysteryCity = [...this.citiesOver10k];
       citiesWithoutMysteryCity = citiesWithoutMysteryCity.filter(city => city.name !== this.mysteryCity.name);
       const citiesWithSisterCity = citiesWithoutMysteryCity.filter(city => city.sisterCities);
       this.textAnswers = getRandomElements(citiesWithSisterCity, 'sisterCities');
-      this.textAnswers.push({text: this.mysteryCity.sisterCities ?? 'ללא עיר תאומה' , isCorrect: true});
+      this.textAnswers.push({text: this.mysteryCity.sisterCities , isCorrect: true});
       shuffleArray(this.textAnswers);
     }
     setTimeout(() => {    this.isShow = true;}, 20)
