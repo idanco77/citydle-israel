@@ -5,6 +5,7 @@ import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
 import {StorageItem} from 'src/app/shared/models/storage-items.model';
 import {HEBREW_LETTERS} from 'src/app/shared/consts/letters-mapper.const';
 import {Levels, LEVELS} from 'src/app/shared/consts/steps.const';
+import {startConfetti} from 'src/app/shared/consts/confetti.const';
 
 @Component({
   selector: 'app-bonus-level-text-answers',
@@ -22,7 +23,6 @@ export class BonusLevelTextAnswersComponent implements OnInit{
   protected readonly TRIVIA_LEVEL = Levels.TRIVIA;
 
   isClicked = false;
-  shouldStartFireworks = false;
 
 
   constructor(private isGameOverService: IsGameOverService) {
@@ -56,7 +56,7 @@ export class BonusLevelTextAnswersComponent implements OnInit{
     }
     this.isClicked = true;
     if (answer.isCorrect && !answer.isClicked) {
-      this.shouldStartFireworks = true;
+      startConfetti();
     }
     answer.isClicked = true;
     const correctRange = this.textAnswers.find(range => range.isCorrect) as TextAnswer;

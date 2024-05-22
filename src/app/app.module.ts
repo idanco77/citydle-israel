@@ -21,7 +21,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {GuessComponent} from 'src/app/shared/components/guess/guess.component';
 import {XComponent} from 'src/app/shared/components/x/x.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {FireworksComponent} from 'src/app/shared/components/fireworks/fireworks.component';
 import {
   BonusLevelNumberRangesComponent
 } from 'src/app/shared/components/bonus-level-number-ranges/bonus-level-number-ranges.component';
@@ -44,7 +43,6 @@ import {GoogleMapService} from 'src/app/shared/services/google-map.service';
     IntroDialogComponent,
     GuessComponent,
     XComponent,
-    FireworksComponent,
     BonusLevelNumberRangesComponent,
     MenuComponent,
     BonusLevelTextAnswersComponent,

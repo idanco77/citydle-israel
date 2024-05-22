@@ -9,6 +9,7 @@ import {Observable} from 'rxjs';
 import {MAP_SETTINGS} from 'src/app/shared/consts/map-settings.const';
 import {LEVELS} from 'src/app/shared/consts/steps.const';
 import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
+import {startConfetti} from 'src/app/shared/consts/confetti.const';
 
 @Component({
   selector: 'app-nearest-city',
@@ -84,6 +85,11 @@ export class NearestCityComponent implements OnInit {
     localStorage.setItem('nearestCitiesMarkers', JSON.stringify(this.nearestCitiesMarkers));
     this.checkIsGameOver();
     this.checkIsWin();
+
+    if (this.isWin) {
+      startConfetti();
+    }
+
     if (this.isGameOver && ! this.isWin) {
       this.nearestCities.forEach(city => {
         this.addMarker(city);
@@ -113,7 +119,6 @@ export class NearestCityComponent implements OnInit {
   }
 
   private checkIsWin() {
-    const nearestNames = this.nearestCities.map(city => city.name);
     const filterGuesses = this.guesses.filter(guess => guess.name);
     if (!filterGuesses.length) {
       this.isWin = false;

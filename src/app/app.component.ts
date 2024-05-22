@@ -26,6 +26,7 @@ import {CITIES} from 'src/app/shared/consts/cities.const';
 import {AutocompleteCityComponent} from 'src/app/shared/components/autocomplete-city/autocomplete-city.component';
 import {GoogleMapService} from 'src/app/shared/services/google-map.service';
 import {MAP_SETTINGS} from 'src/app/shared/consts/map-settings.const';
+import {startConfetti} from 'src/app/shared/consts/confetti.const';
 
 @Component({
   selector: 'app-root',
@@ -45,7 +46,6 @@ export class AppComponent implements OnInit {
   protected readonly NEAREST_CITY_LEVEL = Levels.NEAREST_CITY;
   protected readonly LAST_LEVEL = LEVELS.length - 1;
 
-  shouldStartFireworks = false;
   step: number = this.GUESSES_LEVEL;
   rangeAnswers: RangeAnswer[];
   textAnswers: TextAnswer[];
@@ -169,9 +169,7 @@ export class AppComponent implements OnInit {
       this.setTotalPlayedGames();
 
       this.autocompleteCity.autocompleteControl.disable();
-      if (this.isWin) {
-        this.shouldStartFireworks = true;
-      }
+        startConfetti();
     }
     localStorage.setItem('date', this.getCurrentDateInUTC());
     localStorage.setItem('guesses', JSON.stringify(this.guesses));
@@ -374,5 +372,7 @@ export class AppComponent implements OnInit {
       }
     });
   }
+
+  protected readonly startConfetti = startConfetti;
 }
 

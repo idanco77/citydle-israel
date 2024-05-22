@@ -6,6 +6,7 @@ import {DecimalPipe} from '@angular/common';
 import {StorageItem} from 'src/app/shared/models/storage-items.model';
 import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
 import {HEBREW_LETTERS} from 'src/app/shared/consts/letters-mapper.const';
+import {startConfetti} from 'src/app/shared/consts/confetti.const';
 
 @Component({
   selector: 'app-bonus-level-number-ranges',
@@ -26,7 +27,6 @@ export class BonusLevelNumberRangesComponent implements OnInit {
   LEVELS = LEVELS.length - 1;
 
   isClicked = false;
-  shouldStartFireworks = false;
 
   constructor(private decimalPipe: DecimalPipe, private isGameOverService: IsGameOverService) {}
 
@@ -57,7 +57,7 @@ export class BonusLevelNumberRangesComponent implements OnInit {
     this.isClicked = true;
 
     if (answer.isCorrect && !answer.isClicked) {
-      this.shouldStartFireworks = true;
+      startConfetti();
     }
 
     answer.isClicked = true;
