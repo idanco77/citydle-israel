@@ -11,6 +11,7 @@ import {LEVELS} from 'src/app/shared/consts/steps.const';
 import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
 import {startConfetti} from 'src/app/shared/consts/confetti.const';
 import {ErrorMessageService} from 'src/app/shared/services/error-message.service';
+import {createMarker} from 'src/app/shared/consts/createMarker.const';
 
 @Component({
   selector: 'app-nearest-city',
@@ -31,7 +32,7 @@ export class NearestCityComponent implements OnInit {
   guess = 0;
   isGameOver: boolean = false;
   isWin = false;
-  nearestCitiesMarkers: any = [];
+  nearestCitiesMarkers: any[] = [];
   mapWidth = this.isMobile ? '35rem' : '45rem';
   apiLoaded: Observable<boolean>;
   mapSettings: google.maps.MapOptions;
@@ -49,6 +50,7 @@ export class NearestCityComponent implements OnInit {
     this.guess = +(localStorage.getItem('nearestCitiesGuessesIndex') ?? 0);
     this.nearestCitiesMarkers = JSON.parse(localStorage.getItem('nearestCitiesMarkers') || '[]');
     this.addMysteryCityMarker();
+    this.removeMysteryCityFromList();
     this.setNearestCities();
     this.checkIsGameOver();
     this.setGuesses();
@@ -71,14 +73,13 @@ export class NearestCityComponent implements OnInit {
       this.errorMessageService.showErrorMessage();
       return;
     }
-    if (this.isGameOver) {
-      return;
-    }
+    if (this.isGameOver) return;
+
     const cityObj = this.citiesOver10k.find(city => city.name === selectedCity);
     if (! cityObj) {
       return;
     }
-    this.addMarker(cityObj);
+    this.citiesOver10k = this.citiesOver10k.filter(city => city.name !== selectedCity);
 
     const city = this.nearestCities.find(city => selectedCity === city.name);
     if (city) {
@@ -86,22 +87,23 @@ export class NearestCityComponent implements OnInit {
     }
     this.guesses[this.guess] = {name: selectedCity, isCorrect: !!city};
     this.guess++;
-    localStorage.setItem('nearestCities', JSON.stringify(this.nearestCities));
-    localStorage.setItem('nearestCitiesGuesses', JSON.stringify(this.guesses));
-    localStorage.setItem('nearestCitiesGuessesIndex', JSON.stringify(this.guess));
-    localStorage.setItem('nearestCitiesMarkers', JSON.stringify(this.nearestCitiesMarkers));
     this.checkIsGameOver();
     this.checkIsWin();
-
+    this.nearestCitiesMarkers.push(createMarker(cityObj, cityObj.isCorrect));
     if (this.isWin) {
       startConfetti();
     }
 
     if (this.isGameOver && ! this.isWin) {
       this.nearestCities.forEach(city => {
-        this.addMarker(city);
+        this.nearestCitiesMarkers.push(createMarker(city, true));
       });
     }
+
+    localStorage.setItem('nearestCities', JSON.stringify(this.nearestCities));
+    localStorage.setItem('nearestCitiesGuesses', JSON.stringify(this.guesses));
+    localStorage.setItem('nearestCitiesGuessesIndex', JSON.stringify(this.guess));
+    localStorage.setItem('nearestCitiesMarkers', JSON.stringify(this.nearestCitiesMarkers));
 
     if (this.isGameOver && this.step === LEVELS.length - 1) {
       this.isGameOverService.isGameOver.next(true);
@@ -141,14 +143,10 @@ export class NearestCityComponent implements OnInit {
     if (this.nearestCitiesMarkers.length) {
       return;
     }
-    this.addMarker(this.mysteryCity)
+    this.nearestCitiesMarkers.push(createMarker(this.mysteryCity, false));
   }
 
-  private addMarker(cityObj: CityOver10K) {
-    this.nearestCitiesMarkers.push({
-      position: {lat: cityObj.lat, lng: cityObj.lng},
-      options: {draggable: false},
-      label: {text:cityObj.name},
-    });
+  private removeMysteryCityFromList(): void {
+    this.citiesOver10k = this.citiesOver10k.filter(city => city.name !== this.mysteryCity.name);
   }
 }

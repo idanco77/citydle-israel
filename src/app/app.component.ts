@@ -3,7 +3,6 @@ import {City, CityOver10K} from 'src/app/shared/models/city.model';
 import {Observable} from 'rxjs';
 import {Guess} from 'src/app/shared/models/guess.model';
 import {haversineFormula} from 'src/app/shared/consts/haversineFormula.const';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import {GoogleMap} from '@angular/google-maps';
 import {MatDialog} from '@angular/material/dialog';
 import {DOCUMENT} from '@angular/common';
@@ -28,6 +27,7 @@ import {GoogleMapService} from 'src/app/shared/services/google-map.service';
 import {MAP_SETTINGS} from 'src/app/shared/consts/map-settings.const';
 import {startConfetti} from 'src/app/shared/consts/confetti.const';
 import {ErrorMessageService} from 'src/app/shared/services/error-message.service';
+import {createMarker} from 'src/app/shared/consts/createMarker.const';
 
 @Component({
   selector: 'app-root',
@@ -132,18 +132,14 @@ export class AppComponent implements OnInit {
       return;
     }
 
-    if (this.isWin || this.currentGuess > 5) {
+    if (this.isGameOver) {
       return;
     }
-
+    console.log(this.cities);
+    this.cities = this.cities.filter(city => city.name !== selectedCity);
+    console.log(this.cities);
     this.isWin = this.checkIsWin(city.name);
-    this.markers.push({
-      position: {lat: city.lat, lng: city.lng},
-      options: {animation: this.isWin ? google.maps.Animation.BOUNCE : null, draggable: false},
-      label: {
-        text: city.name,
-      },
-    });
+    this.markers.push(createMarker(city, this.isWin));
     this.guesses[this.currentGuess].name = city.name;
     const distance = haversineFormula(
       this.mysteryCity.lat, this.mysteryCity.lng, city.lat, city.lng
@@ -157,13 +153,9 @@ export class AppComponent implements OnInit {
     this.currentGuess++;
     if (this.isGameOver) {
       if (!this.isWin) {
-        this.markers.push({
-          position: {lat: this.mysteryCity.lat, lng: this.mysteryCity.lng},
-          options: {animation: 0.0, draggable: false},
-          label: {
-            text: this.mysteryCity.name,
-          },
-        });
+        setTimeout(() => {
+          this.markers.push(createMarker(this.mysteryCity, true));
+        }, 1500);
       } else {
         this.saveHistory();
       }
@@ -171,7 +163,9 @@ export class AppComponent implements OnInit {
       this.setTotalPlayedGames();
 
       this.autocompleteCity.autocompleteControl.disable();
+      if (this.isWin) {
         startConfetti();
+      }
     }
     localStorage.setItem('date', this.getCurrentDateInUTC());
     localStorage.setItem('guesses', JSON.stringify(this.guesses));
@@ -305,7 +299,7 @@ export class AppComponent implements OnInit {
 
     if (this.step === this.AREA_LEVEL) {
       let data;
-      if (this.mysteryCity.area >= 100000) {
+      if (this.mysteryCity.area >= 20000) {
         data = createRanges(10000, 300000, 20000);
       } else {
         data = createRanges(0, 250000, 3000);
@@ -367,7 +361,5 @@ export class AppComponent implements OnInit {
       }
     });
   }
-
-  protected readonly startConfetti = startConfetti;
 }
 

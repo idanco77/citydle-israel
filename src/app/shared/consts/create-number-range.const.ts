@@ -30,7 +30,6 @@ export const createAnswers = (number: number, ranges: RangeAnswer[]): RangeAnswe
   const answers: RangeAnswer[] = getRandomSubarray(data);
   answers.push(ranges[ind]);
   shuffleArray(answers);
-  answers.sort((a, b) => a.min - b.min);
 
   return answers;
 }
