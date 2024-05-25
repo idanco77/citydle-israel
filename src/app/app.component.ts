@@ -27,6 +27,7 @@ import {AutocompleteCityComponent} from 'src/app/shared/components/autocomplete-
 import {GoogleMapService} from 'src/app/shared/services/google-map.service';
 import {MAP_SETTINGS} from 'src/app/shared/consts/map-settings.const';
 import {startConfetti} from 'src/app/shared/consts/confetti.const';
+import {ErrorMessageService} from 'src/app/shared/services/error-message.service';
 
 @Component({
   selector: 'app-root',
@@ -71,9 +72,10 @@ export class AppComponent implements OnInit {
   protected readonly faMugHot = faMugHot;
   isShow = true;
 
-  constructor(private snackBar: MatSnackBar,
-              private router: Router,
-              private dialog: MatDialog, @Inject(DOCUMENT) private document: Document,
+  constructor(private router: Router,
+              private dialog: MatDialog,
+              @Inject(DOCUMENT) private document: Document,
+              private errorMessageService: ErrorMessageService,
               private isGameOverService: IsGameOverService,
               private googleMapService: GoogleMapService) {
     this.handleRouteEvents();
@@ -126,7 +128,7 @@ export class AppComponent implements OnInit {
   handleSelection(selectedCity: null | string) {
     const city = this.cities.find(city => city.name === selectedCity) as City;
     if (! selectedCity || ! city) {
-      this.showErrorMessage();
+      this.errorMessageService.showErrorMessage();
       return;
     }
 
@@ -250,13 +252,6 @@ export class AppComponent implements OnInit {
     } else {
       this.clearDailyData();
     }
-  }
-
-  private showErrorMessage() {
-    this.snackBar.open('יישוב לא ידוע', 'X', {
-      duration: 1500,
-      verticalPosition: 'top'
-    });
   }
 
   private checkIsWin(cityName: string) {

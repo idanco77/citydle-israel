@@ -10,6 +10,7 @@ import {MAP_SETTINGS} from 'src/app/shared/consts/map-settings.const';
 import {LEVELS} from 'src/app/shared/consts/steps.const';
 import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
 import {startConfetti} from 'src/app/shared/consts/confetti.const';
+import {ErrorMessageService} from 'src/app/shared/services/error-message.service';
 
 @Component({
   selector: 'app-nearest-city',
@@ -36,7 +37,8 @@ export class NearestCityComponent implements OnInit {
   mapSettings: google.maps.MapOptions;
 
   constructor(private googleMapService: GoogleMapService,
-              private isGameOverService: IsGameOverService) {
+              private isGameOverService: IsGameOverService,
+              private errorMessageService: ErrorMessageService) {
     this.apiLoaded = this.googleMapService.apiLoaded();
   }
 
@@ -64,6 +66,11 @@ export class NearestCityComponent implements OnInit {
   }
 
   handleSelection(selectedCity: string | null) {
+    const cityOver10K = this.citiesOver10k.find(city => city.name === selectedCity) as CityOver10K;
+    if (! selectedCity || ! cityOver10K) {
+      this.errorMessageService.showErrorMessage();
+      return;
+    }
     if (this.isGameOver) {
       return;
     }

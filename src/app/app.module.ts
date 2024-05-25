@@ -35,6 +35,7 @@ import {NearestCityComponent} from 'src/app/shared/components/nearest-cities/nea
 import {AutocompleteCityComponent} from 'src/app/shared/components/autocomplete-city/autocomplete-city.component';
 import {TitlesComponent} from 'src/app/shared/components/titles/titles.component';
 import {GoogleMapService} from 'src/app/shared/services/google-map.service';
+import {ErrorMessageService} from 'src/app/shared/services/error-message.service';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import {GoogleMapService} from 'src/app/shared/services/google-map.service';
   providers: [
     IsGameOverService,
     DecimalPipe,
-    GoogleMapService
+    GoogleMapService,
+    ErrorMessageService
   ],
   bootstrap: [AppComponent]
 })
