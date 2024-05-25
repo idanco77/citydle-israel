@@ -117,9 +117,8 @@ export class NearestCityComponent implements OnInit {
     this.citiesOver10k.forEach((city: City) => {
       city.distance = haversineFormula(this.mysteryCity.lat, this.mysteryCity.lng, city.lat, city.lng, 'meters');
     });
-    console.log(this.citiesOver10k);
     this.nearestCities = this.citiesOver10k.sort((a, b) => a.distance as number - (b.distance as number))
-      .slice(1, 5);
+      .slice(0, 4);
   }
 
   private checkIsGameOver() {
