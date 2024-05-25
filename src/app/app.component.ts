@@ -135,9 +135,7 @@ export class AppComponent implements OnInit {
     if (this.isGameOver) {
       return;
     }
-    console.log(this.cities);
     this.cities = this.cities.filter(city => city.name !== selectedCity);
-    console.log(this.cities);
     this.isWin = this.checkIsWin(city.name);
     this.markers.push(createMarker(city, this.isWin));
     this.guesses[this.currentGuess].name = city.name;
