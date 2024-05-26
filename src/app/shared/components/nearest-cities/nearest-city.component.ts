@@ -36,6 +36,7 @@ export class NearestCityComponent implements OnInit {
   mapWidth = this.isMobile ? '35rem' : '45rem';
   apiLoaded: Observable<boolean>;
   mapSettings: google.maps.MapOptions;
+  protected readonly MAX_GUESSES = 7;
 
   constructor(private googleMapService: GoogleMapService,
               private isGameOverService: IsGameOverService,
@@ -61,7 +62,7 @@ export class NearestCityComponent implements OnInit {
     if (this.guesses.length) {
       return;
     }
-    this.guesses = Array.from({length: 8}, () => ({
+    this.guesses = Array.from({length: this.MAX_GUESSES}, () => ({
       name: null,
       isCorrect: null
     }))
@@ -122,7 +123,7 @@ export class NearestCityComponent implements OnInit {
   }
 
   private checkIsGameOver() {
-    if (this.guess === 8) {
+    if (this.guess === this.MAX_GUESSES) {
       this.isGameOver = true;
     }
   }
