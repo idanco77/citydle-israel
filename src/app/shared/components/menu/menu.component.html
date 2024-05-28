@@ -1,8 +1,9 @@
 <div class="menu">
-  <fa-icon (click)="openIntroDialog()" class="h1 pointer" [icon]="faCircleQuestion"></fa-icon>
+  <fa-icon matTooltip="עזרה" (click)="openIntroDialog()" class="h1 pointer" [icon]="faCircleQuestion"></fa-icon>
   <h1 class="title">
     Citydle-il ישראל
     <img ngSrc="assets/israel.svg" height="60" width="21" alt="israel">
   </h1>
-  <fa-icon (click)="openResultsDialog()" class="h1 pointer" [icon]="faChartSimple"></fa-icon>
+  <fa-icon matTooltip="סטטיסטיקה" (click)="openStatsDialog()" class="h1 pointer" [icon]="faChartSimple"></fa-icon>
+  <fa-icon matTooltip="ציון" (click)="openResultsDialog()" class="pe-3 h1 pointer" [icon]="faMedal"></fa-icon>
 </div>

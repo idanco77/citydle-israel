@@ -60,6 +60,8 @@ export class BonusLevelNumberRangesComponent implements OnInit {
       startConfetti();
     }
 
+    this.isGameOverService.addGrade(answer.isCorrect ? 2 : 0);
+
     answer.isClicked = true;
     const correctRange = this.rangeAnswers.find(range => range.isCorrect) as RangeAnswer;
     correctRange.isClicked = true;

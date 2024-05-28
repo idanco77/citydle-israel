@@ -1,15 +1,14 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {CityOver10K} from 'src/app/shared/models/city.model';
 import {Guess} from 'src/app/shared/models/guess.model';
 import {START_DATE} from 'src/app/shared/consts/start-date.const';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {analyzeDateStreaks} from 'src/app/shared/consts/analyze-date-streaks';
 
 @Component({
-  templateUrl: './result-dialog.component.html'
+  templateUrl: './stats-dialog.component.html'
 })
-export class ResultDialogComponent implements OnInit{
+export class StatsDialogComponent implements OnInit{
   hours: string | number;
   minutes: string | number;
   seconds: string | number;
@@ -19,7 +18,7 @@ export class ResultDialogComponent implements OnInit{
   successRate: number;
   totalPlayedGames: number;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: {city: CityOver10K, guesses: Guess[], isGameOver: boolean},
+  constructor(@Inject(MAT_DIALOG_DATA) public data: {guesses: Guess[], isGameOver: boolean},
               private snackBar: MatSnackBar) {}
 
   ngOnInit() {

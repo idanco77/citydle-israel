@@ -1,6 +1,6 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {City, CityOver10K} from 'src/app/shared/models/city.model';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {Guess} from 'src/app/shared/models/guess.model';
 import {haversineFormula} from 'src/app/shared/consts/haversineFormula.const';
 import {GoogleMap} from '@angular/google-maps';
@@ -17,7 +17,6 @@ import {RangeAnswer} from 'src/app/shared/models/range-answer.model';
 import {TextAnswer} from 'src/app/shared/models/text-answer.model';
 import {getRandomElements} from 'src/app/shared/consts/get-random-element.const';
 import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
-import {ResultDialogComponent} from 'src/app/result-dialog/result-dialog.component';
 import { bounceInLeftOnEnterAnimation } from 'angular-animations';
 import {calculateHeading} from 'src/app/shared/consts/headingFormula.const';
 
@@ -28,6 +27,7 @@ import {MAP_SETTINGS} from 'src/app/shared/consts/map-settings.const';
 import {startConfetti} from 'src/app/shared/consts/confetti.const';
 import {ErrorMessageService} from 'src/app/shared/services/error-message.service';
 import {createMarker} from 'src/app/shared/consts/createMarker.const';
+import {ResultsDialogComponent} from 'src/app/results-dialog/results-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -36,7 +36,7 @@ import {createMarker} from 'src/app/shared/consts/createMarker.const';
   animations: [
     bounceInLeftOnEnterAnimation({ anchor: 'enter', duration: 1000, delay: 100, translate: '300px' })]
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   protected readonly isMobile = window.innerWidth < 500;
   protected readonly GUESSES_LEVEL = Levels.GUESSES;
   protected readonly POPULATION_LEVEL = Levels.POPULATION;
@@ -71,6 +71,9 @@ export class AppComponent implements OnInit {
 
   protected readonly faMugHot = faMugHot;
   isShow = true;
+  private subs = new Subscription();
+  private isSisterGradeAdded: boolean = false;
+  private isMysteryCityGradeAdded: boolean = false;
 
   constructor(private router: Router,
               private dialog: MatDialog,
@@ -258,6 +261,7 @@ export class AppComponent implements OnInit {
     const history = JSON.parse((localStorage.getItem('history') || '[]'));
     history.push(getCurrentDateYyyyMmDd());
     localStorage.setItem('history', JSON.stringify(history));
+    this.isGameOverService.addGrade(this.currentGuess <= 3 ? 2 : 1);
   }
 
   private setSuccessRate(): void {
@@ -275,7 +279,7 @@ export class AppComponent implements OnInit {
     const itemKeys = ['date', 'currentGuess', 'markers', 'guesses',
       'population', 'area', 'foundedAt', 'trivia', 'sisterCities', 'step',
       'nearestCities', 'nearestCitiesGuesses', 'nearestCitiesGuessesIndex',
-      'nearestCitiesMarkers'
+      'nearestCitiesMarkers', 'grade'
     ];
 
       itemKeys.forEach(item => {localStorage.removeItem(item);});
@@ -307,6 +311,10 @@ export class AppComponent implements OnInit {
 
     if (this.step === this.FOUNDED_YEAR_LEVEL) {
       if (!this.mysteryCity.foundedAt) {
+        if (!this.isMysteryCityGradeAdded) {
+          this.isGameOverService.addGrade(2);
+          this.isMysteryCityGradeAdded = true;
+        }
         this.navigateBetweenSteps(isUp);
         return;
       }
@@ -329,6 +337,10 @@ export class AppComponent implements OnInit {
 
     if (this.step === this.SISTER_LEVEL) {
       if (!this.mysteryCity.sisterCities) {
+        if (!this.isSisterGradeAdded) {
+          this.isGameOverService.addGrade(2);
+          this.isSisterGradeAdded = true;
+        }
         this.navigateBetweenSteps(isUp);
         return;
       }
@@ -344,20 +356,20 @@ export class AppComponent implements OnInit {
   }
 
   private openResultsDialog() {
-    this.isGameOverService.isGameOver.subscribe(isGameOver => {
+    this.isGameOverService.isGameOver.next(true);
+    this.subs.add(this.isGameOverService.isGameOver.subscribe(isGameOver => {
       if (isGameOver) {
         setTimeout(() => {
-          this.dialog.open(ResultDialogComponent, {
-            width: '800px',
-            data: {
-              city: this.mysteryCity,
-              guesses: this.guesses,
-              isGameOver: this.isGameOver
-            }
+          this.dialog.open(ResultsDialogComponent, {
+            width: '650px',
           });
-        }, 2500);
+        }, 3000);
       }
-    });
+    }));
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
   }
 }
 

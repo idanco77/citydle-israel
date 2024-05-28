@@ -58,6 +58,9 @@ export class BonusLevelTextAnswersComponent implements OnInit{
     if (answer.isCorrect && !answer.isClicked) {
       startConfetti();
     }
+
+    this.isGameOverService.addGrade(answer.isCorrect ? 2 : 0);
+
     answer.isClicked = true;
     const correctRange = this.textAnswers.find(range => range.isCorrect) as TextAnswer;
     correctRange.isClicked = true;

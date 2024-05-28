@@ -10,7 +10,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {GoogleMapsModule} from '@angular/google-maps';
 import {HttpClientJsonpModule, HttpClientModule} from '@angular/common/http';
-import {ResultDialogComponent} from 'src/app/result-dialog/result-dialog.component';
+import {StatsDialogComponent} from 'src/app/stats-dialog/stats-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {IntroDialogComponent} from 'src/app/intro-dialog/intro-dialog.component';
 import { RouterOutlet} from '@angular/router';
@@ -36,11 +36,13 @@ import {AutocompleteCityComponent} from 'src/app/shared/components/autocomplete-
 import {TitlesComponent} from 'src/app/shared/components/titles/titles.component';
 import {GoogleMapService} from 'src/app/shared/services/google-map.service';
 import {ErrorMessageService} from 'src/app/shared/services/error-message.service';
+import {ResultsDialogComponent} from 'src/app/results-dialog/results-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ResultDialogComponent,
+    StatsDialogComponent,
+    ResultsDialogComponent,
     IntroDialogComponent,
     GuessComponent,
     XComponent,

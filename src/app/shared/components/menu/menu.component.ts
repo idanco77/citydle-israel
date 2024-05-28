@@ -1,11 +1,12 @@
 import {Component, Input} from '@angular/core';
-import {faCircleQuestion} from '@fortawesome/free-solid-svg-icons';
+import {faCircleQuestion, faMedal} from '@fortawesome/free-solid-svg-icons';
 import {faChartSimple} from '@fortawesome/free-solid-svg-icons/faChartSimple';
-import {ResultDialogComponent} from 'src/app/result-dialog/result-dialog.component';
+import {StatsDialogComponent} from 'src/app/stats-dialog/stats-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import { CityOver10K } from '../../models/city.model';
 import {Guess} from 'src/app/shared/models/guess.model';
 import {IntroDialogComponent} from 'src/app/intro-dialog/intro-dialog.component';
+import {ResultsDialogComponent} from 'src/app/results-dialog/results-dialog.component';
 
 @Component({
   selector: 'app-menu',
@@ -16,6 +17,7 @@ export class MenuComponent {
 
   protected readonly faCircleQuestion = faCircleQuestion;
   protected readonly faChartSimple = faChartSimple;
+  protected readonly faMedal = faMedal;
   @Input() isGameOver: boolean;
   @Input() guesses: Guess[];
   @Input() isWin: boolean;
@@ -23,11 +25,10 @@ export class MenuComponent {
 
   constructor(private dialog: MatDialog) {}
 
-  openResultsDialog(): void {
-    this.dialog.open(ResultDialogComponent, {
-      width: '800px',
+  openStatsDialog(): void {
+    this.dialog.open(StatsDialogComponent, {
+      width: '350px',
       data: {
-        city: this.mysteryCity,
         guesses: this.guesses,
         isGameOver: this.isGameOver
       }
@@ -38,5 +39,11 @@ export class MenuComponent {
     this.dialog.open(IntroDialogComponent, {
       width: '500px'
     });
+  }
+
+  openResultsDialog() {
+    this.dialog.open(ResultsDialogComponent, {
+      width: '650px'
+    })
   }
 }

@@ -1,0 +1,28 @@
+@import '../../scss/main';
+
+.star {
+  display: inline-block;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.star.visible {
+  opacity: 1;
+  animation: pulse 0.5s;
+}
+
+.result-image {
+  width: 250px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(2);
+  }
+  50% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

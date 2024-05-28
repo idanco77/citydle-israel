@@ -93,6 +93,7 @@ export class NearestCityComponent implements OnInit {
     this.nearestCitiesMarkers.push(createMarker(cityObj, cityObj.isCorrect));
     if (this.isWin) {
       startConfetti();
+      this.isGameOverService.addGrade(this.guess === 4 ? 2 : 1);
     }
 
     if (this.isGameOver && ! this.isWin) {

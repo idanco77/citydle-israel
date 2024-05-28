@@ -1,0 +1,12 @@
+<app-x></app-x>
+<ng-container *ngIf="data.isGameOver">
+  <p class="text-center fs-3 fw-bolder">האתגר הבא מתחיל בעוד: {{ hours + ':' + minutes + ':' + seconds }}</p>
+</ng-container>
+<p class="h1 text-center">סטטיסטיקה</p>
+<div>
+  <p class="text-center">רצף הנצחונות הטוב ביותר: <span class="h1">{{ maxWinStreak }}</span></p>
+  <p class="text-center">רצף נצחונות נוכחי: <span class="h1">{{ currentWinStreak }}</span></p>
+  <p class="text-center">אחוזי הצלחה: <span class="h1">{{ successRate | percent }}</span></p>
+  <p class="text-center">סה"כ משחקים ששוחקו: <span class="h1">{{ totalPlayedGames }}</span></p>
+</div>
+<p class="text-center fs-3" matTooltip="שתף תוצאה"><mat-icon (click)="showMessage()" [cdkCopyToClipboard]="results" class="pointer" aria-hidden="false" aria-label="home icon" fontIcon="share"></mat-icon></p>
