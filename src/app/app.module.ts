@@ -30,7 +30,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {
   BonusLevelTextAnswersComponent
 } from 'src/app/shared/components/bonus-level-text-ranges/bonus-level-text-answers.component';
-import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
+import {stateService} from 'src/app/shared/services/state.service';
 import {NearestCityComponent} from 'src/app/shared/components/nearest-cities/nearest-city.component';
 import {AutocompleteCityComponent} from 'src/app/shared/components/autocomplete-city/autocomplete-city.component';
 import {TitlesComponent} from 'src/app/shared/components/titles/titles.component';
@@ -75,7 +75,7 @@ import {ResultsDialogComponent} from 'src/app/results-dialog/results-dialog.comp
     MatExpansionModule,
   ],
   providers: [
-    IsGameOverService,
+    stateService,
     DecimalPipe,
     GoogleMapService,
     ErrorMessageService

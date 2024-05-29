@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TextAnswer} from 'src/app/shared/models/text-answer.model';
 import {CityOver10K} from 'src/app/shared/models/city.model';
-import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
+import {stateService} from 'src/app/shared/services/state.service';
 import {StorageItem} from 'src/app/shared/models/storage-items.model';
 import {HEBREW_LETTERS} from 'src/app/shared/consts/letters-mapper.const';
 import {Levels, LEVELS} from 'src/app/shared/consts/steps.const';
@@ -25,7 +25,7 @@ export class BonusLevelTextAnswersComponent implements OnInit{
   isClicked = false;
 
 
-  constructor(private isGameOverService: IsGameOverService) {
+  constructor(private isGameOverService: stateService) {
   }
 
   ngOnInit() {
@@ -71,10 +71,6 @@ export class BonusLevelTextAnswersComponent implements OnInit{
 
     if (this.step === this.SISTER_LEVEL) {
       localStorage.setItem('sisterCities', JSON.stringify(this.textAnswers));
-    }
-
-    if (this.step === LEVELS.length - 1) {
-      this.isGameOverService.isGameOver.next(true);
     }
   }
 }

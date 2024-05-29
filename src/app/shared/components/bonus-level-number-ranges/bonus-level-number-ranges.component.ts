@@ -4,7 +4,7 @@ import {RangeAnswer} from 'src/app/shared/models/range-answer.model';
 import {LEVELS, Levels, UNITS} from 'src/app/shared/consts/steps.const';
 import {DecimalPipe} from '@angular/common';
 import {StorageItem} from 'src/app/shared/models/storage-items.model';
-import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
+import {stateService} from 'src/app/shared/services/state.service';
 import {HEBREW_LETTERS} from 'src/app/shared/consts/letters-mapper.const';
 import {startConfetti} from 'src/app/shared/consts/confetti.const';
 
@@ -24,11 +24,11 @@ export class BonusLevelNumberRangesComponent implements OnInit {
   POPULATION_LEVEL = Levels.POPULATION;
   FOUNDED_YEAR_LEVEL = Levels.FOUNDED_YEAR;
   HEBREW_LETTERS = HEBREW_LETTERS;
-  LEVELS = LEVELS.length - 1;
+  LAST_LEVEL = LEVELS.length - 1;
 
   isClicked = false;
 
-  constructor(private decimalPipe: DecimalPipe, private isGameOverService: IsGameOverService) {}
+  constructor(private decimalPipe: DecimalPipe, private isGameOverService: stateService) {}
 
   ngOnInit() {
     const storageItems: StorageItem[] = [
@@ -74,10 +74,6 @@ export class BonusLevelNumberRangesComponent implements OnInit {
     }
     if (this.step === this.FOUNDED_YEAR_LEVEL) {
       localStorage.setItem('foundedAt', JSON.stringify(this.rangeAnswers));
-    }
-
-    if (this.step === this.LEVELS) {
-      this.isGameOverService.isGameOver.next(true);
     }
   }
 

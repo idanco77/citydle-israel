@@ -16,7 +16,7 @@ import {Levels, LEVELS} from 'src/app/shared/consts/steps.const';
 import {RangeAnswer} from 'src/app/shared/models/range-answer.model';
 import {TextAnswer} from 'src/app/shared/models/text-answer.model';
 import {getRandomElements} from 'src/app/shared/consts/get-random-element.const';
-import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
+import {stateService} from 'src/app/shared/services/state.service';
 import { bounceInLeftOnEnterAnimation } from 'angular-animations';
 import {calculateHeading} from 'src/app/shared/consts/headingFormula.const';
 
@@ -79,7 +79,7 @@ export class AppComponent implements OnInit, OnDestroy {
               private dialog: MatDialog,
               @Inject(DOCUMENT) private document: Document,
               private errorMessageService: ErrorMessageService,
-              private isGameOverService: IsGameOverService,
+              private isGameOverService: stateService,
               private googleMapService: GoogleMapService) {
     this.handleRouteEvents();
     this.apiLoaded = this.googleMapService.apiLoaded();
@@ -279,7 +279,7 @@ export class AppComponent implements OnInit, OnDestroy {
     const itemKeys = ['date', 'currentGuess', 'markers', 'guesses',
       'population', 'area', 'foundedAt', 'trivia', 'sisterCities', 'step',
       'nearestCities', 'nearestCitiesGuesses', 'nearestCitiesGuessesIndex',
-      'nearestCitiesMarkers', 'grade'
+      'nearestCitiesMarkers', 'grade', 'levels'
     ];
 
       itemKeys.forEach(item => {localStorage.removeItem(item);});
@@ -356,7 +356,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private openResultsDialog() {
-    this.isGameOverService.isGameOver.next(true);
     this.subs.add(this.isGameOverService.isGameOver.subscribe(isGameOver => {
       if (isGameOver) {
         setTimeout(() => {

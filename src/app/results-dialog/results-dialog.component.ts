@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Star} from 'src/app/shared/models/star.model';
-import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
+import {stateService} from 'src/app/shared/services/state.service';
 
 @Component({
   templateUrl: './results-dialog.component.html',
@@ -18,7 +18,7 @@ export class ResultsDialogComponent implements OnInit {
   protected finalGrade: number;
   description: string;
 
-  constructor(private isGameOverService: IsGameOverService) {}
+  constructor(private isGameOverService: stateService) {}
 
   ngOnInit() {
     this.finalGrade = this.calculateFinalGrade();
@@ -28,7 +28,7 @@ export class ResultsDialogComponent implements OnInit {
   }
 
   displayStarsSequentially() {
-    let delay = 1500;
+    let delay = 500;
     for (let i = 0; i < this.stars.length; i++) {
       setTimeout(() => {
         this.stars[i].isVisible = true;

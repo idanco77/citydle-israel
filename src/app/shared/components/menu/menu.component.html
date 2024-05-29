@@ -5,5 +5,5 @@
     <img ngSrc="assets/israel.svg" height="60" width="21" alt="israel">
   </h1>
   <fa-icon matTooltip="סטטיסטיקה" (click)="openStatsDialog()" class="h1 pointer" [icon]="faChartSimple"></fa-icon>
-  <fa-icon matTooltip="ציון" (click)="openResultsDialog()" class="pe-3 h1 pointer" [icon]="faMedal"></fa-icon>
+  <fa-icon *ngIf="isGameOver" matTooltip="ציון" (click)="openResultsDialog()" class="pe-3 h1 pointer" [icon]="faMedal"></fa-icon>
 </div>

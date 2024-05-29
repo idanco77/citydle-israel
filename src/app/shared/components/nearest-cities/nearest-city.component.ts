@@ -7,8 +7,7 @@ import {GoogleMap} from '@angular/google-maps';
 import {GoogleMapService} from 'src/app/shared/services/google-map.service';
 import {Observable} from 'rxjs';
 import {MAP_SETTINGS} from 'src/app/shared/consts/map-settings.const';
-import {LEVELS} from 'src/app/shared/consts/steps.const';
-import {IsGameOverService} from 'src/app/shared/services/is-game-over.service';
+import {stateService} from 'src/app/shared/services/state.service';
 import {startConfetti} from 'src/app/shared/consts/confetti.const';
 import {ErrorMessageService} from 'src/app/shared/services/error-message.service';
 import {createMarker} from 'src/app/shared/consts/createMarker.const';
@@ -39,7 +38,7 @@ export class NearestCityComponent implements OnInit {
   protected readonly MAX_GUESSES = 7;
 
   constructor(private googleMapService: GoogleMapService,
-              private isGameOverService: IsGameOverService,
+              private isGameOverService: stateService,
               private errorMessageService: ErrorMessageService) {
     this.apiLoaded = this.googleMapService.apiLoaded();
   }
@@ -106,10 +105,6 @@ export class NearestCityComponent implements OnInit {
     localStorage.setItem('nearestCitiesGuesses', JSON.stringify(this.guesses));
     localStorage.setItem('nearestCitiesGuessesIndex', JSON.stringify(this.guess));
     localStorage.setItem('nearestCitiesMarkers', JSON.stringify(this.nearestCitiesMarkers));
-
-    if (this.isGameOver && this.step === LEVELS.length - 1) {
-      this.isGameOverService.isGameOver.next(true);
-    }
   }
 
   private setNearestCities() {
