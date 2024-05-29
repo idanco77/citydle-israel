@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {faCircleQuestion, faMedal} from '@fortawesome/free-solid-svg-icons';
 import {faChartSimple} from '@fortawesome/free-solid-svg-icons/faChartSimple';
 import {StatsDialogComponent} from 'src/app/stats-dialog/stats-dialog.component';
@@ -9,13 +9,14 @@ import {IntroDialogComponent} from 'src/app/intro-dialog/intro-dialog.component'
 import {ResultsDialogComponent} from 'src/app/results-dialog/results-dialog.component';
 import {stateService} from 'src/app/shared/services/state.service';
 import {LEVELS} from 'src/app/shared/consts/steps.const';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, OnDestroy {
 
   protected readonly faCircleQuestion = faCircleQuestion;
   protected readonly faChartSimple = faChartSimple;
@@ -24,6 +25,7 @@ export class MenuComponent implements OnInit {
   @Input() isWin: boolean;
   @Input() mysteryCity: CityOver10K;
   isGameOver: boolean;
+  private subs: Subscription;
 
   constructor(private dialog: MatDialog, private isGameOverService: stateService) {}
 
@@ -32,9 +34,9 @@ export class MenuComponent implements OnInit {
     if (levels.length === LEVELS.length) {
       this.isGameOver = true;
     }
-    this.isGameOverService.isGameOver.subscribe(isGameOver => {
+    this.subs.add(this.isGameOverService.isGameOver.subscribe(isGameOver => {
       this.isGameOver = isGameOver;
-    })
+    }));
   }
 
   openStatsDialog(): void {
@@ -57,5 +59,9 @@ export class MenuComponent implements OnInit {
     this.dialog.open(ResultsDialogComponent, {
       width: '650px'
     })
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
   }
 }
