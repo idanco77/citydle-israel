@@ -153,6 +153,11 @@ export class AppComponent implements OnInit, OnDestroy {
     );
     this.currentGuess++;
     if (this.isGameOver) {
+      let grade = 0;
+      if (this.isWin) {
+        grade = (this.currentGuess <= 3) ? 2 : 1;
+      }
+      this.isGameOverService.addGrade(grade);
       if (!this.isWin) {
         setTimeout(() => {
           this.markers.push(createMarker(this.mysteryCity, true));
@@ -168,6 +173,7 @@ export class AppComponent implements OnInit, OnDestroy {
         startConfetti();
       }
     }
+
     localStorage.setItem('date', this.getCurrentDateInUTC());
     localStorage.setItem('guesses', JSON.stringify(this.guesses));
     localStorage.setItem('markers', JSON.stringify(this.markers));
@@ -261,7 +267,6 @@ export class AppComponent implements OnInit, OnDestroy {
     const history = JSON.parse((localStorage.getItem('history') || '[]'));
     history.push(getCurrentDateYyyyMmDd());
     localStorage.setItem('history', JSON.stringify(history));
-    this.isGameOverService.addGrade(this.currentGuess <= 3 ? 2 : 1);
   }
 
   private setSuccessRate(): void {

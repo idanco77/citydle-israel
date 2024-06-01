@@ -92,13 +92,20 @@ export class NearestCityComponent implements OnInit {
     this.nearestCitiesMarkers.push(createMarker(cityObj, cityObj.isCorrect));
     if (this.isWin) {
       startConfetti();
-      this.isGameOverService.addGrade(this.guess === 4 ? 2 : 1);
     }
 
-    if (this.isGameOver && ! this.isWin) {
-      this.nearestCities.forEach(city => {
-        this.nearestCitiesMarkers.push(createMarker(city, true));
-      });
+    if (this.isGameOver) {
+      let grade = 0;
+      if (this.isWin) {
+        grade = (this.guess === 4) ? 2 : 1;
+      }
+      this.isGameOverService.addGrade(grade);
+
+      if (! this.isWin) {
+        this.nearestCities.forEach(city => {
+          this.nearestCitiesMarkers.push(createMarker(city, true));
+        });
+      }
     }
 
     localStorage.setItem('nearestCities', JSON.stringify(this.nearestCities));

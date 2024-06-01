@@ -11,7 +11,6 @@ export class stateService {
   completeLevel() {
     this.levels.push(true);
     localStorage.setItem('levels', JSON.stringify(this.levels));
-
     if (this.levels.length === LEVELS.length) {
       this.isGameOver.next(true);
     }

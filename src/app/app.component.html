@@ -3,7 +3,7 @@
     <div class="width-container">
         <app-titles (navigate)="navigateBetweenSteps($event)" [step]="step" [isGameOver]="isGameOver"></app-titles>
       <div *ngIf="step === GUESSES_LEVEL" [@enter] class="guesses-wrapper">
-        <div class="clue-button-wrapper" *ngIf="!isShowClue && currentGuess >= 4 && ! isGameOver">
+        <div class="clue-button-wrapper" *ngIf="currentGuess >= 4 && ! isGameOver">
           <button [disabled]="isGameOver" mat-raised-button type="button"
                   (click)="showClue()">
             <fa-icon [icon]="faLightbulb"></fa-icon>

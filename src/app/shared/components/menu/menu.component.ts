@@ -25,7 +25,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   @Input() isWin: boolean;
   @Input() mysteryCity: CityOver10K;
   isGameOver: boolean;
-  private subs: Subscription;
+  private subs: Subscription = new Subscription();
 
   constructor(private dialog: MatDialog, private isGameOverService: stateService) {}
 
