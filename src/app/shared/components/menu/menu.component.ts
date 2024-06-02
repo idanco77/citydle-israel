@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {faCircleQuestion, faMedal} from '@fortawesome/free-solid-svg-icons';
 import {faChartSimple} from '@fortawesome/free-solid-svg-icons/faChartSimple';
 import {StatsDialogComponent} from 'src/app/stats-dialog/stats-dialog.component';
@@ -24,12 +24,20 @@ export class MenuComponent implements OnInit, OnDestroy {
   @Input() guesses: Guess[];
   @Input() isWin: boolean;
   @Input() mysteryCity: CityOver10K;
+
+  @Output() toggleDarkMode = new EventEmitter<boolean>();
+
   isGameOver: boolean;
   private subs: Subscription = new Subscription();
+  isDarkMode: boolean;
 
   constructor(private dialog: MatDialog, private isGameOverService: stateService) {}
 
   ngOnInit() {
+    if (localStorage.getItem('isDarkMode') === '1') {
+      this.toggleIsDarkMode();
+    }
+
     const levels = JSON.parse(localStorage.getItem('levels') || '[]');
     if (levels.length === LEVELS.length) {
       this.isGameOver = true;
@@ -63,5 +71,11 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subs.unsubscribe();
+  }
+
+  toggleIsDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+    localStorage.setItem('isDarkMode', this.isDarkMode ? '1' : '0');
+    this.toggleDarkMode.emit(this.isDarkMode);
   }
 }

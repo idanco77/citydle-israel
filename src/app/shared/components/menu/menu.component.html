@@ -2,8 +2,9 @@
   <fa-icon matTooltip="עזרה" (click)="openIntroDialog()" class="h1 pointer" [icon]="faCircleQuestion"></fa-icon>
   <h1 class="title">
     Citydle-il ישראל
-    <img ngSrc="assets/israel.svg" height="60" width="21" alt="israel">
+    <img [ngSrc]="isDarkMode ? 'assets/israel-dark-mode.png' : 'assets/israel-light-mode.png'" height="70" width="30" alt="israel">
   </h1>
   <fa-icon matTooltip="סטטיסטיקה" (click)="openStatsDialog()" class="h1 pointer" [icon]="faChartSimple"></fa-icon>
   <fa-icon *ngIf="isGameOver" matTooltip="ציון" (click)="openResultsDialog()" class="pe-3 h1 pointer" [icon]="faMedal"></fa-icon>
+  <fa-icon [matTooltip]="isDarkMode ? 'מצב בהיר' : 'מצב כהה'" (click)="toggleIsDarkMode()" class="pe-3 h1 pointer" [icon]="faMedal"></fa-icon>
 </div>

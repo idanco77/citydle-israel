@@ -1,6 +1,7 @@
-<app-menu [mysteryCity]="mysteryCity" [isWin]="isWin" [guesses]="guesses"></app-menu>
+<app-menu (toggleDarkMode)="toggleDarkMode($event)" [mysteryCity]="mysteryCity" [isWin]="isWin" [guesses]="guesses"></app-menu>
   <div class="page-wrapper" [ngStyle]="{zoom: [GUESSES_LEVEL, NEAREST_CITY_LEVEL].includes(step) || isMobile ? '100%' : '125%'}">
     <div class="width-container">
+
         <app-titles (navigate)="navigateBetweenSteps($event)" [step]="step" [isGameOver]="isGameOver"></app-titles>
       <div *ngIf="step === GUESSES_LEVEL" [@enter] class="guesses-wrapper">
         <div class="clue-button-wrapper" *ngIf="currentGuess >= 4 && ! isGameOver">

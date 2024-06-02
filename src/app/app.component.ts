@@ -1,4 +1,4 @@
-import {Component, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, HostBinding, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {City, CityOver10K} from 'src/app/shared/models/city.model';
 import {Observable, Subscription} from 'rxjs';
 import {Guess} from 'src/app/shared/models/guess.model';
@@ -28,6 +28,7 @@ import {startConfetti} from 'src/app/shared/consts/confetti.const';
 import {ErrorMessageService} from 'src/app/shared/services/error-message.service';
 import {createMarker} from 'src/app/shared/consts/createMarker.const';
 import {ResultsDialogComponent} from 'src/app/results-dialog/results-dialog.component';
+import {OverlayContainer} from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-root',
@@ -55,6 +56,8 @@ export class AppComponent implements OnInit, OnDestroy {
   @ViewChild('googleMap') googleMap: GoogleMap;
   @ViewChild(AutocompleteCityComponent) autocompleteCity: AutocompleteCityComponent;
 
+  @HostBinding('class') className = '';
+
   cities: City[] = CITIES;
 
   guesses: Guess[];
@@ -80,7 +83,8 @@ export class AppComponent implements OnInit, OnDestroy {
               @Inject(DOCUMENT) private document: Document,
               private errorMessageService: ErrorMessageService,
               private isGameOverService: stateService,
-              private googleMapService: GoogleMapService) {
+              private googleMapService: GoogleMapService,
+              private overlay: OverlayContainer) {
     this.handleRouteEvents();
     this.apiLoaded = this.googleMapService.apiLoaded();
   }
@@ -374,6 +378,21 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subs.unsubscribe();
+  }
+
+  toggleDarkMode(isDarkMode: boolean) {
+    const darkMode = 'darkMode';
+    setTimeout(() => {
+      this.className = isDarkMode ? darkMode : '';
+
+      if (isDarkMode) {
+        this.overlay.getContainerElement().classList.add(darkMode);
+        document.body.classList.add('dark-mode-design');
+      } else {
+        this.overlay.getContainerElement().classList.remove(darkMode);
+        document.body.classList.remove('dark-mode-design');
+      }
+    })
   }
 }
 
