@@ -1,5 +1,5 @@
 import {Component, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {faCircleQuestion, faMedal} from '@fortawesome/free-solid-svg-icons';
+import {faCircleQuestion, faMedal, faMoon, faSun} from '@fortawesome/free-solid-svg-icons';
 import {faChartSimple} from '@fortawesome/free-solid-svg-icons/faChartSimple';
 import {StatsDialogComponent} from 'src/app/stats-dialog/stats-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
@@ -21,6 +21,8 @@ export class MenuComponent implements OnInit, OnDestroy {
   protected readonly faCircleQuestion = faCircleQuestion;
   protected readonly faChartSimple = faChartSimple;
   protected readonly faMedal = faMedal;
+  protected readonly faSun = faSun;
+  protected readonly faMoon = faMoon;
   @Input() guesses: Guess[];
   @Input() isWin: boolean;
   @Input() mysteryCity: CityOver10K;
