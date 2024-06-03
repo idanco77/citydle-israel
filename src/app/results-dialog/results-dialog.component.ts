@@ -20,7 +20,6 @@ export class ResultsDialogComponent implements OnInit {
   protected finalGrade: number;
   description: string;
   private isDarkMode: boolean;
-  subs = new Subscription();
 
   constructor(private stateService: StateService) {}
 
