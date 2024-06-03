@@ -17,7 +17,6 @@ export class TitlesComponent {
   protected readonly POPULATION_LEVEL = Levels.POPULATION;
   protected readonly AREA_LEVEL = Levels.AREA;
   protected readonly FOUNDED_YEAR_LEVEL = Levels.FOUNDED_YEAR;
-  protected readonly TRIVIA_LEVEL = Levels.TRIVIA;
   protected readonly SISTER_LEVEL = Levels.SISTER;
   protected readonly NEAREST_CITY_LEVEL = Levels.NEAREST_CITY;
   protected readonly faCircleChevronLeft = faCircleChevronLeft;

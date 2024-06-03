@@ -1,10 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TextAnswer} from 'src/app/shared/models/text-answer.model';
 import {CityOver10K} from 'src/app/shared/models/city.model';
-import {stateService} from 'src/app/shared/services/state.service';
+import {StateService} from 'src/app/shared/services/state.service';
 import {StorageItem} from 'src/app/shared/models/storage-items.model';
 import {HEBREW_LETTERS} from 'src/app/shared/consts/letters-mapper.const';
-import {Levels, LEVELS} from 'src/app/shared/consts/steps.const';
+import {Levels} from 'src/app/shared/consts/steps.const';
 import {startConfetti} from 'src/app/shared/consts/confetti.const';
 
 @Component({
@@ -20,17 +20,15 @@ export class BonusLevelTextAnswersComponent implements OnInit{
 
   protected readonly SISTER_LEVEL = Levels.SISTER;
   protected readonly HEBREW_LETTERS = HEBREW_LETTERS;
-  protected readonly TRIVIA_LEVEL = Levels.TRIVIA;
 
   isClicked = false;
 
 
-  constructor(private isGameOverService: stateService) {
+  constructor(private isGameOverService: StateService) {
   }
 
   ngOnInit() {
     const storageItems: StorageItem[] = [
-      { storageKey: 'trivia', level: this.TRIVIA_LEVEL },
       { storageKey: 'sisterCities', level: this.SISTER_LEVEL },
     ];
 
@@ -64,10 +62,6 @@ export class BonusLevelTextAnswersComponent implements OnInit{
     answer.isClicked = true;
     const correctRange = this.textAnswers.find(range => range.isCorrect) as TextAnswer;
     correctRange.isClicked = true;
-
-    if (this.step === this.TRIVIA_LEVEL) {
-      localStorage.setItem('trivia', JSON.stringify(this.textAnswers));
-    }
 
     if (this.step === this.SISTER_LEVEL) {
       localStorage.setItem('sisterCities', JSON.stringify(this.textAnswers));

@@ -4,14 +4,6 @@
   min-width: 33.3%;
 }
 
-.success {
-  background-color:	$success-bg;
-}
-
-.wrong {
-  background-color: $wrong-bg;
-}
-
 .swal2-popup {
   font-size: 1.6rem !important;
 }
@@ -31,15 +23,24 @@
   color: white;
 }
 
+.success {
+  background-color:	$success-bg;
+  color: white;
+}
 
-.wrong:hover {
+.wrong {
   background-color: $wrong-bg;
-  color: black;
+  color: white;
 }
 
 .success:hover {
-  background-color: $success-bg;
-  color: black;
+  background-color: $success-bg-hover;
+  color: white;
+}
+
+.wrong:hover {
+  background-color: $wrong-bg-hover;
+  color: white;
 }
 
 .clicked {
@@ -61,7 +62,7 @@
   border-radius: 2rem;
   text-align: center;
   height: 4rem;
-  border: 1px solid black;
+  border: 1px solid;
   font-size: 2rem;
   font-weight: bold;
 }

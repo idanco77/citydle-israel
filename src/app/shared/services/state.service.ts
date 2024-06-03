@@ -3,8 +3,9 @@ import {Injectable} from '@angular/core';
 import {LEVELS} from 'src/app/shared/consts/steps.const';
 
 @Injectable()
-export class stateService {
+export class StateService {
   isGameOver = new Subject<boolean>();
+  toggleDarkMode = new Subject<boolean>();
   grade = 0;
   levels: boolean[] = JSON.parse(localStorage.getItem('levels') || '[]');
 

@@ -4,7 +4,7 @@ import {RangeAnswer} from 'src/app/shared/models/range-answer.model';
 import {LEVELS, Levels, UNITS} from 'src/app/shared/consts/steps.const';
 import {DecimalPipe} from '@angular/common';
 import {StorageItem} from 'src/app/shared/models/storage-items.model';
-import {stateService} from 'src/app/shared/services/state.service';
+import {StateService} from 'src/app/shared/services/state.service';
 import {HEBREW_LETTERS} from 'src/app/shared/consts/letters-mapper.const';
 import {startConfetti} from 'src/app/shared/consts/confetti.const';
 
@@ -28,7 +28,7 @@ export class BonusLevelNumberRangesComponent implements OnInit {
 
   isClicked = false;
 
-  constructor(private decimalPipe: DecimalPipe, private isGameOverService: stateService) {}
+  constructor(private decimalPipe: DecimalPipe, private isGameOverService: StateService) {}
 
   ngOnInit() {
     const storageItems: StorageItem[] = [

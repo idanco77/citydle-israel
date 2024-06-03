@@ -1,4 +1,4 @@
-import {Component, HostBinding, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, HostBinding, Inject, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {City, CityOver10K} from 'src/app/shared/models/city.model';
 import {Observable, Subscription} from 'rxjs';
 import {Guess} from 'src/app/shared/models/guess.model';
@@ -16,14 +16,14 @@ import {Levels, LEVELS} from 'src/app/shared/consts/steps.const';
 import {RangeAnswer} from 'src/app/shared/models/range-answer.model';
 import {TextAnswer} from 'src/app/shared/models/text-answer.model';
 import {getRandomElements} from 'src/app/shared/consts/get-random-element.const';
-import {stateService} from 'src/app/shared/services/state.service';
+import {StateService} from 'src/app/shared/services/state.service';
 import { bounceInLeftOnEnterAnimation } from 'angular-animations';
 import {calculateHeading} from 'src/app/shared/consts/headingFormula.const';
 
 import {CITIES} from 'src/app/shared/consts/cities.const';
 import {AutocompleteCityComponent} from 'src/app/shared/components/autocomplete-city/autocomplete-city.component';
 import {GoogleMapService} from 'src/app/shared/services/google-map.service';
-import {MAP_SETTINGS} from 'src/app/shared/consts/map-settings.const';
+import {DARK, LIGHT, MAP_SETTINGS} from 'src/app/shared/consts/map-settings.const';
 import {startConfetti} from 'src/app/shared/consts/confetti.const';
 import {ErrorMessageService} from 'src/app/shared/services/error-message.service';
 import {createMarker} from 'src/app/shared/consts/createMarker.const';
@@ -43,7 +43,6 @@ export class AppComponent implements OnInit, OnDestroy {
   protected readonly POPULATION_LEVEL = Levels.POPULATION;
   protected readonly AREA_LEVEL = Levels.AREA;
   protected readonly FOUNDED_YEAR_LEVEL = Levels.FOUNDED_YEAR;
-  protected readonly TRIVIA_LEVEL = Levels.TRIVIA;
   protected readonly SISTER_LEVEL = Levels.SISTER;
   protected readonly NEAREST_CITY_LEVEL = Levels.NEAREST_CITY;
   protected readonly LAST_LEVEL = LEVELS.length - 1;
@@ -77,12 +76,14 @@ export class AppComponent implements OnInit, OnDestroy {
   private subs = new Subscription();
   private isSisterGradeAdded: boolean = false;
   private isMysteryCityGradeAdded: boolean = false;
+  private isDarkMode = false;
+  clueLevel: number = 0;
 
   constructor(private router: Router,
               private dialog: MatDialog,
               @Inject(DOCUMENT) private document: Document,
               private errorMessageService: ErrorMessageService,
-              private isGameOverService: stateService,
+              private stateService: StateService,
               private googleMapService: GoogleMapService,
               private overlay: OverlayContainer) {
     this.handleRouteEvents();
@@ -118,6 +119,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.manageLocalStorage();
     this.openResultsDialog();
+
+    this.subs.add(this.stateService.toggleDarkMode.subscribe(isDarkMode => {
+      this.toggleDarkMode(isDarkMode);
+    }));
   }
 
   calculatePercentages(distance: number): number {
@@ -161,7 +166,7 @@ export class AppComponent implements OnInit, OnDestroy {
       if (this.isWin) {
         grade = (this.currentGuess <= 3) ? 2 : 1;
       }
-      this.isGameOverService.addGrade(grade);
+      this.stateService.addGrade(grade);
       if (!this.isWin) {
         setTimeout(() => {
           this.markers.push(createMarker(this.mysteryCity, true));
@@ -263,8 +268,13 @@ export class AppComponent implements OnInit, OnDestroy {
     return cityName === this.mysteryCity.name
   }
 
-  showClue() {
-    this.isShowClue = !this.isShowClue;
+    showClue() {
+      if (this.clueLevel === 2) {
+        this.isShowClue = !this.isShowClue;
+        return;
+      }
+      this.isShowClue = true;
+      this.clueLevel++;
   }
 
   private saveHistory(): void {
@@ -286,7 +296,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private clearDailyData(): void {
     const itemKeys = ['date', 'currentGuess', 'markers', 'guesses',
-      'population', 'area', 'foundedAt', 'trivia', 'sisterCities', 'step',
+      'population', 'area', 'foundedAt', 'sisterCities', 'step',
       'nearestCities', 'nearestCitiesGuesses', 'nearestCitiesGuessesIndex',
       'nearestCitiesMarkers', 'grade', 'levels'
     ];
@@ -297,6 +307,10 @@ export class AppComponent implements OnInit, OnDestroy {
   navigateBetweenSteps(isUp: boolean) {
     this.isShow = false;
     isUp ? this.step++ : this.step--;
+
+    if (this.GUESSES_LEVEL === this.step) {
+      this.toggleDarkMode(localStorage.getItem('isDarkMode') === '1');
+    }
 
     if (this.step === this.POPULATION_LEVEL) {
       let data;
@@ -321,7 +335,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.step === this.FOUNDED_YEAR_LEVEL) {
       if (!this.mysteryCity.foundedAt) {
         if (!this.isMysteryCityGradeAdded) {
-          this.isGameOverService.addGrade(2);
+          this.stateService.addGrade(2);
           this.isMysteryCityGradeAdded = true;
         }
         this.navigateBetweenSteps(isUp);
@@ -336,18 +350,10 @@ export class AppComponent implements OnInit, OnDestroy {
         this.rangeAnswers = createAnswers(this.mysteryCity.foundedAt, data);
     }
 
-    if (this.step === this.TRIVIA_LEVEL) {
-      let citiesWithoutMysteryCity = [...this.citiesOver10k];
-      citiesWithoutMysteryCity = citiesWithoutMysteryCity.filter(city => city.name !== this.mysteryCity.name);
-      this.textAnswers = getRandomElements(citiesWithoutMysteryCity, 'trivia');
-      this.textAnswers.push({text: this.mysteryCity.trivia, isCorrect: true});
-      shuffleArray(this.textAnswers);
-    }
-
     if (this.step === this.SISTER_LEVEL) {
       if (!this.mysteryCity.sisterCities) {
         if (!this.isSisterGradeAdded) {
-          this.isGameOverService.addGrade(2);
+          this.stateService.addGrade(2);
           this.isSisterGradeAdded = true;
         }
         this.navigateBetweenSteps(isUp);
@@ -365,7 +371,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private openResultsDialog() {
-    this.subs.add(this.isGameOverService.isGameOver.subscribe(isGameOver => {
+    this.subs.add(this.stateService.isGameOver.subscribe(isGameOver => {
       if (isGameOver) {
         setTimeout(() => {
           this.dialog.open(ResultsDialogComponent, {
@@ -381,18 +387,27 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   toggleDarkMode(isDarkMode: boolean) {
+    this.isDarkMode = isDarkMode;
     const darkMode = 'darkMode';
     setTimeout(() => {
       this.className = isDarkMode ? darkMode : '';
 
       if (isDarkMode) {
+        if(this.googleMap !== undefined){
+          this.googleMap.googleMap?.setOptions({styles: DARK});
+        }
+
         this.overlay.getContainerElement().classList.add(darkMode);
         document.body.classList.add('dark-mode-design');
       } else {
+        if(this.googleMap !== undefined){
+          this.googleMap.googleMap?.setOptions({styles: LIGHT});
+        }
+
         this.overlay.getContainerElement().classList.remove(darkMode);
         document.body.classList.remove('dark-mode-design');
       }
-    })
+    }, 200)
   }
 }
 

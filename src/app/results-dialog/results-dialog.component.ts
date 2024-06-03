@@ -1,6 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Star} from 'src/app/shared/models/star.model';
-import {stateService} from 'src/app/shared/services/state.service';
+import {StateService} from 'src/app/shared/services/state.service';
+import {Levels, LEVELS} from 'src/app/shared/consts/steps.const';
+import {Subscription} from 'rxjs';
 
 @Component({
   templateUrl: './results-dialog.component.html',
@@ -17,10 +19,17 @@ export class ResultsDialogComponent implements OnInit {
   image: string | null = null;
   protected finalGrade: number;
   description: string;
+  private isDarkMode: boolean;
+  subs = new Subscription();
 
-  constructor(private isGameOverService: stateService) {}
+  constructor(private stateService: StateService) {}
 
   ngOnInit() {
+      this.isDarkMode = localStorage.getItem('isDarkMode') === '1';
+      this.stars.forEach(star => {
+        star.image = this.isDarkMode ? 'star-frame-dark-mode' : 'star-frame';
+      });
+
     this.finalGrade = this.calculateFinalGrade();
     this.createStars(this.finalGrade);
     this.setSummary(this.finalGrade);
@@ -41,20 +50,20 @@ export class ResultsDialogComponent implements OnInit {
     const stars = Math.floor(finalGrade / 20);
 
     for (let i = 0; i < stars; i++) {
-      this.stars[i].image = 'israel-star';
+      this.stars[i].image = this.isDarkMode ? 'israel-star-dark-mode' : 'israel-star';
     }
 
     const remainder = finalGrade % 20;
     const halfStar = remainder >= 10 && remainder < 20;
 
     if (halfStar) {
-      this.stars[stars].image = 'half-star-israel';
+      this.stars[stars].image = this.isDarkMode ? 'half-star-israel-dark-mode' : 'half-star-israel';
     }
   }
 
   private calculateFinalGrade() {
-    const maxGrade = 14;
-    const grade = this.isGameOverService.getCurrentGrade();
+    const maxGrade = (LEVELS.length) * 2;
+    const grade = this.stateService.getCurrentGrade();
 
     return Math.round((grade * 100 / maxGrade) / 10) * 10;
   }

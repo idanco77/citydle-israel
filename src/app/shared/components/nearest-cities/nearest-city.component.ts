@@ -1,23 +1,23 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import { faCheck, faX } from '@fortawesome/free-solid-svg-icons';
 import {haversineFormula} from 'src/app/shared/consts/haversineFormula.const';
 import {City, CityOver10K} from 'src/app/shared/models/city.model';
 import {NearestCityGuess} from 'src/app/shared/models/nearest-city-guess.model';
 import {GoogleMap} from '@angular/google-maps';
 import {GoogleMapService} from 'src/app/shared/services/google-map.service';
-import {Observable} from 'rxjs';
-import {MAP_SETTINGS} from 'src/app/shared/consts/map-settings.const';
-import {stateService} from 'src/app/shared/services/state.service';
+import {Observable, Subscription} from 'rxjs';
+import {StateService} from 'src/app/shared/services/state.service';
 import {startConfetti} from 'src/app/shared/consts/confetti.const';
 import {ErrorMessageService} from 'src/app/shared/services/error-message.service';
 import {createMarker} from 'src/app/shared/consts/createMarker.const';
+import {DARK, LIGHT, MAP_SETTINGS} from 'src/app/shared/consts/map-settings.const';
 
 @Component({
   selector: 'app-nearest-city',
   templateUrl: 'nearest-city.component.html',
   styleUrls: ['nearest-city.component.scss']
 })
-export class NearestCityComponent implements OnInit {
+export class NearestCityComponent implements OnInit, OnDestroy, OnChanges {
   @Input() mysteryCity: CityOver10K;
   @Input() citiesOver10k: CityOver10K[];
   @Input() step: number;
@@ -36,11 +36,19 @@ export class NearestCityComponent implements OnInit {
   apiLoaded: Observable<boolean>;
   mapSettings: google.maps.MapOptions;
   protected readonly MAX_GUESSES = 7;
+  subs = new Subscription();
+  grade = 0;
 
   constructor(private googleMapService: GoogleMapService,
-              private isGameOverService: stateService,
+              private stateService: StateService,
               private errorMessageService: ErrorMessageService) {
     this.apiLoaded = this.googleMapService.apiLoaded();
+  }
+
+  ngOnChanges() {
+    if (localStorage.getItem('isDarkMode') === '1') {
+      this.toggleDarkMode(true);
+    }
   }
 
   ngOnInit() {
@@ -55,6 +63,10 @@ export class NearestCityComponent implements OnInit {
     this.checkIsGameOver();
     this.setGuesses();
     this.checkIsWin();
+
+    this.subs.add(this.stateService.toggleDarkMode.subscribe(isDarkMode => {
+      this.toggleDarkMode(isDarkMode);
+    }));
   }
 
   private setGuesses() {
@@ -84,6 +96,7 @@ export class NearestCityComponent implements OnInit {
     const city = this.nearestCities.find(city => selectedCity === city.name);
     if (city) {
       city.isCorrect = true;
+      this.grade += 0.5;
     }
     this.guesses[this.guess] = {name: selectedCity, isCorrect: !!city};
     this.guess++;
@@ -95,14 +108,12 @@ export class NearestCityComponent implements OnInit {
     }
 
     if (this.isGameOver) {
-      let grade = 0;
-      if (this.isWin) {
-        grade = (this.guess === 4) ? 2 : 1;
-      }
-      this.isGameOverService.addGrade(grade);
+      this.stateService.addGrade(this.grade);
 
+      const guesses = new Set(this.guesses.map(item => item.name));
+      const nearestCities = this.nearestCities.filter(item => !guesses.has(item.name));
       if (! this.isWin) {
-        this.nearestCities.forEach(city => {
+        nearestCities.forEach(city => {
           this.nearestCitiesMarkers.push(createMarker(city, true));
         });
       }
@@ -152,5 +163,23 @@ export class NearestCityComponent implements OnInit {
 
   private removeMysteryCityFromList(): void {
     this.citiesOver10k = this.citiesOver10k.filter(city => city.name !== this.mysteryCity.name);
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
+
+  private toggleDarkMode(isDarkMode: boolean) {
+    setTimeout(() => {
+      if (isDarkMode) {
+        if(this.googleMap !== undefined){
+          this.googleMap.googleMap?.setOptions({styles: DARK});
+        }
+      } else {
+        if(this.googleMap !== undefined){
+          this.googleMap.googleMap?.setOptions({styles: LIGHT});
+        }
+      }
+    }, 200);
   }
 }

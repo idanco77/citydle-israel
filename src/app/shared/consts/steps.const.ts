@@ -3,7 +3,6 @@ export enum Levels {
   POPULATION,
   FOUNDED_YEAR,
   AREA,
-  TRIVIA,
   SISTER,
   NEAREST_CITY,
 }
@@ -15,6 +14,5 @@ export const UNITS: { [key in Levels]?: string } = {
   [Levels.GUESSES]: '',
   [Levels.NEAREST_CITY]: '',
   [Levels.FOUNDED_YEAR]: '',
-  [Levels.TRIVIA]: '',
   [Levels.SISTER]: ''
 };

@@ -4,7 +4,7 @@ export const createMarker = (cityObj: City, isGreen: boolean = false): any => {
   const marker: any = {
     position: {lat: cityObj.lat, lng: cityObj.lng},
     options: {draggable: false},
-    label: {text:cityObj.name},
+    label: {text:cityObj.name, color: 'green'},
   };
 
   if (isGreen) {
