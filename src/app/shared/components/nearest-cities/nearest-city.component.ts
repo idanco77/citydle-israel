@@ -174,12 +174,25 @@ export class NearestCityComponent implements OnInit, OnDestroy, OnChanges {
       if (isDarkMode) {
         if(this.googleMap !== undefined){
           this.googleMap.googleMap?.setOptions({styles: DARK});
+          this.resetMarkers(isDarkMode);
         }
       } else {
         if(this.googleMap !== undefined){
           this.googleMap.googleMap?.setOptions({styles: LIGHT});
+          this.resetMarkers(isDarkMode);
         }
       }
     }, 400);
   }
+
+  private resetMarkers(isDarkMode: boolean): void {
+    const markers = JSON.parse(localStorage.getItem('nearestCitiesMarkers') || '[]');
+    if (markers) {
+      markers.forEach((marker: any) => {
+        marker.label.color = isDarkMode ? 'white' : 'black';
+        this.nearestCitiesMarkers.push(marker);
+      })
+    }
+  }
+
 }

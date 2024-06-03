@@ -395,6 +395,7 @@ export class AppComponent implements OnInit, OnDestroy {
       if (isDarkMode) {
         if(this.googleMap !== undefined){
           this.googleMap.googleMap?.setOptions({styles: DARK});
+          this.resetMarkers(true);
         }
 
         this.overlay.getContainerElement().classList.add(darkMode);
@@ -402,12 +403,23 @@ export class AppComponent implements OnInit, OnDestroy {
       } else {
         if(this.googleMap !== undefined){
           this.googleMap.googleMap?.setOptions({styles: LIGHT});
+          this.resetMarkers(false);
         }
 
         this.overlay.getContainerElement().classList.remove(darkMode);
         document.body.classList.remove('dark-mode-design');
       }
     }, 200)
+  }
+
+  private resetMarkers(isDarkMode: boolean): void {
+    const markers = JSON.parse(localStorage.getItem('markers') || '[]');
+    if (markers) {
+      markers.forEach((marker: any) => {
+        marker.label.color = isDarkMode ? 'white' : 'black';
+        this.markers.push(marker);
+      })
+    }
   }
 }
 
