@@ -180,6 +180,6 @@ export class NearestCityComponent implements OnInit, OnDestroy, OnChanges {
           this.googleMap.googleMap?.setOptions({styles: LIGHT});
         }
       }
-    }, 200);
+    }, 400);
   }
 }
