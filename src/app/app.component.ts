@@ -1,4 +1,4 @@
-import {Component, HostBinding, Inject, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, HostBinding, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {City, CityOver10K} from 'src/app/shared/models/city.model';
 import {Observable, Subscription} from 'rxjs';
 import {Guess} from 'src/app/shared/models/guess.model';
@@ -11,11 +11,10 @@ import {START_DATE} from 'src/app/shared/consts/start-date.const';
 import {faLightbulb, faMugHot, faSackDollar} from '@fortawesome/free-solid-svg-icons';
 import {getCurrentDateYyyyMmDd} from 'src/app/shared/consts/get-current-date-yyyy-mm-dd.const';
 import {directions} from 'src/app/shared/types/directions.type';
-import {createAnswers, createRanges, shuffleArray} from 'src/app/shared/consts/create-number-range.const';
+import {createAnswers, createRanges} from 'src/app/shared/consts/create-number-range.const';
 import {Levels, LEVELS} from 'src/app/shared/consts/steps.const';
 import {RangeAnswer} from 'src/app/shared/models/range-answer.model';
 import {TextAnswer} from 'src/app/shared/models/text-answer.model';
-import {getRandomElements} from 'src/app/shared/consts/get-random-element.const';
 import {StateService} from 'src/app/shared/services/state.service';
 import { bounceInLeftOnEnterAnimation } from 'angular-animations';
 import {calculateHeading} from 'src/app/shared/consts/headingFormula.const';
@@ -43,7 +42,6 @@ export class AppComponent implements OnInit, OnDestroy {
   protected readonly POPULATION_LEVEL = Levels.POPULATION;
   protected readonly AREA_LEVEL = Levels.AREA;
   protected readonly FOUNDED_YEAR_LEVEL = Levels.FOUNDED_YEAR;
-  protected readonly SISTER_LEVEL = Levels.SISTER;
   protected readonly NEAREST_CITY_LEVEL = Levels.NEAREST_CITY;
   protected readonly LAST_LEVEL = LEVELS.length - 1;
 
@@ -74,7 +72,6 @@ export class AppComponent implements OnInit, OnDestroy {
   protected readonly faMugHot = faMugHot;
   isShow = true;
   private subs = new Subscription();
-  private isSisterGradeAdded: boolean = false;
   private isMysteryCityGradeAdded: boolean = false;
   private isDarkMode = false;
   clueLevel: number = 0;
@@ -162,10 +159,7 @@ export class AppComponent implements OnInit, OnDestroy {
     );
     this.currentGuess++;
     if (this.isGameOver) {
-      let grade = 0;
-      if (this.isWin) {
-        grade = (this.currentGuess <= 3) ? 2 : 1;
-      }
+      let grade = this.calculateGrade();
       this.stateService.addGrade(grade);
       if (!this.isWin) {
         setTimeout(() => {
@@ -296,7 +290,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private clearDailyData(): void {
     const itemKeys = ['date', 'currentGuess', 'markers', 'guesses',
-      'population', 'area', 'foundedAt', 'sisterCities', 'step',
+      'population', 'area', 'foundedAt', 'step',
       'nearestCities', 'nearestCitiesGuesses', 'nearestCitiesGuessesIndex',
       'nearestCitiesMarkers', 'grade', 'levels'
     ];
@@ -317,7 +311,7 @@ export class AppComponent implements OnInit, OnDestroy {
       if (this.mysteryCity.population >= 100000) {
         data = createRanges(10000, 1200000, 25000);
       } else {
-        data = createRanges(10000, 1000000, 5000);
+        data = createRanges(10000, 1000000, 15000);
       }
       this.rangeAnswers = createAnswers(this.mysteryCity.population, data);
     }
@@ -350,22 +344,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.rangeAnswers = createAnswers(this.mysteryCity.foundedAt, data);
     }
 
-    if (this.step === this.SISTER_LEVEL) {
-      if (!this.mysteryCity.sisterCities) {
-        if (!this.isSisterGradeAdded) {
-          this.stateService.addGrade(2);
-          this.isSisterGradeAdded = true;
-        }
-        this.navigateBetweenSteps(isUp);
-        return;
-      }
-      let citiesWithoutMysteryCity = [...this.citiesOver10k];
-      citiesWithoutMysteryCity = citiesWithoutMysteryCity.filter(city => city.name !== this.mysteryCity.name);
-      const citiesWithSisterCity = citiesWithoutMysteryCity.filter(city => city.sisterCities);
-      this.textAnswers = getRandomElements(citiesWithSisterCity, 'sisterCities');
-      this.textAnswers.push({text: this.mysteryCity.sisterCities , isCorrect: true});
-      shuffleArray(this.textAnswers);
-    }
     setTimeout(() => {    this.isShow = true;}, 20)
     localStorage.setItem('step', this.step.toString());
   }
@@ -409,7 +387,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.overlay.getContainerElement().classList.remove(darkMode);
         document.body.classList.remove('dark-mode-design');
       }
-    }, 200)
+    }, 310)
   }
 
   private resetMarkers(isDarkMode: boolean): void {
@@ -420,6 +398,22 @@ export class AppComponent implements OnInit, OnDestroy {
         this.markers.push(marker);
       })
     }
+  }
+
+  private calculateGrade(): number {
+    if (!this.isWin) {
+      return 0;
+    }
+
+    if (this.currentGuess <= 2) {
+      return 4;
+    }
+
+    if (this.currentGuess <= 3) {
+      return 3;
+    }
+
+    return 1;
   }
 }
 

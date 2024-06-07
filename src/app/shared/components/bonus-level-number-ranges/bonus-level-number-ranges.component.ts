@@ -54,6 +54,9 @@ export class BonusLevelNumberRangesComponent implements OnInit {
   }
 
   isAnswerCorrect(answer: RangeAnswer) {
+    if (answer.isClicked) {
+      return;
+    }
     this.isClicked = true;
 
     if (answer.isCorrect && !answer.isClicked) {

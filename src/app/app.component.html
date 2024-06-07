@@ -47,12 +47,6 @@
                                        [answer]="mysteryCity.foundedAt"
                                        [mysteryCity]="mysteryCity" [rangeAnswers]="rangeAnswers"></app-bonus-level-number-ranges>
       </div>
-      <div *ngIf="step === SISTER_LEVEL" [@enter] class="guesses-wrapper">
-        <app-bonus-level-text-answers [step]="step"
-                                      question="מהן הערים התאומות של "
-                                      [answer]="mysteryCity.sisterCities ?? 'ללא עיר תאומה'" [mysteryCity]="mysteryCity"
-                                      [textAnswers]="textAnswers"></app-bonus-level-text-answers>
-      </div>
       <div *ngIf="step === NEAREST_CITY_LEVEL" [@enter] class="guesses-wrapper">
         <app-nearest-city [step]="step" [mysteryCity]="mysteryCity" [citiesOver10k]="citiesOver10k"></app-nearest-city>
       </div>
