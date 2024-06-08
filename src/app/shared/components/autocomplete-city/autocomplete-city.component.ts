@@ -4,7 +4,6 @@ import {FormControl} from '@angular/forms';
 import {City} from 'src/app/shared/models/city.model';
 import {map, Observable, startWith} from 'rxjs';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
-import {ErrorMessageService} from 'src/app/shared/services/error-message.service';
 
 @Component({
   selector: 'app-autocomplete',

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {faCalendarDays, faCircleChevronLeft, faCircleChevronRight, faCity,
-  faClipboardQuestion, faGlobe, faMapLocation, faUsers } from '@fortawesome/free-solid-svg-icons';
+  faMapLocation, faUsers } from '@fortawesome/free-solid-svg-icons';
 import {LEVELS, Levels} from 'src/app/shared/consts/steps.const';
 
 

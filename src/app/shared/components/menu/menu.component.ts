@@ -3,13 +3,13 @@ import {faCircleQuestion, faMedal, faMoon, faSun} from '@fortawesome/free-solid-
 import {faChartSimple} from '@fortawesome/free-solid-svg-icons/faChartSimple';
 import {StatsDialogComponent} from 'src/app/stats-dialog/stats-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
-import { CityOver10K } from '../../models/city.model';
 import {Guess} from 'src/app/shared/models/guess.model';
 import {IntroDialogComponent} from 'src/app/intro-dialog/intro-dialog.component';
 import {ResultsDialogComponent} from 'src/app/results-dialog/results-dialog.component';
 import {StateService} from 'src/app/shared/services/state.service';
 import {LEVELS} from 'src/app/shared/consts/steps.const';
-import {Subject, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
+import {CityOver10K} from 'src/app/shared/models/city.model';
 
 @Component({
   selector: 'app-menu',
@@ -33,7 +33,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   constructor(private dialog: MatDialog, private isGameOverService: StateService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (localStorage.getItem('isDarkMode') === '1') {
       this.toggleIsDarkMode();
     }
@@ -57,23 +57,23 @@ export class MenuComponent implements OnInit, OnDestroy {
     });
   }
 
-  openIntroDialog() {
+  openIntroDialog(): void {
     this.dialog.open(IntroDialogComponent, {
       width: '500px'
     });
   }
 
-  openResultsDialog() {
+  openResultsDialog(): void {
     this.dialog.open(ResultsDialogComponent, {
       width: '650px'
     })
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
 
-  toggleIsDarkMode() {
+  toggleIsDarkMode(): void {
     this.isDarkMode = !this.isDarkMode;
     localStorage.setItem('isDarkMode', this.isDarkMode ? '1' : '0');
     this.isGameOverService.toggleDarkMode.next(this.isDarkMode);

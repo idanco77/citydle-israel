@@ -18,7 +18,6 @@ import {TextAnswer} from 'src/app/shared/models/text-answer.model';
 import {StateService} from 'src/app/shared/services/state.service';
 import { bounceInLeftOnEnterAnimation } from 'angular-animations';
 import {calculateHeading} from 'src/app/shared/consts/headingFormula.const';
-
 import {CITIES} from 'src/app/shared/consts/cities.const';
 import {AutocompleteCityComponent} from 'src/app/shared/components/autocomplete-city/autocomplete-city.component';
 import {GoogleMapService} from 'src/app/shared/services/google-map.service';

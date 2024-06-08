@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { faCheck, faX } from '@fortawesome/free-solid-svg-icons';
 import {haversineFormula} from 'src/app/shared/consts/haversineFormula.const';
 import {City, CityOver10K} from 'src/app/shared/models/city.model';

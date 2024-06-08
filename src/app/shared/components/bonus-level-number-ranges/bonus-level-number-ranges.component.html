@@ -1,12 +1,13 @@
 <div class="fs-3 fw-bold text-center my-4">{{ question + mysteryCity.name }}?</div>
 <mat-grid-list cols="2" rowHeight="4:1" gutterSize="15px">
   <mat-grid-tile
+    tabindex="0"
     [ngClass]="
     {'success': answer.isCorrect && answer.isClicked,
     'wrong': !answer.isCorrect && answer.isClicked,
     'clicked': isClicked && !answer.isClicked
     }"
-    class="tile text-center" *ngFor="let answer of rangeAnswers let index = index" (click)="isAnswerCorrect(answer)">
+    class="tile text-center" *ngFor="let answer of rangeAnswers let index = index" (keydown.enter)="isAnswerCorrect(answer)" (click)="isAnswerCorrect(answer)">
     <span class="ms-2 fw-bolder">{{ (HEBREW_LETTERS[index]) + '.' }}</span>
     {{ getFormattedAnswer(answer) }}
   </mat-grid-tile>
