@@ -290,7 +290,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private clearDailyData(): void {
     const itemKeys = ['date', 'currentGuess', 'markers', 'guesses',
-      'population', 'area', 'foundedAt', 'step',
+      'population', 'area', 'foundedAt', 'step', 'sisterCities', 'trivia',
       'nearestCities', 'nearestCitiesGuesses', 'nearestCitiesGuessesIndex',
       'nearestCitiesMarkers', 'grade', 'levels'
     ];
@@ -405,12 +405,8 @@ export class AppComponent implements OnInit, OnDestroy {
       return 0;
     }
 
-    if (this.currentGuess <= 2) {
-      return 4;
-    }
-
     if (this.currentGuess <= 3) {
-      return 3;
+      return 2;
     }
 
     return 1;
