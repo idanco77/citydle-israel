@@ -1,7 +1,7 @@
 <div class="fs-3 fw-bold text-center my-4">{{ question + mysteryCity.name }}?</div>
 <mat-grid-list cols="2" rowHeight="4:1" gutterSize="15px">
   <mat-grid-tile
-    tabindex="0"
+    [tabindex]="isClicked ? -1 : 0"
     [ngClass]="
     {'success': answer.isCorrect && answer.isClicked,
     'wrong': !answer.isCorrect && answer.isClicked,
