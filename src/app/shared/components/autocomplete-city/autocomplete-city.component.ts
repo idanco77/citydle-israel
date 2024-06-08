@@ -51,9 +51,11 @@ export class AutocompleteCityComponent implements OnInit {
   private initAutocomplete(): void {
     this.filteredCities = this.autocompleteControl.valueChanges.pipe(
       startWith(''),
-      map(value => this.cities.sort((a, b) => 0.5 - Math.random()).filter(
-        option => option.name.includes(value || '')
-      )),
+      map(value => this.cities
+        .sort((a, b) => 0.5 - Math.random())
+        .filter(option => option.name.includes(value || ''))
+        .slice(0, 10)
+      ),
     );
   }
 
