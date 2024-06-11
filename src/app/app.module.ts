@@ -10,6 +10,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
 import {StateService} from 'src/app/shared/services/state.service';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 const routes: Routes = [
   {path: 'guess-the-city', loadChildren: () => import('./citydle/citydle.module').then(m => m.CitydleModule)},
@@ -34,6 +35,7 @@ const routes: Routes = [
     MatTooltipModule,
     NgOptimizedImage,
     MatDialogModule,
+    MatSnackBarModule
   ],
   providers: [
     StateService,

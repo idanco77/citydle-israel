@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {faCircleQuestion, faCity, faMapLocationDot, faMedal, faMoon, faSun} from '@fortawesome/free-solid-svg-icons';
 import {faChartSimple} from '@fortawesome/free-solid-svg-icons/faChartSimple';
 import {StatsDialogComponent} from 'src/app/stats-dialog/stats-dialog.component';

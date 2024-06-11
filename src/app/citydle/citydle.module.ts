@@ -8,7 +8,6 @@ import {XComponent} from 'src/app/shared/components/x/x.component';
 import {
   BonusLevelNumberRangesComponent
 } from 'src/app/shared/components/bonus-level-number-ranges/bonus-level-number-ranges.component';
-import {MenuComponent} from 'src/app/shared/components/menu/menu.component';
 import {NearestCityComponent} from 'src/app/shared/components/nearest-cities/nearest-city.component';
 import {AutocompleteCityComponent} from 'src/app/shared/components/autocomplete-city/autocomplete-city.component';
 import {TitlesComponent} from 'src/app/shared/components/titles/titles.component';
@@ -36,24 +35,24 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MatAutocompleteModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatSnackBarModule,
-    RouterOutlet,
-    MatIconModule,
-    ClipboardModule,
-    FontAwesomeModule,
-    MatGridListModule,
-    MatExpansionModule,
-    RouterModule.forChild(routes),
-    PercentPipe,
-    DecimalPipe,
-    GoogleMapsModule
-  ],
+    imports: [
+        CommonModule,
+        MatAutocompleteModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        RouterOutlet,
+        MatIconModule,
+        ClipboardModule,
+        FontAwesomeModule,
+        MatGridListModule,
+        MatExpansionModule,
+        RouterModule.forChild(routes),
+        PercentPipe,
+        DecimalPipe,
+        GoogleMapsModule,
+        MatTooltipModule
+    ],
   declarations: [
     CitydleComponent,
     StatsDialogComponent,
