@@ -1,0 +1,73 @@
+<app-menu [mysteryCity]="mysteryCity" [isWin]="isWin" [guesses]="guesses"></app-menu>
+<div class="page-wrapper" [ngStyle]="{zoom: [GUESSES_LEVEL, NEAREST_CITY_LEVEL].includes(step) || isMobile ? '100%' : '125%'}">
+  <div class="width-container">
+
+    <app-titles (navigate)="navigateBetweenSteps($event)" [step]="step" [isGameOver]="isGameOver"></app-titles>
+    <div *ngIf="step === GUESSES_LEVEL" [@enter] class="guesses-wrapper">
+      <div class="clue-button-wrapper" *ngIf="currentGuess >= 4 && ! isGameOver">
+        <button [disabled]="isGameOver" mat-raised-button type="button"
+                (click)="showClue()">
+          <fa-icon [icon]="faLightbulb"></fa-icon>
+          {{ clueLevel === 0 ? 'רמז' : 'רמז נוסף' }}
+        </button>
+        <span class="pt-3"
+              *ngIf="isShowClue"></span>
+        <span class="pt-3"
+              *ngIf="isShowClue && clueLevel >= 1">{{ ' היישוב המסתורי הינו בעל רוב ' + mysteryCity.religion }}</span>
+        <span class="pt-3" *ngIf="isShowClue && clueLevel === 2">{{ mysteryCity.trivia }}</span>
+      </div>
+      <div *ngIf="!isGameOver">
+        <app-autocomplete [cities]="cities" (selectedCity)="handleSelection($event)"></app-autocomplete>
+      </div>
+      <div class="guesses">
+        <div *ngFor="let guess of guesses">
+          <app-guess [guess]="guess" [mysteryCityName]="mysteryCity.name"></app-guess>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex mt-3 justify-content-center">
+      <div class="result" *ngIf="isGameOver">{{ mysteryCity.name }}</div>
+    </div>
+    <div *ngIf="step === POPULATION_LEVEL" [@enter]  class="guesses-wrapper">
+      <app-bonus-level-number-ranges [step]="step"
+                                     question="כמה תושבים גרים ב"
+                                     [answer]="(mysteryCity.population | number) + ' תושבים'"
+                                     [mysteryCity]="mysteryCity" [rangeAnswers]="rangeAnswers">
+      </app-bonus-level-number-ranges>
+    </div>
+    <div *ngIf="step === AREA_LEVEL" [@enter] class="guesses-wrapper">
+      <app-bonus-level-number-ranges [step]="step"
+                                     question="מה השטח של "
+                                     [answer]="(mysteryCity.area | number) + ' דונם'"
+                                     [mysteryCity]="mysteryCity" [rangeAnswers]="rangeAnswers"></app-bonus-level-number-ranges>
+    </div>
+    <div *ngIf="step === FOUNDED_YEAR_LEVEL" [@enter] class="guesses-wrapper">
+      <app-bonus-level-number-ranges [step]="step"
+                                     question="באיזו שנה נוסדה "
+                                     [answer]="mysteryCity.foundedAt"
+                                     [mysteryCity]="mysteryCity" [rangeAnswers]="rangeAnswers"></app-bonus-level-number-ranges>
+    </div>
+    <div *ngIf="step === NEAREST_CITY_LEVEL" [@enter] class="guesses-wrapper">
+      <app-nearest-city [step]="step" [mysteryCity]="mysteryCity" [citiesOver10k]="citiesOver10k"></app-nearest-city>
+    </div>
+    <div class="d-flex">
+      <button [disabled]="step === LAST_LEVEL" *ngIf="isGameOver" (click)="navigateBetweenSteps(true)"
+              mat-flat-button color="primary" class="my-2 w-100">
+        <fa-icon class="fs-3" [icon]="faSackDollar"></fa-icon>
+        שלב בונוס
+      </button>
+    </div>
+    <div *ngIf="step === GUESSES_LEVEL"  [@enter] class="map-wrapper">
+      <google-map *ngIf="apiLoaded | async" #googleMap [width]="mapWidth" height="60vh" [options]="mapSettings">
+        <map-marker *ngFor="let marker of markers"
+                    [position]="marker.position"
+                    [label]="marker.label"
+                    [options]="marker.options"></map-marker>
+      </google-map>
+    </div>
+    <div class="d-flex justify-content-center">
+      <a class="donate-link" href="https://ko-fi.com/idanc" target="_blank">אפשר לקנות לי <fa-icon class="fs-2" [icon]="faMugHot"></fa-icon>
+        !</a>
+    </div>
+  </div>
+</div>
