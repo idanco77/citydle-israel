@@ -1,5 +1,5 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {faCircleQuestion, faMedal, faMoon, faSun} from '@fortawesome/free-solid-svg-icons';
+import {faCircleQuestion, faCity, faMapLocationDot, faMedal, faMoon, faSun} from '@fortawesome/free-solid-svg-icons';
 import {faChartSimple} from '@fortawesome/free-solid-svg-icons/faChartSimple';
 import {StatsDialogComponent} from 'src/app/stats-dialog/stats-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
@@ -9,7 +9,6 @@ import {ResultsDialogComponent} from 'src/app/results-dialog/results-dialog.comp
 import {StateService} from 'src/app/shared/services/state.service';
 import {LEVELS} from 'src/app/shared/consts/steps.const';
 import {Subscription} from 'rxjs';
-import {CityOver10K} from 'src/app/shared/models/city.model';
 
 @Component({
   selector: 'app-menu',
@@ -20,12 +19,12 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   protected readonly faCircleQuestion = faCircleQuestion;
   protected readonly faChartSimple = faChartSimple;
+  protected readonly faMapLocationDot = faMapLocationDot;
+  protected readonly faCity = faCity;
   protected readonly faMedal = faMedal;
   protected readonly faSun = faSun;
   protected readonly faMoon = faMoon;
-  @Input() guesses: Guess[];
-  @Input() isWin: boolean;
-  @Input() mysteryCity: CityOver10K;
+  guesses: Guess[];
 
   isGameOver: boolean;
   private subs: Subscription = new Subscription();
@@ -42,6 +41,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     if (levels.length === LEVELS.length) {
       this.isGameOver = true;
     }
+
     this.subs.add(this.isGameOverService.isGameOver.subscribe(isGameOver => {
       this.isGameOver = isGameOver;
     }));
@@ -51,7 +51,6 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.dialog.open(StatsDialogComponent, {
       width: '350px',
       data: {
-        guesses: this.guesses,
         isGameOver: this.isGameOver
       }
     });

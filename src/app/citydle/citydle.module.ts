@@ -43,13 +43,10 @@ const routes: Routes = [
     ReactiveFormsModule,
     MatButtonModule,
     MatSnackBarModule,
-    MatDialogModule,
     RouterOutlet,
-    NgOptimizedImage,
     MatIconModule,
     ClipboardModule,
     FontAwesomeModule,
-    MatTooltipModule,
     MatGridListModule,
     MatExpansionModule,
     RouterModule.forChild(routes),
@@ -65,13 +62,11 @@ const routes: Routes = [
     GuessComponent,
     XComponent,
     BonusLevelNumberRangesComponent,
-    MenuComponent,
     NearestCityComponent,
     AutocompleteCityComponent,
     TitlesComponent
   ],
   providers: [
-    StateService,
     DecimalPipe,
     GoogleMapService,
     ErrorMessageService

@@ -26,7 +26,7 @@ import {calculateHeading} from 'src/app/shared/consts/headingFormula.const';
 import {getCurrentDateYyyyMmDd} from 'src/app/shared/consts/get-current-date-yyyy-mm-dd.const';
 import {createAnswers, createRanges} from 'src/app/shared/consts/create-number-range.const';
 import {ResultsDialogComponent} from 'src/app/results-dialog/results-dialog.component';
-import { faLightbulb, faMugHot, faSackDollar } from '@fortawesome/free-solid-svg-icons';
+import { faLightbulb, faSackDollar } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-citydle',
@@ -50,7 +50,6 @@ export class CitydleComponent implements OnInit, OnDestroy {
   protected readonly LAST_LEVEL = LEVELS.length - 1;
   protected readonly faLightbulb = faLightbulb;
   protected readonly faSackDollar = faSackDollar;
-  protected readonly faMugHot = faMugHot;
 
   cities: City[] = CITIES;
 
@@ -143,6 +142,7 @@ export class CitydleComponent implements OnInit, OnDestroy {
     this.currentGuess++;
     if (this.isGameOver) {
       let grade = this.calculateGrade();
+      console.log(1);
       this.stateService.addGrade(grade);
       if (!this.isWin) {
         setTimeout(() => {
@@ -275,7 +275,7 @@ export class CitydleComponent implements OnInit, OnDestroy {
     const itemKeys = ['date', 'currentGuess', 'markers', 'guesses',
       'population', 'area', 'foundedAt', 'step', 'sisterCities', 'trivia',
       'nearestCities', 'nearestCitiesGuesses', 'nearestCitiesGuessesIndex',
-      'nearestCitiesMarkers', 'grade', 'levels'
+      'nearestCitiesMarkers', 'grade', 'levels', 'isMysteryCityGradeAdded'
     ];
 
     itemKeys.forEach(item => {localStorage.removeItem(item);});
@@ -311,9 +311,11 @@ export class CitydleComponent implements OnInit, OnDestroy {
 
     if (this.step === this.FOUNDED_YEAR_LEVEL) {
       if (!this.mysteryCity.foundedAt) {
+        this.isMysteryCityGradeAdded = !!localStorage.getItem('isMysteryCityGradeAdded');
         if (!this.isMysteryCityGradeAdded) {
           this.stateService.addGrade(2);
           this.isMysteryCityGradeAdded = true;
+          localStorage.setItem('isMysteryCityGradeAdded', '1');
         }
         this.navigateBetweenSteps(isUp);
         return;

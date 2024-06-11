@@ -1,5 +1,7 @@
 <div class="menu">
   <fa-icon matTooltip="עזרה" (click)="openIntroDialog()" class="h1 pointer" [icon]="faCircleQuestion"></fa-icon>
+  <fa-icon matTooltip="אתגר המפה" routerLink="map-challenge" class="h1 pointer pe-3" [icon]="faMapLocationDot"></fa-icon>
+  <fa-icon matTooltip="נחש את העיר" routerLink="guess-the-city" class="h1 pointer pe-3" [icon]="faCity"></fa-icon>
   <h1 class="title">
     Citydle-il ישראל
     <img [ngSrc]="isDarkMode ? 'assets/israel-dark-mode.png' : 'assets/israel-light-mode.png'" height="70" width="30" alt="israel">

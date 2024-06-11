@@ -1,13 +1,5 @@
 @import '../../scss/main';
 
-.donate-link {
-  display: block;
-  margin-top: 10px;
-  text-align: center;
-  text-decoration: none;
-  color: inherit;
-}
-
 .clue-button-wrapper {
   display: flex;
   flex-direction: column;
@@ -47,22 +39,6 @@
 .guesses-wrapper {
   @include respond(phone) {
     width: 100%;
-  }
-}
-
-.page-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-
-
-.width-container {
-  width: 430px;
-  @include respond(phone) {
-    width: 95%;
   }
 }
 

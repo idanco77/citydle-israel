@@ -4,15 +4,24 @@ import {HttpClientJsonpModule, HttpClientModule} from '@angular/common/http';
 import {RouterModule, Routes} from '@angular/router';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
+import {MenuComponent} from 'src/app/shared/components/menu/menu.component';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatDialogModule} from '@angular/material/dialog';
+import {StateService} from 'src/app/shared/services/state.service';
 
 const routes: Routes = [
-  {path: '', loadChildren: () => import('./citydle/citydle.module').then(m => m.CitydleModule)},
+  {path: 'guess-the-city', loadChildren: () => import('./citydle/citydle.module').then(m => m.CitydleModule)},
+  {path: 'map-challenge', loadChildren: () => import('./map-challenge/map-challenge.module').then(m => m.MapChallengeModule)},
+  {path: '', redirectTo: 'original', pathMatch: 'full'},
+  {path: '**', redirectTo: 'original', pathMatch: 'full'},
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
+    MenuComponent,
   ],
   imports: [
     CommonModule,
@@ -20,7 +29,14 @@ const routes: Routes = [
     BrowserModule,
     RouterModule.forRoot(routes),
     HttpClientModule,
-    HttpClientJsonpModule
+    HttpClientJsonpModule,
+    FontAwesomeModule,
+    MatTooltipModule,
+    NgOptimizedImage,
+    MatDialogModule,
+  ],
+  providers: [
+    StateService,
   ],
   bootstrap: [AppComponent]
 })

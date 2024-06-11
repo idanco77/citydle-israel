@@ -17,11 +17,13 @@ export class StatsDialogComponent implements OnInit{
   maxWinStreak: number | null;
   successRate: number;
   totalPlayedGames: number;
+  private guesses: Guess[];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: {guesses: Guess[], isGameOver: boolean},
               private snackBar: MatSnackBar) {}
 
   ngOnInit() {
+    this.guesses = JSON.parse(localStorage.getItem('guesses') || '[]');
     const history = JSON.parse(localStorage.getItem('history') || '[]');
     const analyze = analyzeDateStreaks(history);
     this.currentWinStreak = analyze.lastStreak;
@@ -51,7 +53,7 @@ export class StatsDialogComponent implements OnInit{
     const day = String(new Date().getDate()).padStart(2, '0');
     const month = String(new Date().getMonth() + 1).padStart(2, '0'); // January is 0!
     const year = new Date().getFullYear();
-    const totalGuesses = this.data.guesses.filter(guess => guess.name).length;
+    const totalGuesses = this.guesses.filter(guess => guess.name).length;
     const highest = this.getHighest();
 
     this.results = `#citydle_il 🇮🇱 #${daysDifference} (${day}.${month}.${year}) ${totalGuesses}/6 (${highest}%) \n${emojis}https://citydle-il.web.app/`;
@@ -59,7 +61,7 @@ export class StatsDialogComponent implements OnInit{
 
   private getHighest(): number {
     let highest = 0;
-    this.data.guesses.forEach(guess => {
+    this.guesses.forEach(guess => {
       const value = guess.percentage;
       if (value && value > highest) {
         highest = value;
@@ -92,7 +94,7 @@ export class StatsDialogComponent implements OnInit{
       return squares;
     };
 
-    const emojiMap: string[] = this.data.guesses
+    const emojiMap: string[] = this.guesses
       .filter(guess => guess.percentage) // Filter guesses with valid percentages
       .map(guess => {
         const percentage = guess.percentage as number; // Ensure percentage is treated as a number
