@@ -347,21 +347,35 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
+  waitForGoogleMap(): Promise<void> {
+    return new Promise((resolve) => {
+      const interval = setInterval(() => {
+        if (this.googleMap !== undefined) {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 100); // Check every 100ms
+    });
+  }
+
+  setMapOptions(): void {
+    if (this.googleMap) {
+      if (this.isDarkMode) {
+        this.googleMap.googleMap?.setOptions({styles: DARK});
+        this.resetMarkers(true);
+      } else {
+        this.googleMap.googleMap?.setOptions({styles: LIGHT});
+        this.resetMarkers(false);
+      }
+    }
+  }
+
+
   toggleDarkMode(isDarkMode: boolean): void {
     this.isDarkMode = isDarkMode;
-    setTimeout(() => {
-      if (isDarkMode) {
-        if(this.googleMap !== undefined){
-          this.googleMap.googleMap?.setOptions({styles: DARK});
-          this.resetMarkers(true);
-        }
-      } else {
-        if(this.googleMap !== undefined){
-          this.googleMap.googleMap?.setOptions({styles: LIGHT});
-          this.resetMarkers(false);
-        }
-      }
-    }, 310);
+    this.waitForGoogleMap().then(() => {
+      this.setMapOptions();
+    });
   }
 
   private resetMarkers(isDarkMode: boolean): void {
