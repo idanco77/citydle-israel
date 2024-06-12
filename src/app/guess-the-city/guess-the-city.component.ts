@@ -9,9 +9,7 @@ import {AutocompleteCityComponent} from 'src/app/shared/components/autocomplete-
 import {CITIES} from 'src/app/shared/consts/cities.const';
 import {Guess} from 'src/app/shared/models/guess.model';
 import {Observable, Subscription} from 'rxjs';
-import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
-import {DOCUMENT} from '@angular/common';
 import {ErrorMessageService} from 'src/app/shared/services/error-message.service';
 import {StateService} from 'src/app/shared/services/state.service';
 import {GoogleMapService} from 'src/app/shared/services/google-map.service';
@@ -29,14 +27,14 @@ import {ResultsDialogComponent} from 'src/app/results-dialog/results-dialog.comp
 import { faLightbulb, faSackDollar } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'app-citydle',
-  templateUrl: './citydle.component.html',
-  styleUrls: ['./citydle.component.scss'],
+  selector: 'app-guess-the-city',
+  templateUrl: './guess-the-city.component.html',
+  styleUrls: ['./guess-the-city.component.scss'],
   animations: [
     bounceInLeftOnEnterAnimation({ anchor: 'enter', duration: 1000, delay: 100, translate: '300px' })]
 
 })
-export class CitydleComponent implements OnInit, OnDestroy {
+export class GuessTheCityComponent implements OnInit, OnDestroy {
   @ViewChild('googleMap') googleMap: GoogleMap;
   @ViewChild(AutocompleteCityComponent) autocompleteCity: AutocompleteCityComponent;
   @HostBinding('class') className = '';

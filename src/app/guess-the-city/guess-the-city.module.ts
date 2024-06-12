@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CitydleComponent} from 'src/app/citydle/citydle.component';
+import {GuessTheCityComponent} from 'src/app/guess-the-city/guess-the-city.component';
 import {StatsDialogComponent} from 'src/app/stats-dialog/stats-dialog.component';
 import {ResultsDialogComponent} from 'src/app/results-dialog/results-dialog.component';
 import {IntroDialogComponent} from 'src/app/intro-dialog/intro-dialog.component';
@@ -31,7 +31,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {GoogleMapsModule} from '@angular/google-maps';
 
 const routes: Routes = [
-  {path: '', component: CitydleComponent},
+  {path: '', component: GuessTheCityComponent},
 ];
 
 @NgModule({
@@ -54,7 +54,7 @@ const routes: Routes = [
         MatTooltipModule
     ],
   declarations: [
-    CitydleComponent,
+    GuessTheCityComponent,
     StatsDialogComponent,
     ResultsDialogComponent,
     IntroDialogComponent,
@@ -71,9 +71,9 @@ const routes: Routes = [
     ErrorMessageService
   ],
   exports: [
-    CitydleComponent
+    GuessTheCityComponent
   ]
 })
-export class CitydleModule {
+export class GuessTheCityModule {
 
 }
