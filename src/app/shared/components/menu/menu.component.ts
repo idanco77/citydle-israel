@@ -33,10 +33,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   constructor(private dialog: MatDialog, private isGameOverService: StateService) {}
 
   ngOnInit(): void {
-    if (localStorage.getItem('isDarkMode') === '1') {
-      this.toggleIsDarkMode();
-    }
-
     const levels = JSON.parse(localStorage.getItem('levels') || '[]');
     if (levels.length === LEVELS.length) {
       this.isGameOver = true;
@@ -74,7 +70,6 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   toggleIsDarkMode(): void {
     this.isDarkMode = !this.isDarkMode;
-    localStorage.setItem('isDarkMode', this.isDarkMode ? '1' : '0');
     this.isGameOverService.toggleDarkMode.next(this.isDarkMode);
   }
 }

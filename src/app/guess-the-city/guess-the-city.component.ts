@@ -126,7 +126,7 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
     }
     this.cities = this.cities.filter(city => city.name !== selectedCity);
     this.isWin = this.checkIsWin(city.name);
-    this.markers.push(createMarker(city, this.isWin));
+    this.markers.push(createMarker(city, this.isWin, this.isDarkMode));
     this.guesses[this.currentGuess].name = city.name;
     const distance = haversineFormula(
       this.mysteryCity.lat, this.mysteryCity.lng, city.lat, city.lng
@@ -144,7 +144,7 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
       this.stateService.addGrade(grade);
       if (!this.isWin) {
         setTimeout(() => {
-          this.markers.push(createMarker(this.mysteryCity, true));
+          this.markers.push(createMarker(this.mysteryCity, true, this.isDarkMode));
         }, 1500);
       } else {
         this.saveHistory();
@@ -283,10 +283,6 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
     this.isShow = false;
     isUp ? this.step++ : this.step--;
 
-    if (this.GUESSES_LEVEL === this.step) {
-      this.toggleDarkMode(localStorage.getItem('isDarkMode') === '1');
-    }
-
     if (this.step === this.POPULATION_LEVEL) {
       let data;
       if (this.mysteryCity.population >= 100000) {
@@ -347,17 +343,6 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  waitForGoogleMap(): Promise<void> {
-    return new Promise((resolve) => {
-      const interval = setInterval(() => {
-        if (this.googleMap !== undefined) {
-          clearInterval(interval);
-          resolve();
-        }
-      }, 100); // Check every 100ms
-    });
-  }
-
   setMapOptions(): void {
     if (this.googleMap) {
       if (this.isDarkMode) {
@@ -373,9 +358,7 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
 
   toggleDarkMode(isDarkMode: boolean): void {
     this.isDarkMode = isDarkMode;
-    this.waitForGoogleMap().then(() => {
-      this.setMapOptions();
-    });
+    this.setMapOptions();
   }
 
   private resetMarkers(isDarkMode: boolean): void {

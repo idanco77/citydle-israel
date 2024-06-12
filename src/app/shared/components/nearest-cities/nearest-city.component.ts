@@ -38,6 +38,7 @@ export class NearestCityComponent implements OnInit, OnDestroy, OnChanges {
   protected readonly MAX_GUESSES = 7;
   subs = new Subscription();
   grade = 0;
+  private isDarkMode: boolean;
 
   constructor(private googleMapService: GoogleMapService,
               private stateService: StateService,
@@ -46,7 +47,7 @@ export class NearestCityComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
-    if (localStorage.getItem('isDarkMode') === '1') {
+    if (this.isDarkMode) {
       this.toggleDarkMode(true);
     }
   }
@@ -102,7 +103,7 @@ export class NearestCityComponent implements OnInit, OnDestroy, OnChanges {
     this.guess++;
     this.checkIsGameOver();
     this.checkIsWin();
-    this.nearestCitiesMarkers.push(createMarker(cityObj, cityObj.isCorrect));
+    this.nearestCitiesMarkers.push(createMarker(cityObj, cityObj.isCorrect, this.isDarkMode));
     if (this.isWin) {
       startConfetti();
     }
@@ -114,7 +115,7 @@ export class NearestCityComponent implements OnInit, OnDestroy, OnChanges {
       const nearestCities = this.nearestCities.filter(item => !guesses.has(item.name));
       if (! this.isWin) {
         nearestCities.forEach(city => {
-          this.nearestCitiesMarkers.push(createMarker(city, true));
+          this.nearestCitiesMarkers.push(createMarker(city, true, this.isDarkMode));
         });
       }
     }
@@ -158,7 +159,7 @@ export class NearestCityComponent implements OnInit, OnDestroy, OnChanges {
     if (this.nearestCitiesMarkers.length) {
       return;
     }
-    this.nearestCitiesMarkers.push(createMarker(this.mysteryCity, false));
+    this.nearestCitiesMarkers.push(createMarker(this.mysteryCity, false, this.isDarkMode));
   }
 
   private removeMysteryCityFromList(): void {
@@ -170,6 +171,7 @@ export class NearestCityComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private toggleDarkMode(isDarkMode: boolean) {
+    this.isDarkMode = isDarkMode;
     setTimeout(() => {
       if (isDarkMode) {
         if(this.googleMap !== undefined){

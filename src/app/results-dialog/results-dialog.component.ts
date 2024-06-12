@@ -24,7 +24,6 @@ export class ResultsDialogComponent implements OnInit {
   constructor(private stateService: StateService) {}
 
   ngOnInit() {
-      this.isDarkMode = localStorage.getItem('isDarkMode') === '1';
       this.stars.forEach(star => {
         star.image = this.isDarkMode ? 'star-frame-dark-mode' : 'star-frame';
       });
