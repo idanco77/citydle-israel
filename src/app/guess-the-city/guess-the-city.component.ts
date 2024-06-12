@@ -347,30 +347,21 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  toggleDarkMode(isDarkMode: boolean) {
+  toggleDarkMode(isDarkMode: boolean): void {
     this.isDarkMode = isDarkMode;
-    const darkMode = 'darkMode';
     setTimeout(() => {
-      this.className = isDarkMode ? darkMode : '';
-
       if (isDarkMode) {
         if(this.googleMap !== undefined){
           this.googleMap.googleMap?.setOptions({styles: DARK});
           this.resetMarkers(true);
         }
-
-        this.overlay.getContainerElement().classList.add(darkMode);
-        document.body.classList.add('dark-mode-design');
       } else {
         if(this.googleMap !== undefined){
           this.googleMap.googleMap?.setOptions({styles: LIGHT});
           this.resetMarkers(false);
         }
-
-        this.overlay.getContainerElement().classList.remove(darkMode);
-        document.body.classList.remove('dark-mode-design');
       }
-    }, 310)
+    }, 310);
   }
 
   private resetMarkers(isDarkMode: boolean): void {
