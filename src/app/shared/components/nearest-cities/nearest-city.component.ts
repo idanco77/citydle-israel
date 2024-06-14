@@ -1,11 +1,11 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { faCheck, faX } from '@fortawesome/free-solid-svg-icons';
 import {haversineFormula} from 'src/app/shared/consts/haversineFormula.const';
 import {City, CityOver10K} from 'src/app/shared/models/city.model';
 import {NearestCityGuess} from 'src/app/shared/models/nearest-city-guess.model';
 import {GoogleMap} from '@angular/google-maps';
 import {GoogleMapService} from 'src/app/shared/services/google-map.service';
-import {filter, interval, Observable, Subscription, takeWhile} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {StateService} from 'src/app/shared/services/state.service';
 import {startConfetti} from 'src/app/shared/consts/confetti.const';
 import {ErrorMessageService} from 'src/app/shared/services/error-message.service';
@@ -46,20 +46,12 @@ export class NearestCityComponent implements OnInit, OnDestroy {
     this.apiLoaded = this.googleMapService.apiLoaded();
   }
 
-  initializeMap$() {
-    return interval(100).pipe(
-      filter(() => !!this.googleMap), // Emit only when googleMap is truthy
-      takeWhile(() => !this.googleMap, true) // Continue emitting until googleMap is truthy
-    );
-  }
-
-
   ngOnInit() {
     this.subs.add(this.stateService.toggleDarkMode.subscribe(isDarkMode => {
       this.toggleDarkMode(isDarkMode);
     }));
 
-    this.initializeMap$().subscribe(() => {
+    this.googleMapService.initializeMap$(this.googleMap).subscribe(() => {
       const isDarkMode = localStorage.getItem('isDarkMode') === '1';
       this.toggleDarkMode(isDarkMode);
     });
@@ -175,10 +167,6 @@ export class NearestCityComponent implements OnInit, OnDestroy {
     this.citiesOver10k = this.citiesOver10k.filter(city => city.name !== this.mysteryCity.name);
   }
 
-  ngOnDestroy() {
-    this.subs.unsubscribe();
-  }
-
   private toggleDarkMode(isDarkMode: boolean) {
     this.isDarkMode = isDarkMode;
     this.addMysteryCityMarker();
@@ -201,4 +189,7 @@ export class NearestCityComponent implements OnInit, OnDestroy {
     }
   }
 
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
 }

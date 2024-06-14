@@ -109,19 +109,12 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
       this.toggleDarkMode(isDarkMode);
     }));
 
-    this.initializeMap$().subscribe(() => {
+    this.googleMapService.initializeMap$(this.googleMap).subscribe(() => {
       const isDarkMode = localStorage.getItem('isDarkMode') === '1';
       this.toggleDarkMode(isDarkMode);
     });
   }
 
-
-  initializeMap$() {
-    return interval(100).pipe(
-      filter(() => !!this.googleMap), // Emit only when googleMap is truthy
-      takeWhile(() => !this.googleMap, true) // Continue emitting until googleMap is truthy
-    );
-  }
 
   calculatePercentages(distance: number): number {
     if (this.isWin) return 100;
