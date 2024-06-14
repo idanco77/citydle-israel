@@ -4,11 +4,9 @@ import {GoogleMapService} from 'src/app/shared/services/google-map.service';
 import {GoogleMap} from '@angular/google-maps';
 import {DARK, LIGHT, MAP_SETTINGS} from 'src/app/shared/consts/map-settings.const';
 import {createMarker} from 'src/app/shared/consts/createMarker.const';
-import {Marker} from 'src/app/shared/models/marker.model';
 import {CITIES} from 'src/app/shared/consts/cities.const';
 import {City} from 'src/app/shared/models/city.model';
 import {haversineFormula} from 'src/app/shared/consts/haversineFormula.const';
-import {START_DATE} from 'src/app/shared/consts/start-date.const';
 import {HelpersService} from 'src/app/shared/services/helpers.service';
 import {filter, interval, Observable, Subscription, takeWhile} from 'rxjs';
 
@@ -30,9 +28,6 @@ export class MapChallengeComponent implements OnInit, OnDestroy {
   grade: number = 0;
   subs = new Subscription();
   private isDarkMode: boolean;
-  hours: string | number;
-  minutes: string | number;
-  seconds: string | number;
 
   constructor(private stateService: StateService,
               private googleMapService: GoogleMapService,
@@ -56,7 +51,7 @@ export class MapChallengeComponent implements OnInit, OnDestroy {
     this.grade = parseInt(localStorage.getItem('mapChallengeGrade') ?? '0');
     this.cityIndex = parseInt(localStorage.getItem('mapChallengeIndex') ?? '0');
     this.allMarkers = JSON.parse(localStorage.getItem('mapChallengeAllMarkers') || '[]');
-    if (this.cityIndex === this.cities.length - 1) {
+    if (this.cityIndex === this.cities.length) {
       this.isGameOver = true;
       this.markers = this.allMarkers;
     }
@@ -105,7 +100,7 @@ export class MapChallengeComponent implements OnInit, OnDestroy {
     localStorage.setItem('mapChallengeGrade', this.grade.toString());
     localStorage.setItem('mapChallengeAllMarkers', JSON.stringify(this.allMarkers));
 
-    if (this.cityIndex >= this.cities.length - 1) {
+    if (this.cityIndex >= this.cities.length) {
       this.isGameOver = true;
       this.displayAllMarkers();
     }
