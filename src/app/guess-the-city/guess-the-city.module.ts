@@ -20,15 +20,15 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatExpansionModule} from '@angular/material/expansion';
-import {StateService} from 'src/app/shared/services/state.service';
 import {GoogleMapService} from 'src/app/shared/services/google-map.service';
 import {ErrorMessageService} from 'src/app/shared/services/error-message.service';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {GoogleMapsModule} from '@angular/google-maps';
+import {HelpersService} from 'src/app/shared/services/helpers.service';
+import {NextChallengeTimerModule} from 'src/app/shared/components/next-challenge-timer/next-challenge-timer.module';
 
 const routes: Routes = [
   {path: '', component: GuessTheCityComponent},
@@ -51,7 +51,8 @@ const routes: Routes = [
         PercentPipe,
         DecimalPipe,
         GoogleMapsModule,
-        MatTooltipModule
+        MatTooltipModule,
+        NextChallengeTimerModule
     ],
   declarations: [
     GuessTheCityComponent,
@@ -67,8 +68,8 @@ const routes: Routes = [
   ],
   providers: [
     DecimalPipe,
-    GoogleMapService,
-    ErrorMessageService
+    ErrorMessageService,
+    HelpersService
   ],
   exports: [
     GuessTheCityComponent

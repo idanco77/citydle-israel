@@ -1,6 +1,6 @@
-import {City} from 'src/app/shared/models/city.model';
+import {Marker} from 'src/app/shared/models/marker.model';
 
-export const createMarker = (cityObj: City, isGreenMarker: boolean = false, isDarkMode = false): any => {
+export const createMarker = (cityObj: Marker, isGreenMarker: boolean = false, isDarkMode = false): any => {
   const marker: any = {
     position: {lat: cityObj.lat, lng: cityObj.lng},
     options: {draggable: false},

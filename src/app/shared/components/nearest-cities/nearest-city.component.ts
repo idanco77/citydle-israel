@@ -5,12 +5,13 @@ import {City, CityOver10K} from 'src/app/shared/models/city.model';
 import {NearestCityGuess} from 'src/app/shared/models/nearest-city-guess.model';
 import {GoogleMap} from '@angular/google-maps';
 import {GoogleMapService} from 'src/app/shared/services/google-map.service';
-import {Observable, Subscription} from 'rxjs';
+import {filter, interval, Observable, Subscription, takeWhile} from 'rxjs';
 import {StateService} from 'src/app/shared/services/state.service';
 import {startConfetti} from 'src/app/shared/consts/confetti.const';
 import {ErrorMessageService} from 'src/app/shared/services/error-message.service';
 import {createMarker} from 'src/app/shared/consts/createMarker.const';
 import {DARK, LIGHT, MAP_SETTINGS} from 'src/app/shared/consts/map-settings.const';
+import {Marker} from 'src/app/shared/models/marker.model';
 
 @Component({
   selector: 'app-nearest-city',
@@ -25,14 +26,13 @@ export class NearestCityComponent implements OnInit, OnDestroy {
 
   protected readonly faCheck = faCheck;
   protected readonly faX = faX;
-  isMobile = window.innerWidth < 500;
   guesses: NearestCityGuess[] = [];
   nearestCities: CityOver10K[];
   guess = 0;
   isGameOver: boolean = false;
   isWin = false;
   nearestCitiesMarkers: any[] = [];
-  mapWidth = this.isMobile ? '35rem' : '45rem';
+  mapWidth = this.stateService.getMapWidth();
   apiLoaded: Observable<boolean>;
   mapSettings: google.maps.MapOptions;
   protected readonly MAX_GUESSES = 7;
@@ -51,10 +51,11 @@ export class NearestCityComponent implements OnInit, OnDestroy {
       this.toggleDarkMode(isDarkMode);
     }));
 
-    this.googleMapService.initializeMap$(this.googleMap).subscribe(() => {
+    this.initializeMap$().subscribe(() => {
       const isDarkMode = localStorage.getItem('isDarkMode') === '1';
       this.toggleDarkMode(isDarkMode);
     });
+
     this.mapSettings = MAP_SETTINGS;
     this.guesses = JSON.parse(localStorage.getItem('nearestCitiesGuesses') || '[]');
     this.nearestCities = JSON.parse(localStorage.getItem('nearestCities') || '[]');
@@ -70,6 +71,14 @@ export class NearestCityComponent implements OnInit, OnDestroy {
       this.toggleDarkMode(isDarkMode);
     }));
   }
+
+  initializeMap$(): Observable<number> {
+    return interval(100).pipe(
+      filter(() => !!this.googleMap), // Emit only when googleMap is truthy
+      takeWhile(() => !this.googleMap, true) // Continue emitting until googleMap is truthy
+    );
+  }
+
 
   private setGuesses() {
     if (this.guesses.length) {
@@ -104,7 +113,8 @@ export class NearestCityComponent implements OnInit, OnDestroy {
     this.guess++;
     this.checkIsGameOver();
     this.checkIsWin();
-    this.nearestCitiesMarkers.push(createMarker(cityObj, cityObj.isCorrect, this.isDarkMode));
+    const marker: Marker = {lat: cityObj.lat, lng: cityObj.lng, name: cityObj.name};
+    this.nearestCitiesMarkers.push(createMarker(marker, cityObj.isCorrect, this.isDarkMode));
     if (this.isWin) {
       startConfetti();
     }
@@ -116,7 +126,8 @@ export class NearestCityComponent implements OnInit, OnDestroy {
       const nearestCities = this.nearestCities.filter(item => !guesses.has(item.name));
       if (! this.isWin) {
         nearestCities.forEach(city => {
-          this.nearestCitiesMarkers.push(createMarker(city, true, this.isDarkMode));
+          const marker: Marker = {lat: cityObj.lat, lng: cityObj.lng, name: cityObj.name};
+          this.nearestCitiesMarkers.push(createMarker(marker, true, this.isDarkMode));
         });
       }
     }
@@ -160,7 +171,8 @@ export class NearestCityComponent implements OnInit, OnDestroy {
     if (this.nearestCitiesMarkers.length) {
       return;
     }
-    this.nearestCitiesMarkers.push(createMarker(this.mysteryCity, false, this.isDarkMode));
+    const marker: Marker = {lat: this.mysteryCity.lat, lng: this.mysteryCity.lng, name: this.mysteryCity.name};
+    this.nearestCitiesMarkers.push(createMarker(marker, false, this.isDarkMode));
   }
 
   private removeMysteryCityFromList(): void {

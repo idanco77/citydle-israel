@@ -1,1 +1,19 @@
-<p class="fs-1 text-center">בקרוב...</p>
+<p *ngIf="!isGameOver" class="text-center">עליכם לגלות היכן במפה נמצא היישוב המוצג על המסך</p>
+<div class="d-flex justify-content-center mb-5">
+  <div class="centered-content">
+    <div>{{
+        isGameOver ?
+          'ציון:' + grade + ' / 100' :
+          (cityIndex + 1) + '. ' + cities[cityIndex].name
+      }}
+    </div>
+  </div>
+</div>
+<app-next-challenge-timer></app-next-challenge-timer>
+<p *ngIf="isGameOver" class="text-center"></p>
+<google-map *ngIf="apiLoaded | async" #googleMap [width]="mapWidth" height="80vh" (mapClick)="locationSelected($event)" [options]="mapSettings">
+  <map-marker *ngFor="let marker of markers"
+              [position]="marker.position"
+              [label]="marker.label"
+              [options]="marker.options"></map-marker>
+</google-map>

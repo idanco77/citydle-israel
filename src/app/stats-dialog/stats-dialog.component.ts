@@ -9,9 +9,6 @@ import {analyzeDateStreaks} from 'src/app/shared/consts/analyze-date-streaks';
   templateUrl: './stats-dialog.component.html'
 })
 export class StatsDialogComponent implements OnInit{
-  hours: string | number;
-  minutes: string | number;
-  seconds: string | number;
   results: string;
   currentWinStreak: number | null;
   maxWinStreak: number | null;
@@ -32,21 +29,6 @@ export class StatsDialogComponent implements OnInit{
     const totalWins = rateData.filter(isWin => isWin);
     this.successRate = rateData.length ? (totalWins.length / rateData.length) : 0;
     this.totalPlayedGames = +(localStorage.getItem('totalPlayedGames') ?? 0);
-
-    const timeRemaining = () => {
-      const now: Date = new Date();
-      const hoursLeft: number = 23 - now.getHours();
-      const minutesLeft: number = 59 - now.getMinutes();
-      const secondsLeft: number = 59 - now.getSeconds();
-
-      const formatNumber = (num: number): string | number => (num < 10 ? '0' + num : num);
-
-      this.hours = formatNumber(hoursLeft);
-      this.minutes = formatNumber(minutesLeft);
-      this.seconds = formatNumber(secondsLeft);
-    };
-    timeRemaining();
-    setInterval(timeRemaining, 1000);
 
     const emojis = this.generateProgressSquares();
     const daysDifference = Math.floor((new Date().getTime() - new Date(START_DATE).getTime()) / (1000 * 3600 * 24));

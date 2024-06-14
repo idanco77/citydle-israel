@@ -34,6 +34,8 @@ import {getCurrentDateYyyyMmDd} from 'src/app/shared/consts/get-current-date-yyy
 import {createAnswers, createRanges} from 'src/app/shared/consts/create-number-range.const';
 import {ResultsDialogComponent} from 'src/app/results-dialog/results-dialog.component';
 import { faLightbulb, faSackDollar } from '@fortawesome/free-solid-svg-icons';
+import {Marker} from 'src/app/shared/models/marker.model';
+import {HelpersService} from 'src/app/shared/services/helpers.service';
 
 @Component({
   selector: 'app-guess-the-city',
@@ -48,7 +50,6 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
   @ViewChild(AutocompleteCityComponent) autocompleteCity: AutocompleteCityComponent;
   @HostBinding('class') className = '';
 
-  protected readonly isMobile = window.innerWidth < 500;
   protected readonly GUESSES_LEVEL = Levels.GUESSES;
   protected readonly POPULATION_LEVEL = Levels.POPULATION;
   protected readonly AREA_LEVEL = Levels.AREA;
@@ -58,7 +59,7 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
   protected readonly faLightbulb = faLightbulb;
   protected readonly faSackDollar = faSackDollar;
 
-  cities: City[] = CITIES;
+  cities: City[] = [... CITIES];
 
   guesses: Guess[];
   currentGuess = 0;
@@ -67,11 +68,10 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
   markers: any = [];
   isWin: boolean = false;
   isShowClue = false;
-  mapWidth = this.isMobile ? '35rem' : '45rem';
+  mapWidth = this.stateService.getMapWidth();
 
   step: number = this.GUESSES_LEVEL;
   rangeAnswers: RangeAnswer[];
-  textAnswers: TextAnswer[];
   citiesOver10k: CityOver10K[];
   isShow = true;
   private subs = new Subscription();
@@ -83,7 +83,8 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
   constructor(private dialog: MatDialog,
               private errorMessageService: ErrorMessageService,
               private stateService: StateService,
-              private googleMapService: GoogleMapService) {
+              private googleMapService: GoogleMapService,
+              private helpers: HelpersService) {
     this.apiLoaded = this.googleMapService.apiLoaded();
   }
 
@@ -109,11 +110,19 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
       this.toggleDarkMode(isDarkMode);
     }));
 
-    this.googleMapService.initializeMap$(this.googleMap).subscribe(() => {
+    this.initializeMap$().subscribe(() => {
       const isDarkMode = localStorage.getItem('isDarkMode') === '1';
       this.toggleDarkMode(isDarkMode);
     });
   }
+
+  initializeMap$(): Observable<number> {
+    return interval(100).pipe(
+      filter(() => !!this.googleMap), // Emit only when googleMap is truthy
+      takeWhile(() => !this.googleMap, true) // Continue emitting until googleMap is truthy
+    );
+  }
+
 
 
   calculatePercentages(distance: number): number {
@@ -140,7 +149,8 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
     }
     this.cities = this.cities.filter(city => city.name !== selectedCity);
     this.isWin = this.checkIsWin(city.name);
-    this.markers.push(createMarker(city, this.isWin, this.isDarkMode));
+    const marker: Marker = {lat: city.lat, lng: city.lng, name: city.name};
+    this.markers.push(createMarker(marker, this.isWin, this.isDarkMode));
     this.guesses[this.currentGuess].name = city.name;
     const distance = haversineFormula(
       this.mysteryCity.lat, this.mysteryCity.lng, city.lat, city.lng
@@ -157,7 +167,12 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
       this.stateService.addGrade(grade);
       if (!this.isWin) {
         setTimeout(() => {
-          this.markers.push(createMarker(this.mysteryCity, true, this.isDarkMode));
+          const marker: Marker = {
+            lat: this.mysteryCity.lat,
+            lng: this.mysteryCity.lng,
+            name: this.mysteryCity.name
+          }
+          this.markers.push(createMarker(marker, true, this.isDarkMode));
         }, 1500);
       } else {
         this.saveHistory();
@@ -189,12 +204,7 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
   private setMysteryCity(): void {
     this.citiesOver10k = this.cities.filter(city => city.population >= 10000) as CityOver10K[];
     const citiesOver10k = [...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k, ...this.citiesOver10k];
-    this.mysteryCity = citiesOver10k[this.getDifferenceInDays((new Date(START_DATE)), new Date(new Date()))];
-  }
-
-  getDifferenceInDays(firstDate: Date, today: Date) {
-    const num  = new Date(today).setHours(0, 0, 0, 0) - firstDate.setHours(0, 0, 0, 0);
-    return Math.round(num / 864e5);
+    this.mysteryCity = citiesOver10k[this.helpers.getDifferenceInDays((new Date(START_DATE)), new Date(new Date()))];
   }
 
   private getHeading(mysteryLat: number, mysteryLng: number, guessLat: number, guessLng: number): directions | null {
@@ -286,7 +296,8 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
     const itemKeys = ['date', 'currentGuess', 'markers', 'guesses',
       'population', 'area', 'foundedAt', 'step', 'sisterCities', 'trivia',
       'nearestCities', 'nearestCitiesGuesses', 'nearestCitiesGuessesIndex',
-      'nearestCitiesMarkers', 'grade', 'levels', 'isMysteryCityGradeAdded'
+      'nearestCitiesMarkers', 'grade', 'levels', 'isMysteryCityGradeAdded',
+      'mapChallengeIndex', 'mapChallengeGrade', 'mapChallengeAllMarkers'
     ];
 
     itemKeys.forEach(item => {localStorage.removeItem(item);});

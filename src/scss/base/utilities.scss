@@ -53,7 +53,7 @@
   color: black;
 }
 
-.answer {
+.centered-content {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,10 +65,5 @@
   border: 1px solid;
   font-size: 2rem;
   font-weight: bold;
-}
-
-.answer-wrapper {
-  display: flex;
-  justify-content: center;
 }
 

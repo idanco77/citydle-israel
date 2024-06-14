@@ -72,7 +72,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   toggleIsDarkMode(isDarkMode: boolean): void {
-    console.log(isDarkMode);
     this.isDarkMode = isDarkMode;
     this.isGameOverService.toggleDarkMode.next(this.isDarkMode);
     localStorage.setItem('isDarkMode', this.isDarkMode ? '1' : '0');

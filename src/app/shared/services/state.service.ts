@@ -26,4 +26,8 @@ export class StateService {
   getCurrentGrade(): number {
     return +(localStorage.getItem('grade') ?? 0);
   }
+
+  getMapWidth(): string {
+    return window.innerWidth < 500 ? '35rem' : '45rem';
+  }
 }

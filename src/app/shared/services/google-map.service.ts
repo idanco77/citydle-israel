@@ -16,12 +16,4 @@ export class GoogleMapService {
         catchError(() => of(false)),
       );
   }
-
-  initializeMap$(googleMap: GoogleMap): Observable<number> {
-    return interval(100).pipe(
-      filter(() => !!googleMap), // Emit only when googleMap is truthy
-      takeWhile(() => !googleMap, true) // Continue emitting until googleMap is truthy
-    );
-  }
-
 }

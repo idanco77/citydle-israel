@@ -11,6 +11,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
 import {StateService} from 'src/app/shared/services/state.service';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {GoogleMapService} from 'src/app/shared/services/google-map.service';
 
 const routes: Routes = [
   {path: 'guess-the-city', loadChildren: () => import('src/app/guess-the-city/guess-the-city.module').then(m => m.GuessTheCityModule)},
@@ -39,6 +40,7 @@ const routes: Routes = [
   ],
   providers: [
     StateService,
+    GoogleMapService
   ],
   bootstrap: [AppComponent]
 })

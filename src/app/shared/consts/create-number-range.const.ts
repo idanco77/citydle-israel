@@ -27,9 +27,9 @@ export const createAnswers = (number: number, ranges: RangeAnswer[]): RangeAnswe
   if (ind + 2 < ranges.length) data.push(ranges[ind + 2]);
   if (ind + 3 < ranges.length) data.push(ranges[ind + 3]);
 
-  const answers: RangeAnswer[] = getRandomSubarray(data);
+  let answers: RangeAnswer[] = getRandomSubarray(data);
   answers.push(ranges[ind]);
-  shuffleArray(answers);
+  answers = shuffleArray(answers);
 
   return answers;
 }
@@ -49,6 +49,9 @@ export const shuffleArray = (array: any) => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+
   }
+
+  return array;
 }
 
