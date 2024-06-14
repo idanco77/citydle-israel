@@ -5,7 +5,7 @@ import {City, CityOver10K} from 'src/app/shared/models/city.model';
 import {NearestCityGuess} from 'src/app/shared/models/nearest-city-guess.model';
 import {GoogleMap} from '@angular/google-maps';
 import {GoogleMapService} from 'src/app/shared/services/google-map.service';
-import {Observable, Subscription} from 'rxjs';
+import {filter, interval, Observable, Subscription, takeWhile} from 'rxjs';
 import {StateService} from 'src/app/shared/services/state.service';
 import {startConfetti} from 'src/app/shared/consts/confetti.const';
 import {ErrorMessageService} from 'src/app/shared/services/error-message.service';
@@ -17,7 +17,7 @@ import {DARK, LIGHT, MAP_SETTINGS} from 'src/app/shared/consts/map-settings.cons
   templateUrl: 'nearest-city.component.html',
   styleUrls: ['nearest-city.component.scss']
 })
-export class NearestCityComponent implements OnInit, OnDestroy, OnChanges {
+export class NearestCityComponent implements OnInit, OnDestroy {
   @Input() mysteryCity: CityOver10K;
   @Input() citiesOver10k: CityOver10K[];
   @Input() step: number;
@@ -46,19 +46,28 @@ export class NearestCityComponent implements OnInit, OnDestroy, OnChanges {
     this.apiLoaded = this.googleMapService.apiLoaded();
   }
 
-  ngOnChanges() {
-    if (this.isDarkMode) {
-      this.toggleDarkMode(true);
-    }
+  initializeMap$() {
+    return interval(100).pipe(
+      filter(() => !!this.googleMap), // Emit only when googleMap is truthy
+      takeWhile(() => !this.googleMap, true) // Continue emitting until googleMap is truthy
+    );
   }
 
+
   ngOnInit() {
+    this.subs.add(this.stateService.toggleDarkMode.subscribe(isDarkMode => {
+      this.toggleDarkMode(isDarkMode);
+    }));
+
+    this.initializeMap$().subscribe(() => {
+      const isDarkMode = localStorage.getItem('isDarkMode') === '1';
+      this.toggleDarkMode(isDarkMode);
+    });
     this.mapSettings = MAP_SETTINGS;
     this.guesses = JSON.parse(localStorage.getItem('nearestCitiesGuesses') || '[]');
     this.nearestCities = JSON.parse(localStorage.getItem('nearestCities') || '[]');
     this.guess = +(localStorage.getItem('nearestCitiesGuessesIndex') ?? 0);
     this.nearestCitiesMarkers = JSON.parse(localStorage.getItem('nearestCitiesMarkers') || '[]');
-    this.addMysteryCityMarker();
     this.removeMysteryCityFromList();
     this.setNearestCities();
     this.checkIsGameOver();
@@ -172,19 +181,14 @@ export class NearestCityComponent implements OnInit, OnDestroy, OnChanges {
 
   private toggleDarkMode(isDarkMode: boolean) {
     this.isDarkMode = isDarkMode;
-    setTimeout(() => {
-      if (isDarkMode) {
-        if(this.googleMap !== undefined){
-          this.googleMap.googleMap?.setOptions({styles: DARK});
-          this.resetMarkers(isDarkMode);
-        }
-      } else {
-        if(this.googleMap !== undefined){
-          this.googleMap.googleMap?.setOptions({styles: LIGHT});
-          this.resetMarkers(isDarkMode);
-        }
-      }
-    }, 400);
+    this.addMysteryCityMarker();
+    if (isDarkMode) {
+      this.googleMap.googleMap?.setOptions({styles: DARK});
+      this.resetMarkers(isDarkMode);
+    } else {
+      this.googleMap.googleMap?.setOptions({styles: LIGHT});
+      this.resetMarkers(isDarkMode);
+    }
   }
 
   private resetMarkers(isDarkMode: boolean): void {

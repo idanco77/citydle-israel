@@ -27,6 +27,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    const isDarkMode = localStorage.getItem('isDarkMode') === '1';
+    this.toggleDarkMode(isDarkMode);
+
     this.subs.add(this.stateService.toggleDarkMode.subscribe(isDarkMode => {
       this.toggleDarkMode(isDarkMode);
     }));

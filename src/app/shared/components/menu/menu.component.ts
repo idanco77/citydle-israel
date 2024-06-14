@@ -38,6 +38,9 @@ export class MenuComponent implements OnInit, OnDestroy {
       this.isGameOver = true;
     }
 
+    const isDarkMode = localStorage.getItem('isDarkMode') === '1';
+    this.toggleIsDarkMode(isDarkMode);
+
     this.subs.add(this.isGameOverService.isGameOver.subscribe(isGameOver => {
       this.isGameOver = isGameOver;
     }));
@@ -68,8 +71,10 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  toggleIsDarkMode(): void {
-    this.isDarkMode = !this.isDarkMode;
+  toggleIsDarkMode(isDarkMode: boolean): void {
+    console.log(isDarkMode);
+    this.isDarkMode = isDarkMode;
     this.isGameOverService.toggleDarkMode.next(this.isDarkMode);
+    localStorage.setItem('isDarkMode', this.isDarkMode ? '1' : '0');
   }
 }

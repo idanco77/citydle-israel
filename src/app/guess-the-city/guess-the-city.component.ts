@@ -1,4 +1,13 @@
-import {Component, HostBinding, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  Inject,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {bounceInLeftOnEnterAnimation} from 'angular-animations';
 import {LEVELS, Levels} from 'src/app/shared/consts/steps.const';
 import {RangeAnswer} from 'src/app/shared/models/range-answer.model';
@@ -8,7 +17,7 @@ import {GoogleMap} from '@angular/google-maps';
 import {AutocompleteCityComponent} from 'src/app/shared/components/autocomplete-city/autocomplete-city.component';
 import {CITIES} from 'src/app/shared/consts/cities.const';
 import {Guess} from 'src/app/shared/models/guess.model';
-import {Observable, Subscription} from 'rxjs';
+import {filter, interval, Observable, Subscription, takeWhile} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {ErrorMessageService} from 'src/app/shared/services/error-message.service';
 import {StateService} from 'src/app/shared/services/state.service';
@@ -74,7 +83,6 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
   constructor(private dialog: MatDialog,
               private errorMessageService: ErrorMessageService,
               private stateService: StateService,
-              private overlay: OverlayContainer,
               private googleMapService: GoogleMapService) {
     this.apiLoaded = this.googleMapService.apiLoaded();
   }
@@ -100,6 +108,19 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
     this.subs.add(this.stateService.toggleDarkMode.subscribe(isDarkMode => {
       this.toggleDarkMode(isDarkMode);
     }));
+
+    this.initializeMap$().subscribe(() => {
+      const isDarkMode = localStorage.getItem('isDarkMode') === '1';
+      this.toggleDarkMode(isDarkMode);
+    });
+  }
+
+
+  initializeMap$() {
+    return interval(100).pipe(
+      filter(() => !!this.googleMap), // Emit only when googleMap is truthy
+      takeWhile(() => !this.googleMap, true) // Continue emitting until googleMap is truthy
+    );
   }
 
   calculatePercentages(distance: number): number {
@@ -140,7 +161,6 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
     this.currentGuess++;
     if (this.isGameOver) {
       let grade = this.calculateGrade();
-      console.log(1);
       this.stateService.addGrade(grade);
       if (!this.isWin) {
         setTimeout(() => {
