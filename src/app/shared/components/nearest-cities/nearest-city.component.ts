@@ -126,7 +126,7 @@ export class NearestCityComponent implements OnInit, OnDestroy {
       const nearestCities = this.nearestCities.filter(item => !guesses.has(item.name));
       if (! this.isWin) {
         nearestCities.forEach(city => {
-          const marker: Marker = {lat: cityObj.lat, lng: cityObj.lng, name: cityObj.name};
+          const marker: Marker = {lat: city.lat, lng: city.lng, name: city.name};
           this.nearestCitiesMarkers.push(createMarker(marker, true, this.isDarkMode));
         });
       }
