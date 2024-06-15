@@ -68,8 +68,7 @@ const routes: Routes = [
   ],
   providers: [
     DecimalPipe,
-    ErrorMessageService,
-    HelpersService
+    ErrorMessageService
   ],
   exports: [
     GuessTheCityComponent

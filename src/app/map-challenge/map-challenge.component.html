@@ -9,11 +9,60 @@
     </div>
   </div>
 </div>
-<app-next-challenge-timer></app-next-challenge-timer>
+<app-next-challenge-timer *ngIf="isGameOver"></app-next-challenge-timer>
+<ng-container *ngIf="isGameOver">
+  <mat-accordion>
+    <mat-expansion-panel (opened)="true"
+                         (closed)="false">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="fw-bold">סיכום</mat-panel-title>
+      </mat-expansion-panel-header>
+      <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
+             class="mat-elevation-z8">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.position }}</td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
+            שם העיר
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="distance">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
+            מרחק
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.distance + ' ק"מ' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="grade">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+            ציון
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.grade }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-expansion-panel>
+  </mat-accordion>
+</ng-container>
 <p *ngIf="isGameOver" class="text-center"></p>
-<google-map *ngIf="apiLoaded | async" #googleMap [width]="mapWidth" height="80vh" (mapClick)="locationSelected($event)" [options]="mapSettings">
-  <map-marker *ngFor="let marker of markers"
-              [position]="marker.position"
-              [label]="marker.label"
-              [options]="marker.options"></map-marker>
-</google-map>
+<div class="d-flex justify-content-center">
+  <google-map *ngIf="apiLoaded | async" #googleMap [width]="mapWidth" height="80vh"
+              (mapClick)="locationSelected($event)" [options]="mapSettings">
+    <map-marker *ngFor="let marker of markers"
+                [position]="marker.position"
+                [label]="marker.label"
+                [options]="marker.options"></map-marker>
+  </google-map>
+</div>

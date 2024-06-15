@@ -7,6 +7,7 @@ import { faMugHot } from '@fortawesome/free-solid-svg-icons';
 import {DARK, LIGHT} from 'src/app/shared/consts/map-settings.const';
 import {OverlayContainer} from '@angular/cdk/overlay';
 import {StateService} from 'src/app/shared/services/state.service';
+import {HelpersService} from 'src/app/shared/services/helpers.service';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private router: Router,
               private overlay: OverlayContainer,
               private stateService: StateService,
+              private helpers: HelpersService,
               @Inject(DOCUMENT) private document: Document) {
     this.handleRouteEvents();
   }
@@ -33,6 +35,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subs.add(this.stateService.toggleDarkMode.subscribe(isDarkMode => {
       this.toggleDarkMode(isDarkMode);
     }));
+
+    const date = localStorage.getItem('date');
+    if (date && date !== this.helpers.getCurrentDateInUTC()) {
+      this.clearDailyData();
+    }
   }
 
   handleRouteEvents() {
@@ -58,6 +65,19 @@ export class AppComponent implements OnInit, OnDestroy {
         document.body.classList.remove('dark-mode-design');
       }
   }
+
+  private clearDailyData(): void {
+    const itemKeys = ['date', 'currentGuess', 'markers', 'guesses',
+      'population', 'area', 'foundedAt', 'step', 'sisterCities', 'trivia',
+      'nearestCities', 'nearestCitiesGuesses', 'nearestCitiesGuessesIndex',
+      'nearestCitiesMarkers', 'grade', 'levels', 'isMysteryCityGradeAdded',
+      'mapChallengeIndex', 'mapChallengeGrade', 'mapChallengeAllMarkers',
+      'mapChallengeSummary'
+    ];
+
+    itemKeys.forEach(item => {localStorage.removeItem(item);});
+  }
+
 
   ngOnDestroy() {
     this.subs.unsubscribe();

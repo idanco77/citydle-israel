@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {StateService} from 'src/app/shared/services/state.service';
 import {GoogleMapService} from 'src/app/shared/services/google-map.service';
 import {GoogleMap} from '@angular/google-maps';
@@ -9,18 +9,22 @@ import {City} from 'src/app/shared/models/city.model';
 import {haversineFormula} from 'src/app/shared/consts/haversineFormula.const';
 import {HelpersService} from 'src/app/shared/services/helpers.service';
 import {filter, interval, Observable, Subscription, takeWhile} from 'rxjs';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatSort, Sort} from '@angular/material/sort';
+import {LiveAnnouncer} from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-map-challenge',
   templateUrl: './map-challenge.component.html',
   styleUrls: ['./map-challenge.component.scss']
 })
-export class MapChallengeComponent implements OnInit, OnDestroy {
+export class MapChallengeComponent implements OnInit, OnDestroy, AfterViewInit {
   mapWidth = this.stateService.getMapWidth();
   apiLoaded: any;
   @ViewChild('googleMap') googleMap: GoogleMap;
   markers: any = [];
   allMarkers: any = [];
+  summary: any = [];
   mapSettings: google.maps.MapOptions = MAP_SETTINGS;
   cities: City[];
   cityIndex = 0;
@@ -28,11 +32,21 @@ export class MapChallengeComponent implements OnInit, OnDestroy {
   grade: number = 0;
   subs = new Subscription();
   private isDarkMode: boolean;
+  displayedColumns: string[] = ['position', 'name', 'distance', 'grade'];
+  dataSource: MatTableDataSource<any>;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private stateService: StateService,
               private googleMapService: GoogleMapService,
-              private helpers: HelpersService) {
+              private helpers: HelpersService,
+              private liveAnnouncer: LiveAnnouncer) {
     this.apiLoaded = this.googleMapService.apiLoaded();
+  }
+
+  ngAfterViewInit() {
+    if (this.dataSource) {
+      this.dataSource.sort = this.sort;
+    }
   }
 
   ngOnInit() {
@@ -51,9 +65,11 @@ export class MapChallengeComponent implements OnInit, OnDestroy {
     this.grade = parseInt(localStorage.getItem('mapChallengeGrade') ?? '0');
     this.cityIndex = parseInt(localStorage.getItem('mapChallengeIndex') ?? '0');
     this.allMarkers = JSON.parse(localStorage.getItem('mapChallengeAllMarkers') || '[]');
+    this.summary = JSON.parse(localStorage.getItem('mapChallengeSummary') || '[]');
     if (this.cityIndex === this.cities.length) {
       this.isGameOver = true;
       this.markers = this.allMarkers;
+      this.dataSource = new MatTableDataSource(this.summary);
     }
   }
 
@@ -88,6 +104,12 @@ export class MapChallengeComponent implements OnInit, OnDestroy {
     });
     this.markers.push(selectedCityMarker);
     this.allMarkers.push(selectedCityMarker);
+    this.summary.push({
+      position: this.cityIndex + 1,
+      name: city.name,
+      distance: distance,
+      grade: grade
+    });
 
     const cityMarker = createMarker(
       {lat: city.lat, lng: city.lng, name: city.name}, true
@@ -95,14 +117,15 @@ export class MapChallengeComponent implements OnInit, OnDestroy {
     this.markers.push(cityMarker);
     this.allMarkers.push(cityMarker);
     this.cityIndex++;
-
     localStorage.setItem('mapChallengeIndex', this.cityIndex.toString());
     localStorage.setItem('mapChallengeGrade', this.grade.toString());
     localStorage.setItem('mapChallengeAllMarkers', JSON.stringify(this.allMarkers));
+    localStorage.setItem('mapChallengeSummary', JSON.stringify(this.summary));
 
     if (this.cityIndex >= this.cities.length) {
       this.isGameOver = true;
       this.displayAllMarkers();
+      this.dataSource = new MatTableDataSource(this.summary);
     }
   }
 
@@ -170,6 +193,14 @@ export class MapChallengeComponent implements OnInit, OnDestroy {
         marker.label.color = isDarkMode ? 'white' : 'black';
         this.markers.push(marker);
       })
+    }
+  }
+
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this.liveAnnouncer.announce('סינון ' + sortState.direction + ' הסתיים');
+    } else {
+      this.liveAnnouncer.announce('הסינון נוקה');
     }
   }
 }

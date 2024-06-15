@@ -6,6 +6,9 @@ import {AsyncPipe, CommonModule} from '@angular/common';
 import {GoogleMapService} from 'src/app/shared/services/google-map.service';
 import {HelpersService} from 'src/app/shared/services/helpers.service';
 import {NextChallengeTimerModule} from 'src/app/shared/components/next-challenge-timer/next-challenge-timer.module';
+import {MatTableModule} from '@angular/material/table';
+import {MatSortModule} from '@angular/material/sort';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 const routes: Routes = [
   {path: '', component: MapChallengeComponent},
@@ -19,11 +22,11 @@ const routes: Routes = [
         RouterModule.forChild(routes),
         GoogleMapsModule,
         AsyncPipe,
-        NextChallengeTimerModule
-    ],
-  providers: [
-    HelpersService
-  ]
+        NextChallengeTimerModule,
+        MatTableModule,
+        MatSortModule,
+        MatExpansionModule
+    ]
 })
 export class MapChallengeModule {
 

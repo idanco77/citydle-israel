@@ -94,7 +94,7 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const date = localStorage.getItem('date');
-    if (date && date !== this.getCurrentDateInUTC()) {
+    if (date && date !== this.helpers.getCurrentDateInUTC()) {
       localStorage.removeItem('step');
       location.reload();
     }
@@ -186,7 +186,7 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
       }
     }
 
-    localStorage.setItem('date', this.getCurrentDateInUTC());
+    localStorage.setItem('date', this.helpers.getCurrentDateInUTC());
     localStorage.setItem('guesses', JSON.stringify(this.guesses));
     localStorage.setItem('markers', JSON.stringify(this.markers));
     localStorage.setItem('currentGuess', JSON.stringify(this.currentGuess));
@@ -234,21 +234,9 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  private getCurrentDateInUTC(): string {
-    const currentDate = new Date();
-    const offsetInMinutes = currentDate.getTimezoneOffset();
-    const utcDate = new Date(currentDate.getTime() - offsetInMinutes * 60 * 1000);
-
-    return utcDate.toISOString().split('T')[0];
-  }
-
   private manageLocalStorage() {
     const step: string | null = localStorage.getItem('step');
     this.step = step ? +step : Levels.GUESSES;
-    const date = localStorage.getItem('date');
-    if (date && date !== this.getCurrentDateInUTC()) {
-      this.clearDailyData();
-    }
     const currentGuess = localStorage.getItem('currentGuess');
     const markers = JSON.parse(localStorage.getItem('markers') || '[]');
     const guesses = JSON.parse(localStorage.getItem('guesses') || '[]');
@@ -257,8 +245,6 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
       this.markers = markers;
       this.currentGuess = +currentGuess;
       this.isWin = this.checkIsWin(this.guesses[this.currentGuess - 1].name as string);
-    } else {
-      this.clearDailyData();
     }
   }
 
@@ -290,17 +276,6 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
   private setTotalPlayedGames() {
     const totalPlayedGames = +(localStorage.getItem('totalPlayedGames') ?? 0) + 1;
     localStorage.setItem('totalPlayedGames', JSON.stringify(totalPlayedGames));
-  }
-
-  private clearDailyData(): void {
-    const itemKeys = ['date', 'currentGuess', 'markers', 'guesses',
-      'population', 'area', 'foundedAt', 'step', 'sisterCities', 'trivia',
-      'nearestCities', 'nearestCitiesGuesses', 'nearestCitiesGuessesIndex',
-      'nearestCitiesMarkers', 'grade', 'levels', 'isMysteryCityGradeAdded',
-      'mapChallengeIndex', 'mapChallengeGrade', 'mapChallengeAllMarkers'
-    ];
-
-    itemKeys.forEach(item => {localStorage.removeItem(item);});
   }
 
   navigateBetweenSteps(isUp: boolean) {
