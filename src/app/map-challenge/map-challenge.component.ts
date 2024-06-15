@@ -132,11 +132,11 @@ export class MapChallengeComponent implements OnInit, OnDestroy, AfterViewInit {
   private getGrade(distance: number) {
     const grades = [
       {upTo: 1, grade: 10},
-      {upTo: 3, grade: 9},
-      {upTo: 5, grade: 8},
-      {upTo: 10, grade: 7},
-      {upTo: 15, grade: 6},
-      {upTo: 20, grade: 5},
+      {upTo: 5, grade: 9},
+      {upTo: 10, grade: 8},
+      {upTo: 15, grade: 7},
+      {upTo: 20, grade: 6},
+      {upTo: 25, grade: 5},
       {upTo: 30, grade: 4},
       {upTo: 40, grade: 3},
       {upTo: 45, grade: 2},
