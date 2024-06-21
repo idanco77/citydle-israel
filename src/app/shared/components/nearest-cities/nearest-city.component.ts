@@ -194,6 +194,7 @@ export class NearestCityComponent implements OnInit, OnDestroy {
   private resetMarkers(isDarkMode: boolean): void {
     const markers = JSON.parse(localStorage.getItem('nearestCitiesMarkers') || '[]');
     if (markers) {
+      this.nearestCitiesMarkers = [];
       markers.forEach((marker: any) => {
         marker.label.color = isDarkMode ? 'white' : 'black';
         this.nearestCitiesMarkers.push(marker);

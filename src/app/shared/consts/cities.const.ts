@@ -468,8 +468,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 31.38012,
-    lng: 34.32118,
+    lat: 31.821241,
+    lng: 34.863178,
     name: 'נצר חזני',
     population: 0
   },

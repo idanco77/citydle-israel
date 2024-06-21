@@ -37,6 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }));
 
     const date = localStorage.getItem('date');
+    console.log(date);
     if (date && date !== this.helpers.getCurrentDateInUTC()) {
       this.clearDailyData();
     }

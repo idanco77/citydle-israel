@@ -363,6 +363,7 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
   private resetMarkers(isDarkMode: boolean): void {
     const markers = JSON.parse(localStorage.getItem('markers') || '[]');
     if (markers) {
+      this.markers = [];
       markers.forEach((marker: any) => {
         marker.label.color = isDarkMode ? 'white' : 'black';
         this.markers.push(marker);

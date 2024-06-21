@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {StateService} from 'src/app/shared/services/state.service';
 import {GoogleMapService} from 'src/app/shared/services/google-map.service';
 import {GoogleMap} from '@angular/google-maps';
@@ -9,8 +9,6 @@ import {City} from 'src/app/shared/models/city.model';
 import {haversineFormula} from 'src/app/shared/consts/haversineFormula.const';
 import {HelpersService} from 'src/app/shared/services/helpers.service';
 import {filter, interval, Observable, Subscription, takeWhile} from 'rxjs';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatSort, Sort} from '@angular/material/sort';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
 
 @Component({
@@ -18,7 +16,7 @@ import {LiveAnnouncer} from '@angular/cdk/a11y';
   templateUrl: './map-challenge.component.html',
   styleUrls: ['./map-challenge.component.scss']
 })
-export class MapChallengeComponent implements OnInit, OnDestroy, AfterViewInit {
+export class MapChallengeComponent implements OnInit, OnDestroy {
   mapWidth = this.stateService.getMapWidth();
   apiLoaded: any;
   @ViewChild('googleMap') googleMap: GoogleMap;
@@ -31,22 +29,13 @@ export class MapChallengeComponent implements OnInit, OnDestroy, AfterViewInit {
   isGameOver: boolean = false;
   grade: number = 0;
   subs = new Subscription();
-  private isDarkMode: boolean;
-  displayedColumns: string[] = ['position', 'name', 'distance', 'grade'];
-  dataSource: MatTableDataSource<any>;
-  @ViewChild(MatSort) sort: MatSort;
+  isDarkMode: boolean;
 
   constructor(private stateService: StateService,
               private googleMapService: GoogleMapService,
               private helpers: HelpersService,
               private liveAnnouncer: LiveAnnouncer) {
     this.apiLoaded = this.googleMapService.apiLoaded();
-  }
-
-  ngAfterViewInit() {
-    if (this.dataSource) {
-      this.dataSource.sort = this.sort;
-    }
   }
 
   ngOnInit() {
@@ -68,8 +57,6 @@ export class MapChallengeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.summary = JSON.parse(localStorage.getItem('mapChallengeSummary') || '[]');
     if (this.cityIndex === this.cities.length) {
       this.isGameOver = true;
-      this.markers = this.allMarkers;
-      this.dataSource = new MatTableDataSource(this.summary);
     }
   }
 
@@ -101,7 +88,8 @@ export class MapChallengeComponent implements OnInit, OnDestroy, AfterViewInit {
       lat: event.latLng?.toJSON().lat as number,
       lng: event.latLng?.toJSON().lng as number,
       name: city.name + '. ' + grade + '/10'
-    });
+    }, false, this.isDarkMode);
+
     this.markers.push(selectedCityMarker);
     this.allMarkers.push(selectedCityMarker);
     this.summary.push({
@@ -112,11 +100,12 @@ export class MapChallengeComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     const cityMarker = createMarker(
-      {lat: city.lat, lng: city.lng, name: city.name}, true
+      {lat: city.lat, lng: city.lng, name: city.name}, true, this.isDarkMode
     );
     this.markers.push(cityMarker);
     this.allMarkers.push(cityMarker);
     this.cityIndex++;
+    localStorage.setItem('date', this.helpers.getCurrentDateInUTC());
     localStorage.setItem('mapChallengeIndex', this.cityIndex.toString());
     localStorage.setItem('mapChallengeGrade', this.grade.toString());
     localStorage.setItem('mapChallengeAllMarkers', JSON.stringify(this.allMarkers));
@@ -124,8 +113,6 @@ export class MapChallengeComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.cityIndex >= this.cities.length) {
       this.isGameOver = true;
-      this.displayAllMarkers();
-      this.dataSource = new MatTableDataSource(this.summary);
     }
   }
 
@@ -170,10 +157,9 @@ export class MapChallengeComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.googleMap) {
       if (this.isDarkMode) {
         this.googleMap.googleMap?.setOptions({styles: DARK});
-        this.resetMarkers(true);
+
       } else {
         this.googleMap.googleMap?.setOptions({styles: LIGHT});
-        this.resetMarkers(false);
       }
     }
   }
@@ -182,25 +168,11 @@ export class MapChallengeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subs.unsubscribe();
   }
 
-  private displayAllMarkers() {
-    this.markers = this.allMarkers;
-  }
-
-  private resetMarkers(isDarkMode: boolean): void {
-    const markers = JSON.parse(localStorage.getItem('mapChallengeAllMarkers') || '[]');
-    if (markers) {
-      markers.forEach((marker: any) => {
-        marker.label.color = isDarkMode ? 'white' : 'black';
-        this.markers.push(marker);
-      })
-    }
-  }
-
-  announceSortChange(sortState: Sort) {
-    if (sortState.direction) {
-      this.liveAnnouncer.announce('סינון ' + sortState.direction + ' הסתיים');
-    } else {
-      this.liveAnnouncer.announce('הסינון נוקה');
-    }
+  onHoverRow(item: any) {
+    this.allMarkers = this.allMarkers.map((marker: any) => {
+      marker.label.color = this.isDarkMode ? 'white' : 'black';
+      return marker;
+    });
+    this.markers = this.allMarkers.filter((marker: any) => marker.label.text.includes(item.name));
   }
 }
