@@ -88,7 +88,7 @@ export class MapChallengeComponent implements OnInit, OnDestroy {
       lat: event.latLng?.toJSON().lat as number,
       lng: event.latLng?.toJSON().lng as number,
       name: city.name + '. ' + grade + '/10'
-    }, false, this.isDarkMode);
+    }, 'red', this.isDarkMode);
 
     this.markers.push(selectedCityMarker);
     this.allMarkers.push(selectedCityMarker);
@@ -100,7 +100,7 @@ export class MapChallengeComponent implements OnInit, OnDestroy {
     });
 
     const cityMarker = createMarker(
-      {lat: city.lat, lng: city.lng, name: city.name}, true, this.isDarkMode
+      {lat: city.lat, lng: city.lng, name: city.name}, 'green', this.isDarkMode
     );
     this.markers.push(cityMarker);
     this.allMarkers.push(cityMarker);

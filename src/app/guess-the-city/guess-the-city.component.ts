@@ -150,7 +150,7 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
     this.cities = this.cities.filter(city => city.name !== selectedCity);
     this.isWin = this.checkIsWin(city.name);
     const marker: Marker = {lat: city.lat, lng: city.lng, name: city.name};
-    this.markers.push(createMarker(marker, this.isWin, this.isDarkMode));
+    this.markers.push(createMarker(marker, this.isWin ? 'green' : 'red', this.isDarkMode));
     this.guesses[this.currentGuess].name = city.name;
     const distance = haversineFormula(
       this.mysteryCity.lat, this.mysteryCity.lng, city.lat, city.lng
@@ -172,7 +172,7 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
             lng: this.mysteryCity.lng,
             name: this.mysteryCity.name
           }
-          this.markers.push(createMarker(marker, true, this.isDarkMode));
+          this.markers.push(createMarker(marker, 'green', this.isDarkMode));
         }, 1500);
       } else {
         this.saveHistory();

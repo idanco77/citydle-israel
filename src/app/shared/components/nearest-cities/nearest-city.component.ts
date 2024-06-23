@@ -54,6 +54,7 @@ export class NearestCityComponent implements OnInit, OnDestroy {
     this.initializeMap$().subscribe(() => {
       const isDarkMode = localStorage.getItem('isDarkMode') === '1';
       this.toggleDarkMode(isDarkMode);
+      this.nearestCitiesMarkers.push(createMarker(this.mysteryCity, 'blue', isDarkMode));
     });
 
     this.mapSettings = MAP_SETTINGS;
@@ -61,7 +62,7 @@ export class NearestCityComponent implements OnInit, OnDestroy {
     this.nearestCities = JSON.parse(localStorage.getItem('nearestCities') || '[]');
     this.guess = +(localStorage.getItem('nearestCitiesGuessesIndex') ?? 0);
     this.nearestCitiesMarkers = JSON.parse(localStorage.getItem('nearestCitiesMarkers') || '[]');
-    this.removeMysteryCityFromList();
+   this.removeMysteryCityFromList();
     this.setNearestCities();
     this.checkIsGameOver();
     this.setGuesses();
@@ -114,7 +115,7 @@ export class NearestCityComponent implements OnInit, OnDestroy {
     this.checkIsGameOver();
     this.checkIsWin();
     const marker: Marker = {lat: cityObj.lat, lng: cityObj.lng, name: cityObj.name};
-    this.nearestCitiesMarkers.push(createMarker(marker, cityObj.isCorrect, this.isDarkMode));
+    this.nearestCitiesMarkers.push(createMarker(marker, cityObj.isCorrect ? 'green' : 'red', this.isDarkMode));
     if (this.isWin) {
       startConfetti();
     }
@@ -127,7 +128,7 @@ export class NearestCityComponent implements OnInit, OnDestroy {
       if (! this.isWin) {
         nearestCities.forEach(city => {
           const marker: Marker = {lat: city.lat, lng: city.lng, name: city.name};
-          this.nearestCitiesMarkers.push(createMarker(marker, true, this.isDarkMode));
+          this.nearestCitiesMarkers.push(createMarker(marker, 'green', this.isDarkMode));
         });
       }
     }
@@ -172,7 +173,7 @@ export class NearestCityComponent implements OnInit, OnDestroy {
       return;
     }
     const marker: Marker = {lat: this.mysteryCity.lat, lng: this.mysteryCity.lng, name: this.mysteryCity.name};
-    this.nearestCitiesMarkers.push(createMarker(marker, false, this.isDarkMode));
+    this.nearestCitiesMarkers.push(createMarker(marker, 'blue', this.isDarkMode));
   }
 
   private removeMysteryCityFromList(): void {
@@ -181,7 +182,6 @@ export class NearestCityComponent implements OnInit, OnDestroy {
 
   private toggleDarkMode(isDarkMode: boolean) {
     this.isDarkMode = isDarkMode;
-    this.addMysteryCityMarker();
     if (isDarkMode) {
       this.googleMap.googleMap?.setOptions({styles: DARK});
       this.resetMarkers(isDarkMode);
@@ -189,6 +189,7 @@ export class NearestCityComponent implements OnInit, OnDestroy {
       this.googleMap.googleMap?.setOptions({styles: LIGHT});
       this.resetMarkers(isDarkMode);
     }
+    this.addMysteryCityMarker();
   }
 
   private resetMarkers(isDarkMode: boolean): void {
