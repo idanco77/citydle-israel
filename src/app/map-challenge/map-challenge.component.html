@@ -23,11 +23,11 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let item of summary; let i = index" (mouseover)="onHoverRow(item)">
-        <th scope="row">{{ i + 1 }}</th>
-        <td>{{ item.name }}</td>
-        <td>{{ item.distance }} ק"מ</td>
-        <td>{{ item.grade }}</td>
+      <tr *ngFor="let item of summary; let i = index" (click)="showCityMarker(item, i)">
+        <th [ngClass]="{'selected-row': selectedIndex === i}" scope="row">{{ i + 1 }}</th>
+        <td [ngClass]="{'selected-row': selectedIndex === i}">{{ item.name }}</td>
+        <td [ngClass]="{'selected-row': selectedIndex === i}">{{ item.distance }} ק"מ</td>
+        <td [ngClass]="{'selected-row': selectedIndex === i}">{{ item.grade }}</td>
       </tr>
       </tbody>
     </table>

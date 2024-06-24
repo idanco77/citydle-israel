@@ -30,6 +30,7 @@ export class MapChallengeComponent implements OnInit, OnDestroy {
   grade: number = 0;
   subs = new Subscription();
   isDarkMode: boolean;
+  selectedIndex: number;
 
   constructor(private stateService: StateService,
               private googleMapService: GoogleMapService,
@@ -168,7 +169,8 @@ export class MapChallengeComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  onHoverRow(item: any) {
+  showCityMarker(item: any, index: number) {
+    this.selectedIndex = index;
     this.allMarkers = this.allMarkers.map((marker: any) => {
       marker.label.color = this.isDarkMode ? 'white' : 'black';
       return marker;
