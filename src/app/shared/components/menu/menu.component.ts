@@ -63,7 +63,8 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   openResultsDialog(): void {
     this.dialog.open(ResultsDialogComponent, {
-      width: '650px'
+      width: '650px',
+      data: {isDarkMode: this.isDarkMode}
     })
   }
 

@@ -15,4 +15,17 @@ export class HelpersService {
     return utcDate.toISOString().split('T')[0];
   }
 
+  getMarkers(markers: any, isDarkMode: boolean): any[] {
+    const arr: any[] = [];
+    markers.forEach((marker: any) => {
+      marker.label.color = isDarkMode ? 'white' : 'black';
+      marker.options.icon.url = marker.options.icon.url.replace(
+        /-(light|dark)\./,
+        '-' + (isDarkMode ? 'dark' : 'light') + '.'
+      );
+      arr.push(marker);
+    });
+
+    return arr;
+  }
 }

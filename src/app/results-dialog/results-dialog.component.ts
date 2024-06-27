@@ -1,8 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, Injectable, OnDestroy, OnInit} from '@angular/core';
 import {Star} from 'src/app/shared/models/star.model';
 import {StateService} from 'src/app/shared/services/state.service';
 import {Levels, LEVELS} from 'src/app/shared/consts/steps.const';
 import {Subscription} from 'rxjs';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
   templateUrl: './results-dialog.component.html',
@@ -17,16 +18,16 @@ export class ResultsDialogComponent implements OnInit {
     {isVisible: false, image: 'star-frame'}
   ];
   image: string | null = null;
+  subs = new Subscription();
   protected finalGrade: number;
   description: string;
-  private isDarkMode: boolean;
 
-  constructor(private stateService: StateService) {}
+  constructor(private stateService: StateService, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit() {
-      this.stars.forEach(star => {
-        star.image = this.isDarkMode ? 'star-frame-dark-mode' : 'star-frame';
-      });
+    this.stars.forEach(star => {
+      star.image = this.data.isDarkMode ? 'star-frame-dark-mode' : 'star-frame';
+    });
 
     this.finalGrade = this.calculateFinalGrade();
     this.createStars(this.finalGrade);
@@ -48,14 +49,14 @@ export class ResultsDialogComponent implements OnInit {
     const stars = Math.floor(finalGrade / 20);
 
     for (let i = 0; i < stars; i++) {
-      this.stars[i].image = this.isDarkMode ? 'israel-star-dark-mode' : 'israel-star';
+      this.stars[i].image = this.data.isDarkMode ? 'israel-star-dark-mode' : 'israel-star';
     }
 
     const remainder = finalGrade % 20;
     const halfStar = remainder >= 10 && remainder < 20;
 
     if (halfStar) {
-      this.stars[stars].image = this.isDarkMode ? 'half-star-israel-dark-mode' : 'half-star-israel';
+      this.stars[stars].image = this.data.isDarkMode ? 'half-star-israel-dark-mode' : 'half-star-israel';
     }
   }
 

@@ -12,6 +12,7 @@ import {ErrorMessageService} from 'src/app/shared/services/error-message.service
 import {createMarker} from 'src/app/shared/consts/createMarker.const';
 import {DARK, LIGHT, MAP_SETTINGS} from 'src/app/shared/consts/map-settings.const';
 import {Marker} from 'src/app/shared/models/marker.model';
+import {HelpersService} from 'src/app/shared/services/helpers.service';
 
 @Component({
   selector: 'app-nearest-city',
@@ -42,7 +43,8 @@ export class NearestCityComponent implements OnInit, OnDestroy {
 
   constructor(private googleMapService: GoogleMapService,
               private stateService: StateService,
-              private errorMessageService: ErrorMessageService) {
+              private errorMessageService: ErrorMessageService,
+              private helpers: HelpersService) {
     this.apiLoaded = this.googleMapService.apiLoaded();
   }
 
@@ -195,11 +197,7 @@ export class NearestCityComponent implements OnInit, OnDestroy {
   private resetMarkers(isDarkMode: boolean): void {
     const markers = JSON.parse(localStorage.getItem('nearestCitiesMarkers') || '[]');
     if (markers) {
-      this.nearestCitiesMarkers = [];
-      markers.forEach((marker: any) => {
-        marker.label.color = isDarkMode ? 'white' : 'black';
-        this.nearestCitiesMarkers.push(marker);
-      })
+      this.nearestCitiesMarkers = this.helpers.getMarkers(markers, isDarkMode);
     }
   }
 

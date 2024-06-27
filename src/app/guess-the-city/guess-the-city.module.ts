@@ -52,7 +52,8 @@ const routes: Routes = [
         DecimalPipe,
         GoogleMapsModule,
         MatTooltipModule,
-        NextChallengeTimerModule
+        NextChallengeTimerModule,
+        MatDialogModule
     ],
   declarations: [
     GuessTheCityComponent,

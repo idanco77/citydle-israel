@@ -332,6 +332,7 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           this.dialog.open(ResultsDialogComponent, {
             width: '650px',
+            data: {isDarkMode: this.isDarkMode}
           });
         }, 3000);
       }
@@ -363,11 +364,7 @@ export class GuessTheCityComponent implements OnInit, OnDestroy {
   private resetMarkers(isDarkMode: boolean): void {
     const markers = JSON.parse(localStorage.getItem('markers') || '[]');
     if (markers) {
-      this.markers = [];
-      markers.forEach((marker: any) => {
-        marker.label.color = isDarkMode ? 'white' : 'black';
-        this.markers.push(marker);
-      })
+      this.markers = this.helpers.getMarkers(markers, isDarkMode);
     }
   }
 

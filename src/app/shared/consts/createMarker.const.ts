@@ -4,10 +4,10 @@ export const createMarker = (cityObj: Marker, color: 'green' | 'red' | 'blue' = 
   const marker: any = {
     position: {lat: cityObj.lat, lng: cityObj.lng},
     options: {draggable: false},
-    label: {text:cityObj.name, color: isDarkMode ? 'white' : 'black', backgroundColor: 'red'},
+    label: {text: cityObj.name, color: isDarkMode ? 'white' : 'black', backgroundColor: 'red'},
   };
-
-    marker.options.icon = {url: 'assets/' + color + '.png'};
+  const template = isDarkMode ? 'dark' : 'light';
+  marker.options.icon = {url: 'assets/' + color + '-' + template + '.png'};
 
   return marker;
 };
