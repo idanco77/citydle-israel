@@ -28,11 +28,19 @@
 }
 
 .check {
-  color: green;
+  color: $success-bg;
+}
+
+.check-dark {
+  color: $success-bg-dark;
 }
 
 .x {
-  color: red;
+  color: $wrong-bg;
+}
+
+.x-dark {
+  color: $wrong-bg-dark;
 }
 
 .answers {

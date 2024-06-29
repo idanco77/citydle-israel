@@ -39,7 +39,7 @@ export class NearestCityComponent implements OnInit, OnDestroy {
   protected readonly MAX_GUESSES = 7;
   subs = new Subscription();
   grade = 0;
-  private isDarkMode: boolean;
+  isDarkMode: boolean;
 
   constructor(private googleMapService: GoogleMapService,
               private stateService: StateService,

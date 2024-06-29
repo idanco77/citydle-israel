@@ -2,18 +2,26 @@
 <app-autocomplete *ngIf="!isGameOver" [cities]="citiesOver10k" (selectedCity)="handleSelection($event)"></app-autocomplete>
 <div class="text-center fs-3 fw-bolder mb-4 d-flex justify-content-between" *ngIf="isGameOver">
   <div class="answers" *ngFor="let city of nearestCities">
-    <fa-icon *ngIf="city.isCorrect" class="check" [icon]="faCheck"></fa-icon>
-    <fa-icon *ngIf="!city.isCorrect" class="x" [icon]="faX"></fa-icon>
+    <fa-icon *ngIf="city.isCorrect" [ngClass]="isDarkMode ? 'check-dark' : 'check'" [icon]="faCheck"></fa-icon>
+    <fa-icon *ngIf="!city.isCorrect" [ngClass]="isDarkMode ? 'x-dark' : 'x'" [icon]="faX"></fa-icon>
     {{ city.name }}</div>
 </div>
 <div *ngFor="let guess of guesses" class="nearest-cities-guess">
-  <div class="guess-sign" [ngClass]="{'success': guess.isCorrect, 'wrong': guess.isCorrect === false}">
+  <div class="guess-sign" [ngClass]="{
+    'success': guess.isCorrect && !isDarkMode,
+    'success-dark': guess.isCorrect && isDarkMode,
+     'wrong': guess.isCorrect === false && !isDarkMode,
+     'wrong-dark': guess.isCorrect === false && isDarkMode
+   }">
     <fa-icon *ngIf="guess.isCorrect" [icon]="faCheck"></fa-icon>
     <fa-icon *ngIf="guess.isCorrect === false" [icon]="faX"></fa-icon>
   </div>
   <div class="guess-label" [ngClass]="{
-  'success': guess.isCorrect,
-  'wrong': guess.isCorrect === false}">{{ guess.name }}</div>
+    'success': guess.isCorrect && !isDarkMode,
+    'success-dark': guess.isCorrect && isDarkMode,
+     'wrong': guess.isCorrect === false && !isDarkMode,
+     'wrong-dark': guess.isCorrect === false && isDarkMode
+  }">{{ guess.name }}</div>
 </div>
 <div class="map-wrapper">
   <google-map *ngIf="apiLoaded | async" #googleMap [width]="mapWidth" height="60vh" [options]="mapSettings">

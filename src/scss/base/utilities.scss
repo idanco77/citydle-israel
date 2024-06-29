@@ -25,22 +25,22 @@
 
 .success {
   background-color:	$success-bg;
+  color: black;
+}
+
+.success-dark {
+  background-color:	$success-bg-dark;
+  color: white;
+}
+
+.wrong-dark {
+  background-color: $wrong-bg-dark;
   color: white;
 }
 
 .wrong {
   background-color: $wrong-bg;
-  color: white;
-}
-
-.success:hover {
-  background-color: $success-bg-hover;
-  color: white;
-}
-
-.wrong:hover {
-  background-color: $wrong-bg-hover;
-  color: white;
+  color: black;
 }
 
 .clicked {
