@@ -9,7 +9,6 @@ import {City} from 'src/app/shared/models/city.model';
 import {haversineFormula} from 'src/app/shared/consts/haversineFormula.const';
 import {HelpersService} from 'src/app/shared/services/helpers.service';
 import {filter, interval, Observable, Subscription, takeWhile} from 'rxjs';
-import {LiveAnnouncer} from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-map-challenge',
@@ -34,8 +33,7 @@ export class MapChallengeComponent implements OnInit, OnDestroy {
 
   constructor(private stateService: StateService,
               private googleMapService: GoogleMapService,
-              private helpers: HelpersService,
-              private liveAnnouncer: LiveAnnouncer) {
+              private helpers: HelpersService) {
     this.apiLoaded = this.googleMapService.apiLoaded();
   }
 
@@ -103,6 +101,9 @@ export class MapChallengeComponent implements OnInit, OnDestroy {
     const cityMarker = createMarker(
       {lat: city.lat, lng: city.lng, name: city.name}, 'green', this.isDarkMode
     );
+
+    this.googleMap.panTo({lat: city.lat, lng: city.lng});
+
     this.markers.push(cityMarker);
     this.allMarkers.push(cityMarker);
     this.cityIndex++;
