@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment} from 'src/environments/environment';
 import {catchError, filter, interval, map, Observable, of, takeWhile} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {GoogleMap} from '@angular/google-maps';
 
 @Injectable()

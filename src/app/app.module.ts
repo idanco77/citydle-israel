@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import {HttpClientJsonpModule, HttpClientModule} from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withJsonpSupport } from '@angular/common/http';
 import {RouterModule, Routes} from '@angular/router';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -21,29 +21,22 @@ const routes: Routes = [
   {path: '**', redirectTo: 'guess-the-city', pathMatch: 'full'},
 ];
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    MenuComponent,
-  ],
-  imports: [
-    CommonModule,
-    BrowserAnimationsModule,
-    BrowserModule,
-    RouterModule.forRoot(routes),
-    HttpClientModule,
-    HttpClientJsonpModule,
-    FontAwesomeModule,
-    MatTooltipModule,
-    NgOptimizedImage,
-    MatDialogModule,
-    MatSnackBarModule
-  ],
-  providers: [
-    StateService,
-    GoogleMapService,
-    HelpersService
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        MenuComponent,
+    ],
+    bootstrap: [AppComponent], imports: [CommonModule,
+        BrowserAnimationsModule,
+        BrowserModule,
+        RouterModule.forRoot(routes),
+        FontAwesomeModule,
+        MatTooltipModule,
+        NgOptimizedImage,
+        MatDialogModule,
+        MatSnackBarModule], providers: [
+        StateService,
+        GoogleMapService,
+        HelpersService,
+        provideHttpClient(withInterceptorsFromDi(), withJsonpSupport())
+    ] })
 export class AppModule { }
