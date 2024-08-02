@@ -432,8 +432,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 31.65397,
-    lng: 34.70452,
+    lat: 31.652528,
+    lng: 34.705546,
     name: 'יד נתן',
     population: 0
   },
@@ -492,14 +492,14 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.49197,
-    lng: 35.53271,
+    lat: 31.572332,
+    lng: 34.748215,
     name: 'איתן',
     population: 0
   },
   {
-    lat: 32.37623,
-    lng: 34.87357,
+    lat: 32.240436,
+    lng: 34.914884,
     name: 'חירות',
     population: 0
   },
@@ -539,8 +539,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 31.84429,
-    lng: 34.80368,
+    lat: 31.844152,
+    lng: 34.803192,
     name: 'בית אלעזרי',
     population: 0
   },
@@ -592,8 +592,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.64187,
-    lng: 35.33834,
+    lat: 32.542842,
+    lng: 35.264911,
     name: 'ברק',
     population: 0
   },
@@ -735,8 +735,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 31.23936,
-    lng: 34.42042,
+    lat: 31.59539,
+    lng: 34.692681,
     name: 'זוהר',
     population: 0
   },
@@ -759,8 +759,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.59784,
-    lng: 35.05656,
+    lat: 32.597325,
+    lng: 35.056695,
     name: 'רמות מנשה',
     population: 0
   },
@@ -771,8 +771,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 31.71083,
-    lng: 34.7444,
+    lat: 31.710206,
+    lng: 34.743005,
     name: 'אביגדור',
     population: 0
   },
@@ -1182,8 +1182,8 @@ export const CITIES: City[] = [
     trivia: 'מקור שמה של העיר הוא בכמויות הרבות של הפחם שהופק בה במשך דורות ושימש, במקביל לחקלאות, כמקור ההכנסה העיקרי של התושבים'
   },
   {
-    lat: 32.64187,
-    lng: 35.33834,
+    lat: 32.642697,
+    lng: 35.338303,
     name: 'אחוזת ברק',
     population: 0
   },
@@ -1235,8 +1235,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.67597,
-    lng: 35.23986,
+    lat: 32.837446,
+    lng: 35.504789,
     name: 'מגדל',
     population: 0
   },
@@ -1489,8 +1489,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.70545,
-    lng: 35.61761,
+    lat: 32.705026,
+    lng: 35.617713,
     name: 'תל קציר',
     population: 0
   },
@@ -1525,8 +1525,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.32244,
-    lng: 34.90178,
+    lat: 32.32066,
+    lng: 34.900611,
     name: 'גנות הדר',
     population: 0
   },
@@ -1648,8 +1648,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 31.71083,
-    lng: 34.7444,
+    lat: 32.551922,
+    lng: 35.308037,
     name: 'יעל',
     population: 0
   },
@@ -1724,8 +1724,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.37623,
-    lng: 34.87357,
+    lat: 32.379284,
+    lng: 34.869067,
     name: 'בית חירות',
     population: 0
   },
@@ -1795,8 +1795,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.69,
-    lng: 35.13861,
+    lat: 33.009484,
+    lng: 35.229484,
     name: 'עין יעקב',
     population: 0
   },
@@ -2029,8 +2029,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 31.37121,
-    lng: 34.63395,
+    lat: 31.37057,
+    lng: 34.632622,
     name: 'ברוש',
     population: 0
   },
@@ -2112,8 +2112,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 31.00343,
-    lng: 34.78646,
+    lat: 31.003273,
+    lng: 34.786234,
     name: 'משאבי שדה',
     population: 0
   },
@@ -2719,8 +2719,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.02222,
-    lng: 34.86667,
+    lat: 32.060746,
+    lng: 34.857103,
     name: 'קרית אונו',
     population: 41900,
     foundedAt: 1939,
@@ -2730,8 +2730,8 @@ export const CITIES: City[] = [
     trivia: 'היישוב הנוכחי הוקם בשנת 1939, כאשר ביוזמת המרכז החקלאי התארגנו 39 משפחות שביקשו להקים לעצמן שכונה חקלאית סמוך לכפר אז"ר'
   },
   {
-    lat: 32.71869,
-    lng: 35.39516,
+    lat: 32.979982,
+    lng: 35.808555,
     name: 'קשת',
     population: 0
   },
@@ -2865,8 +2865,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.74888,
-    lng: 35.42185,
+    lat: 32.749069,
+    lng: 35.423398,
     name: 'שדה אילן',
     population: 0
   },
@@ -2988,8 +2988,8 @@ export const CITIES: City[] = [
     trivia: 'היישוב נוצר כרשות מקומית משותפת עבור הכפרים מוּסמוּס, זלַפה, מוּשֵׁיירִפה, סאלם ובַיָאדָה, הנמצאים בנחל עירון'
   },
   {
-    lat: 32.52174,
-    lng: 35.30776,
+    lat: 31.299773,
+    lng: 34.426976,
     name: 'מגן',
     population: 0
   },
@@ -3081,8 +3081,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.85301,
-    lng: 35.1987,
+    lat: 32.853947,
+    lng: 35.191196,
     name: 'טמרה',
     population: 35406,
     foundedAt: null,
@@ -3361,8 +3361,8 @@ export const CITIES: City[] = [
     trivia: 'היישוב נוצר מאיחודם של היישובים ערביים ברטעה, עין אל-סהלה ומועאוויה'
   },
   {
-    lat: 32.29067,
-    lng: 34.9984,
+    lat: 33.029107,
+    lng: 35.109284,
     name: 'סער',
     population: 0
   },
@@ -3390,8 +3390,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.70545,
-    lng: 35.61761,
+    lat: 32.488,
+    lng: 35.102,
     name: 'קציר',
     population: 0
   },
@@ -3432,8 +3432,8 @@ export const CITIES: City[] = [
     population: 6581
   },
   {
-    lat: 32.60432,
-    lng: 35.30782,
+    lat: 32.603854,
+    lng: 35.31662,
     name: 'מרחביה (מושב)',
     population: 0
   },
@@ -3603,8 +3603,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 31.23936,
-    lng: 34.42042,
+    lat: 31.236363,
+    lng: 34.425711,
     name: 'צוחר',
     population: 0
   },
@@ -3838,8 +3838,8 @@ export const CITIES: City[] = [
     population: 4705
   },
   {
-    lat: 32.02923,
-    lng: 34.85788,
+    lat: 32.029444,
+    lng: 34.853622,
     name: 'אור יהודה',
     population: 36814,
     foundedAt: 1949,
@@ -3860,8 +3860,8 @@ export const CITIES: City[] = [
     trivia: 'בעיר מתגוררים למעלה מ-2,500 בני קהילת העבריים, המכונה חבר משה. זוהי הקהילה הגדולה ביותר שלהם בישראל'
   },
   {
-    lat: 31.00343,
-    lng: 34.78646,
+    lat: 31.657231,
+    lng: 34.623704,
     name: 'משען',
     population: 0
   },
@@ -3902,8 +3902,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.52174,
-    lng: 35.30776,
+    lat: 32.521083,
+    lng: 35.307683,
     name: 'מגן שאול',
     population: 0
   },
@@ -4214,8 +4214,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.69,
-    lng: 35.13861,
+    lat: 32.697937,
+    lng: 35.141204,
     name: 'שדה יעקב',
     population: 0
   },
@@ -4390,8 +4390,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.59784,
-    lng: 35.05656,
+    lat: 32.850568,
+    lng: 35.666564,
     name: 'רמות',
     population: 0
   },
@@ -4562,8 +4562,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 31.80462,
-    lng: 34.9321,
+    lat: 31.804541,
+    lng: 34.931248,
     name: 'צלפון',
     population: 0
   },
@@ -4668,8 +4668,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.60432,
-    lng: 35.30782,
+    lat: 32.606026,
+    lng: 35.30746,
     name: 'מרחביה (קיבוץ)',
     population: 0
   },
@@ -5009,8 +5009,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 31.84429,
-    lng: 34.80368,
+    lat: 31.941911,
+    lng: 35.223057,
     name: 'בית אל',
     population: 5682
   },
@@ -5193,8 +5193,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.67597,
-    lng: 35.23986,
+    lat: 32.628825,
+    lng: 35.084775,
     name: 'עין העמק',
     population: 0
   },
@@ -5286,8 +5286,8 @@ export const CITIES: City[] = [
     population: 9662
   },
   {
-    lat: 32.60415,
-    lng: 35.44483,
+    lat: 32.604034,
+    lng: 35.444883,
     name: 'טייבה (בעמק)',
     population: 0
   },
@@ -5399,8 +5399,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 31.37121,
-    lng: 34.63395,
+    lat: 31.944795,
+    lng: 34.77568,
     name: 'נטעים',
     population: 0
   },
@@ -5441,8 +5441,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.16043,
-    lng: 34.94347,
+    lat: 32.018496,
+    lng: 34.840962,
     name: 'חמד',
     population: 0
   },
@@ -5560,8 +5560,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.16043,
-    lng: 34.94347,
+    lat: 32.159699,
+    lng: 34.943233,
     name: 'שדי חמד',
     population: 0
   },
@@ -5833,8 +5833,8 @@ export const CITIES: City[] = [
     population: 7498
   },
   {
-    lat: 32.32244,
-    lng: 34.90178,
+    lat: 32.017919,
+    lng: 34.828581,
     name: 'גנות',
     population: 0
   },
@@ -5875,8 +5875,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.67845,
-    lng: 35.20325,
+    lat: 32.678206,
+    lng: 35.202097,
     name: 'רמת דוד',
     population: 0
   },
@@ -5959,8 +5959,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.60415,
-    lng: 35.44483,
+    lat: 32.265052,
+    lng: 35.006929,
     name: 'טייבה',
     population: 45387,
     foundedAt: null,
@@ -6395,12 +6395,6 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.67845,
-    lng: 35.20325,
-    name: 'עיינות',
-    population: 0
-  },
-  {
     lat: 32.90836,
     lng: 35.17137,
     name: 'אחיהוד',
@@ -6425,8 +6419,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.18529,
-    lng: 34.82082,
+    lat: 32.18626,
+    lng: 34.821104,
     name: 'כפר שמריהו',
     population: 0
   },
@@ -6449,8 +6443,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.15934,
-    lng: 34.8932,
+    lat: 32.700012,
+    lng: 34.983155,
     name: 'עין הוד',
     population: 0
   },
@@ -6485,8 +6479,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.18529,
-    lng: 34.82082,
+    lat: 31.831331,
+    lng: 34.721066,
     name: 'כפר אביב',
     population: 0
   },
@@ -6524,12 +6518,6 @@ export const CITIES: City[] = [
     area: 3230,
     religion: 'יהודי',
     trivia: 'מקור שמה של העיר בשתי הגבעות שעליהן הייתה בנויה כשהוכרזה: גבעת בורוכוב וגבעת קוזלובסקי'
-  },
-  {
-    lat: 32.71982,
-    lng: 35.54667,
-    name: 'כפר עבודה',
-    population: 0
   },
   {
     lat: 33.01685,
@@ -6649,8 +6637,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 31.65397,
-    lng: 34.70452,
+    lat: 31.636919,
+    lng: 34.703943,
     name: 'עוצם',
     population: 0
   },
@@ -6779,8 +6767,8 @@ export const CITIES: City[] = [
     trivia: 'הוקמה בשנת 1883 כמושבה יהודית במסגרת העלייה הראשונה. כיום שוכן בה המכון למחקר ביולוגי בישראל'
   },
   {
-    lat: 31.80462,
-    lng: 34.9321,
+    lat: 31.7933,
+    lng: 34.946592,
     name: 'כפר אוריה',
     population: 0
   },
@@ -6820,8 +6808,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.71869,
-    lng: 35.39516,
+    lat: 32.719,
+    lng: 35.393777,
     name: 'בית קשת',
     population: 0
   },
@@ -6866,8 +6854,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.74888,
-    lng: 35.42185,
+    lat: 32.461357,
+    lng: 35.069043,
     name: 'מצפה אילן',
     population: 0
   },
@@ -6908,8 +6896,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.67597,
-    lng: 35.23986,
+    lat: 32.678019,
+    lng: 35.243252,
     name: 'מגדל העמק',
     population: 26029,
     foundedAt: 1953,
@@ -6943,8 +6931,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.85301,
-    lng: 35.1987,
+    lat: 32.703542,
+    lng: 35.225239,
     name: 'תמרת',
     population: 0
   },
@@ -6967,26 +6955,20 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 31.81144,
-    lng: 35.10571,
-    name: 'קרית יערים(מוסד)',
-    population: 0
-  },
-  {
     lat: 31.80906,
     lng: 34.94865,
     name: 'הראל',
     population: 0
   },
   {
-    lat: 32.8057,
-    lng: 35.7349,
+    lat: 32.805751,
+    lng: 35.735518,
     name: 'אלי-עד',
     population: 0
   },
   {
-    lat: 30.79872,
-    lng: 35.246,
+    lat: 30.768065,
+    lng: 35.27986,
     name: 'חצבה',
     population: 0
   },
@@ -7199,8 +7181,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 30.79872,
-    lng: 35.246,
+    lat: 30.797897,
+    lng: 35.2466,
     name: 'עין חצבה',
     population: 0
   },
@@ -7653,8 +7635,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.15934,
-    lng: 34.8932,
+    lat: 32.152373,
+    lng: 34.893963,
     name: 'הוד השרון',
     population: 65363,
     foundedAt: 1924,
@@ -7771,8 +7753,8 @@ export const CITIES: City[] = [
     population: 0
   },
   {
-    lat: 32.8057,
-    lng: 35.7349,
+    lat: 32.07275,
+    lng: 35.266824,
     name: 'עלי',
     population: 4613
   },
