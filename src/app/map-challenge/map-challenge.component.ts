@@ -9,6 +9,8 @@ import {City} from 'src/app/shared/models/city.model';
 import {haversineFormula} from 'src/app/shared/consts/haversineFormula.const';
 import {HelpersService} from 'src/app/shared/services/helpers.service';
 import {filter, interval, Observable, Subscription, takeWhile} from 'rxjs';
+import {shuffleArray} from 'src/app/shared/consts/create-number-range.const';
+import {CITY_MAP_INDEXES} from 'src/app/shared/consts/city-map-indexes.const';
 
 @Component({
   selector: 'app-map-challenge',
@@ -47,9 +49,10 @@ export class MapChallengeComponent implements OnInit, OnDestroy {
       this.toggleDarkMode(isDarkMode);
     });
 
-    const cities: City[][]  = this.splitArray([... CITIES], 10);
-    const index = this.helpers.getDifferenceInDays((new Date('2024-06-14')), new Date(new Date()));
-    this.cities = cities[index];
+    const dayPassed = this.helpers.getDifferenceInDays((new Date('2024-06-14')), new Date(new Date()));
+    const index = (dayPassed % CITY_MAP_INDEXES.length)
+    const dailyIndexes = CITY_MAP_INDEXES[index];
+    this.cities = dailyIndexes.map(index => CITIES[index]);
     this.grade = parseInt(localStorage.getItem('mapChallengeGrade') ?? '0');
     this.cityIndex = parseInt(localStorage.getItem('mapChallengeIndex') ?? '0');
     this.allMarkers = JSON.parse(localStorage.getItem('mapChallengeAllMarkers') || '[]');
@@ -140,14 +143,6 @@ export class MapChallengeComponent implements OnInit, OnDestroy {
       }
     }
     return grade;
-  }
-
-  splitArray<T>(inputArray: T[], chunkSize: number): T[][] {
-    let result: T[][] = [];
-    for (let i = 0; i < inputArray.length; i += chunkSize) {
-      result.push(inputArray.slice(i, i + chunkSize));
-    }
-    return result;
   }
 
   private toggleDarkMode(isDarkMode: boolean) {
