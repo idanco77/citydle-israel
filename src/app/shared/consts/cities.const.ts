@@ -3871,8 +3871,8 @@ export const CITIES: City[] = [
     "population": 0
   },
   {
-    "lat": 31.37378,
-    "lng": 34.30179,
+    "lat": 31.788475,
+    "lng": 34.792346,
     "name": "גני טל",
     "population": 0
   },
@@ -4418,8 +4418,8 @@ export const CITIES: City[] = [
     "population": 0
   },
   {
-    "lat": 32.94862,
-    "lng": 35.0761,
+    "lat": 31.744616,
+    "lng": 34.756976,
     "name": "כפר אחים",
     "population": 0
   },
@@ -4981,8 +4981,8 @@ export const CITIES: City[] = [
     "population": 0
   },
   {
-    "lat": 31.46126,
-    "lng": 34.50079,
+    "lat": 32.040861,
+    "lng": 34.910432,
     "name": "בארות יצחק",
     "population": 0
   },
@@ -7594,8 +7594,8 @@ export const CITIES: City[] = [
     "population": 0
   },
   {
-    "lat": 31.68333,
-    "lng": 34.66667,
+    "lat": 31.391068,
+    "lng": 34.905012,
     "name": "אשכולות",
     "population": 0
   },
